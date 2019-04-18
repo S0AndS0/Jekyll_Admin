@@ -6,10 +6,8 @@ permalink: /about/
 
 ## ... this site
 
-At it's core this site's documentation is built in large part thanks to the [Jekyll][jekyll-docs] teams' amazing work both with their projects and with fostering an
-astounding level of team-work within the community of Open Source developers. Other third party resources utilized in building this site are (but probably not limite
-d to) the following unordered list.
 
+At it's core this site's documentation is built in large part thanks to the [Jekyll][jekyll-docs] teams' amazing work both with their projects and with fostering an astounding level of team-work within the community of Open Source developers. Other third party resources utilized in building this site are (but probably not limited to) the following unordered list.
 
 
 > Note; if you believe you have contributed, or that your content or code has been used without citation, the fastest and easiest route is to [fork this repo][this-repo] and correct it with a `pull request` (see GitHub's [About pull requests][about-pull-requests] for general tips), second fastest would be to [Open an Issue][got-issues] to notify project maintainers of the error.
