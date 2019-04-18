@@ -1,7 +1,7 @@
 Collection of Bash scripts for Jekyll and Git server administration.
 
 
-> Unless otherwise stated both documentation and code are shared under the "GNU AGPL version 3" license by default, a full copy of which is available under [_`master:LICENSE`_][license]
+> Unless otherwise stated both documentation and code are shared under the "[GNU AGPL version 3][license-tldr]" license by default, a full copy of which is available under [_`master:LICENSE`_][license]
 
 
 [Documentation][gh-pages] is hosted by GitHub Pages, the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][gh-pages-source] `branch`. [Installation][install], and [Update][update] instructions are currently featured along with some use case examples within the `Posts` section.
