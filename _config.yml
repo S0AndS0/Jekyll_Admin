@@ -1,0 +1,33 @@
+# Site settings
+title: Jekyll Admin
+description: >- # this means to ignore newlines until "baseurl:"
+  Collection of Bash scripts for Jekyll and Git server administration.
+  Unless otherwise stated both documentation and code are shared under
+  the "GNU AGPL version 3" license by default.
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  S0AndS0
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+## Thanks be to - https://stackoverflow.com/a/45870924/2632107
+##  for the following sweat bits
+sass:
+  load_paths:
+    - _sass
+    - _scss
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/

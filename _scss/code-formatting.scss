@@ -1,0 +1,6 @@
+/**  Attempt to keep long code blocks under controll */
+pre, code {
+    max-height: 480px;
+    max-height: 80vw;
+    overflow-y: auto;
+}

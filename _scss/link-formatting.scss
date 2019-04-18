@@ -1,0 +1,37 @@
+/* External links */
+a[href^="http://"],
+a[href^="https://"] {
+  color: rgba(148, 12, 17, 0.8392);
+}
+
+
+
+/* Internal site relative links */
+a[href^="/"],
+a[href^=".."] {
+  color: #178895;
+}
+
+
+/* Internal page navigation links */
+a[href^="#"] {
+  color: #1b7092;
+}
+
+/* Email links */
+a[href^="mailto"] {
+  color: #191970;
+}
+
+/* Internal relative and page navigation links decoration */
+a[href^="/"]:active,
+a[href^="/"]:link,
+a[href^="/"]:visited,
+a[href^=".."]:active,
+a[href^=".."]:link,
+a[href^=".."]:visited,
+a[href^="#"]:active,
+a[href^="#"]:link,
+a[href^="#"]:visited {
+  text-decoration: none;
+}
