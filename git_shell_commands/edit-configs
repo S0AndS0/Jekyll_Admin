@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+__SOURCE__="${BASH_SOURCE[0]}"
+while [[ -h "${__SOURCE__}" ]]; do
+	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+done
+__DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+__NAME__="${__SOURCE__##*/}"
+__PATH__="${__DIR__}/${__NAME__}"
+
+## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
+source "${__DIR__}/shared_functions/arg_parser"
+
+_config_dir="${HOME}/.config/jekyll-build"
+
+usage(){
+	_return_status="${1:-0}"
+  _repo_name="${_repo_name:-repository-name}"
+  cat <<EOF
+## Usage
+# ssh ${USER}@host-or-ip ${__NAME__} ${_repo_name}
+#
+## Initializes Jekyll under gh-pages branch within ${_repo_name} project
+#
+# --github-api-token "$(<"/path/to/github-api-token")"
+# --github-api-token="yoUrg1thubAPIt0k3n"
+#  Saves contence of string passed to
+#    ${_config_dir}/github-api-token
+#  This allows for the jekyll-build script, where available, to pass
+#  the API key during the build process.
+#
+# -h	--help help
+#  Displays this message and exits
+EOF
+	return "${_return_status}"
+}
+
+_args=("${@:?# No arguments provided try: ${__NAME__} help}")
+_valid_args=('--help|-h|help:bool' '--github-api-token|github-api-token:print')
+argument_parser '_args' '_valid_args'
+_exit_status="$?"
+
+if ((_help)) || ((_exit_status)); then
+	usage "${_exit_status}"
+	exit "$?"
+fi
+
+if [ -n "${_github_api_token}" ]; then
+	mkdir -vp "${_config_dir}"
+	tee "${_config_dir}/github-api-token" 1>/dev/null <<-EOF
+	${_github_api_token}
+	EOF
+else
+	usage "${_exit_status}"
+	exit "$?"
+fi

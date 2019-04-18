@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+__SOURCE__="${BASH_SOURCE[0]}"
+while [[ -h "${__SOURCE__}" ]]; do
+	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+done
+__DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+__NAME__="${__SOURCE__##*/}"
+__PATH__="${__DIR__}/${__NAME__}"
+
+## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
+source "${__DIR__}/shared_functions/arg_parser"
+
+usage(){
+	_return_status="${1:-0}"
+  _repo_name="${_repo_name:-repository-name}"
+  cat <<EOF
+## Usage
+# ssh ${USER}@host-or-ip ${__NAME__} ${_repo_name}
+#
+## Initializes Jekyll under gh-pages branch within ${_repo_name} project
+#
+# ${_repo_name}
+#  Name of repository to run
+#  bundle exec jekyll build --destination "${_srv_path//${HOME}/~}"
+#
+# -h	--help help
+#  Displays this message and exits
+EOF
+	return "${_return_status}"
+}
+
+_args=("${@:?# No arguments provided try: ${__NAME__} help}")
+_valid_args=('--help|-h|help:bool' '--repo-name:posix-nil')
+argument_parser '_args' '_valid_args'
+_exit_status="$?"
+
+_git_path="${HOME}/git/${_repo_name}"
+_www="${HOME}/www"
+_srv_path="${_www}/${_repo_name}"
+_github_api_token_path="${HOME}/.config/jekyll-build/github-api-token"
+
+if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+	usage "${_exit_status}"
+	exit "$?"
+fi
+
+if ! [ -d "${_git_path}" ]; then echo "# No repository ${_repo_name} at ${_git_path}"; exit 1; fi
+[[ -d "${_www}" ]] || mkdir -vp "${_www}"
+
+_pwd="${PWD}"
+cd "${_git_path}"
+source "${HOME}/.bash_aliases"
+
+## Build list cama seperated list of _config*.yml files
+while read _p; do
+	_f="${_p##*/}"
+	if [[ "$_f" != '_config.yml' ]]; then
+		if [ -z "$_t" ]; then
+			_t="$_f"
+		else
+			_t+=",$_f"
+		fi
+	fi
+done < <(ls -1 "${_git_path}"/_config*.yml)
+if [ -n "$_t" ]; then
+	_config_files="_config.yml,$_t"
+else
+	_config_files="_config.yml"
+fi
+
+if grep -q -- 'jekyll-github-metadata' "${_git_path}/Gemfile" && [ -f "${_github_api_token_path}" ]; then
+	printf '# JEKYLL_GITHUB_TOKEN="$(<github-api-token-path)" bundle exec jekyll build --destination %s --config %s\n' "${_srv_path}" "${_config_files}"
+	JEKYLL_GITHUB_TOKEN="$(<"${_github_api_token_path}")" bundle exec jekyll build --destination "${_srv_path}" --config "${_config_files}"
+else
+	printf '# bundle exec jekyll build --destination "%s" --config "%s"\n' "${_srv_path}" "${_config_files}"
+	bundle exec jekyll build --destination "${_srv_path}" --config "${_config_files}"
+fi
+
+cd "${_pwd}"
+
+if [ -e "${HOME}/git-shell-commands/www-set-permissions" ]; then
+  "${HOME}/git-shell-commands/www-set-permissions" "${_repo_name}"
+else
+  _current_group="$(groups ${USER} | awk '{print $3}')"
+  _www_group="$(groups ${USER} | grep -oE 'www[-a-z]{0,29}')"
+	if [ -n "${_current_group}" ] && [ -n "${_www_group}" ]; then
+  	find "${_srv_path}" -group ${_current_group} -exec chgrp -h ${_www_group} {} \;
+	  find "${_srv_path}" -group ${_www_group} -type d -exec chmod 750 {} \;
+	  find "${_srv_path}" -group ${_www_group} -type f -exec chmod 640 {} \;
+	fi
+fi
+
+echo "# ${__NAME__} finished"

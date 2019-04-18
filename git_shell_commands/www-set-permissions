@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+__SOURCE__="${BASH_SOURCE[0]}"
+while [[ -h "${__SOURCE__}" ]]; do
+	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+done
+__DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+__NAME__="${__SOURCE__##*/}"
+__PATH__="${__DIR__}/${__NAME__}"
+
+## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
+source "${__DIR__}/shared_functions/arg_parser"
+
+usage(){
+	_return_status="${1:-0}"
+	_repo_name="${_repo_name:-repository-name}"
+	cat <<EOF
+## Usage
+# ssh ${USER}@host-or-ip ${__NAME__} ${_git_args[@]:-$_repo_name}
+#
+## Sets permissions for ${_repo_name} site files
+##  under: ~/www/${_repo_name,,}
+#
+# ${_repo_name}
+#  Name of repository to run chown and chmod on files and directories
+#  under ~/www/${_repo_name,,}
+#
+# -h	--help help
+#  Displays this message and exits
+EOF
+	return "${_return_status}"
+}
+
+_args=("${@:?# No arguments provided try: ${__NAME__} help}")
+_valid_args=('--help|-h|help:bool' '--repo-name:posix-nil')
+argument_parser '_args' '_valid_args'
+_exit_status="$?"
+
+_www="${HOME}/www"
+_www_group="$(groups ${USER} | grep -oE 'www[-a-z]{0,29}')"
+_srv_path="${_www}/${_repo_name,,}"
+
+if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+	usage "${_exit_status}"
+	exit "$?"
+fi
+
+if [ -z "${_www_group}" ]; then
+	echo "# No www group found for ${USER}"
+	exit 1
+fi
+if ! [ -d "${_www}" ]; then
+	echo "# No www directory at ${_www}"
+	if [ -e "${HOME}/git-shell-commands/jekyll-build"]; then
+		echo "# try: ssh ${USER}@host-or-ip jekyll-build ${_repo_name}"
+	fi
+	exit 1
+fi
+
+chown --recursive "${USER}":"${_www_group}" "${_srv_path}"
+find "${_srv_path}" -type d -exec chmod 750 {} \;
+find "${_srv_path}" -type f -exec chmod 640 {} \;
+
+echo "# ${__NAME__} finished"

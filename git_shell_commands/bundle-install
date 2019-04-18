@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+__SOURCE__="${BASH_SOURCE[0]}"
+while [[ -h "${__SOURCE__}" ]]; do
+	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+done
+__DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+__NAME__="${__SOURCE__##*/}"
+__PATH__="${__DIR__}/${__NAME__}"
+
+## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
+source "${__DIR__}/shared_functions/arg_parser"
+
+usage(){
+	_return_status="${1:-0}"
+  _repo_name="${_repo_name:-repository-name}"
+  cat <<EOF
+## Usage
+# ssh ${USER}@host-or-ip ${__NAME__} ${_repo_name}
+#
+## Installs dependencies listed within Gemfile.lock file of ${_repo_name}
+##  After installation be sure to run jekyll-build script against ${_repo_name}
+##  eg: ssh ${USER}@host-or-ip jekyll-build ${_repo_name}
+#
+# ${_repo_name}
+#  Name of repository to run 'bundle install' against.
+#
+# -h	--help help
+#  Displays this message and exits
+EOF
+	return "${_return_status}"
+}
+
+_args=("${@:?# No arguments provided try: ${__NAME__} help}")
+_valid_args=('--help|-h|help:bool' '--repo-name:posix-nil')
+argument_parser '_args' '_valid_args'
+_exit_status="$?"
+
+_git_path="${HOME}/git/${_repo_name}"
+_bundle_path="${HOME}/.bundle/install"
+
+if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+	usage "${_exit_status}"
+	exit "$?"
+fi
+
+if ! [ -d "${_git_path}" ]; then
+  echo "# No repository ${_repo_name} at ${_git_path}"
+  exit 1
+fi
+
+if ! [ -d "${_git_path}/.git" ]; then
+  echo "# Repository ${_repo_name} maybe bare, this script cannot handle that right now"
+  exit 1
+fi
+
+_pwd="${PWD}"
+cd "${_git_path}"
+source "${HOME}/.bash_aliases"
+if ! [ -f "${_git_path}/Gemfile" ]; then
+  bundle init
+fi
+if ! [ -d "${_git_path}/.bundle" ]; then
+  bundle install --path "${_bundle_path}"
+fi
+bundle install
+cd "${_pwd}"
+
+echo "# ${__NAME__} finished"
