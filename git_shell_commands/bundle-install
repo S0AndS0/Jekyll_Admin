@@ -7,9 +7,16 @@ done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
 __PATH__="${__DIR__}/${__NAME__}"
+__AUTHOR__='S0AndS0'
+__DESCRIPTION__='Installs dependencies listed within Gemfile.lock file of named repository'
+
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
+
+## Provides: '__license__ <description> <author>'
+source "${__DIR__}/shared_functions/license"
+
 
 usage(){
 	_return_status="${1:-0}"
@@ -18,12 +25,16 @@ usage(){
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_repo_name}
 #
-## Installs dependencies listed within Gemfile.lock file of ${_repo_name}
+# ${__DESCRIPTION__}
+#
 ##  After installation be sure to run jekyll-build script against ${_repo_name}
 ##  eg: ssh ${USER}@host-or-ip jekyll-build ${_repo_name}
 #
 # ${_repo_name}
 #  Name of repository to run 'bundle install' against.
+#
+# -l --license
+# Shows script or project license then exits
 #
 # -h	--help help
 #  Displays this message and exits
@@ -32,17 +43,24 @@ EOF
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
-_valid_args=('--help|-h|help:bool' '--repo-name:posix-nil')
+_valid_args=('--help|-h|help:bool'
+             '--license|-l|license:bool'
+             '--repo-name:posix-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
 
 _git_path="${HOME}/git/${_repo_name}"
 _bundle_path="${HOME}/.bundle/install"
 
+
 if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
 	usage "${_exit_status}"
-	exit "$?"
+	exit "${_exit_status}"
+elif ((_license)); then
+	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
+	exit 0
 fi
+
 
 if ! [ -d "${_git_path}" ]; then
   echo "# No repository ${_repo_name} at ${_git_path}"

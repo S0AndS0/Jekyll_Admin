@@ -7,9 +7,16 @@ done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
 __PATH__="${__DIR__}/${__NAME__}"
+__AUTHOR__='S0AndS0'
+__DESCRIPTION__='Runs "ls -hl" against supplied path within home directory'
+
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
+
+## Provides: '__license__ <description> <author>'
+source "${__DIR__}/shared_functions/license"
+
 
 usage(){
 	_return_status="${1}"
@@ -18,7 +25,10 @@ usage(){
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_print_path}
 #
-## Runs 'ls -hl' against supplied path eg: ls -hl ~/${_print_path}
+# ${__DESCRIPTION__}
+#
+# -l --license
+# Shows script or project license then exits
 #
 # -h	--help help
 #  Displays this message and exits
@@ -29,13 +39,23 @@ EOF
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
-_valid_args=('--help|-h|help:bool' '--path:path-nil')
+_valid_args=('--help|-h|help:bool'
+             '--license|-l|license:bool'
+             '--path:path-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="${?}"
 
 _path="${_path:-${HOME}/git-shell-commands}"
 
-if ((_help)) || ((_exit_status)); then usage "${_exit_status}"; exit "$?"; fi
+
+if ((_help)) || ((_exit_status)); then
+	usage "${_exit_status}"
+	exit "${_exit_status}"
+elif ((_license)); then
+	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
+	exit 0
+fi
+
 
 if [ -d "${HOME}/${_path}" ]; then
 	ls -hl "${HOME}/${_path}"; exit $?

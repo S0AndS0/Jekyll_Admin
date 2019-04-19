@@ -7,12 +7,19 @@ done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
 __PATH__="${__DIR__}/${__NAME__}"
+__AUTHOR__='S0AndS0'
+__DESCRIPTION__='Copies named theme files to named repository and git commits the changes'
+
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
 
 ## Provides: git_add_commit <string>
 source "${__DIR__}/shared_functions/git_shortcuts"
+
+## Provides: '__license__ <description> <author>'
+source "${__DIR__}/shared_functions/license"
+
 
 usage(){
 	_return_status="${1:-0}"
@@ -22,13 +29,16 @@ usage(){
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_git_args[@]:-repository-name}
 #
-## Copies named theme files to ${_repo_name} and git commits the changes
+# ${__DESCRIPTION__}
 #
 # -t	--theme --theme-name=${_theme_name}
 #  Name of theme to copy to ${_repo_name} source directory
 #
 # ${_repo_name}
 #  Name of repository to initialize or add Jekyll gh-pages branch to
+#
+# -l --license
+# Shows script or project license then exits
 #
 # -h	--help help
 #  Displays this message and exits
@@ -42,9 +52,21 @@ EOF
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
-_valid_args=('--help|-h|help:bool' '--theme-name|--theme|-t:posix' '--repo-name:posix-nil')
+_valid_args=('--help|-h|help:bool'
+             '--license|-l|license:bool'
+             '--theme-name|--theme|-t:posix'
+						 '--repo-name:posix-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
+
+if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+	usage "${_exit_status}"
+	exit "${_exit_status}"
+elif ((_license)); then
+	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
+	exit 0
+fi
+
 
 source "${HOME}/.bash_aliases" || exit 1
 _gem_user_version="$(gem env | awk -F'/' '/USER INSTALLATION DIRECTORY:/{print $NF}')"

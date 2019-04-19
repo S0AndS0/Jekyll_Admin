@@ -6,9 +6,16 @@ done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
 __PATH__="${__DIR__}/${__NAME__}"
+__AUTHOR__='S0AndS0'
+__DESCRIPTION__='Initializes new git repository ready for cloning &/or pushing'
+
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
+
+## Provides: '__license__ <description> <author>'
+source "${__DIR__}/shared_functions/license"
+
 
 usage(){
 	_return_status="${1:-0}"
@@ -17,7 +24,8 @@ usage(){
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_git_args[@]:-$_repo_name}
 #
-## Initializes new git repository ready for cloning &/or pushing.
+# ${__DESCRIPTION__}
+#
 ##  After initializing
 ##  Try: git clone ${USER}@host-or-ip:git/${_repo_name}
 ##  or:  git remote add remote-name ${USER}@host-or-ip:git/${_repo_name}
@@ -41,6 +49,9 @@ usage(){
 # ${_repo_name}
 #  Name of repository to initialize
 #
+# -l --license
+# Shows script or project license then exits
+#
 # -h	--help help
 #  Display this message and exit
 EOF
@@ -49,12 +60,14 @@ EOF
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
 _valid_args=('--help|-h|help:bool'
 						 '--quiet:bool'
+						 '--license|-l|license:bool'
 						 '--bare:bool'
 						 '--shared:bool'
 						 '--template:path'
 						 '--repo-name:posix-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
+
 _git_args=()
 if ((_bare)); then   _git_args+=('--bare');   fi
 if ((_shared)); then _git_args+=('--shared'); fi
@@ -65,7 +78,10 @@ if [ -n "${_repo_name}" ]; then _git_args+=("${_repo_name}"); fi
 
 if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
 	usage "${_exit_status}"
-	exit "$?"
+	exit "${_exit_status}"
+elif ((_license)); then
+	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
+	exit 0
 fi
 
 _git_path="${HOME}/git/${_repo_name:?# No repository name provided}"
