@@ -4,6 +4,9 @@ title: Update
 permalink: /update/
 ---
 
+> The following instructions are relevant only after following [install][install] instructions for this project.
+
+
 Elevate to root user account
 
 
@@ -40,3 +43,6 @@ exit
 > `git` branch checked-out during `make install` prior to changing branches to
 > `master` and `pull`ing in any new updates. After which the local branch is
 > checked-out, `master` branch changes are merged, and scripts are re-linked.
+
+
+[install]: {{ "/install/" | relative_url }}

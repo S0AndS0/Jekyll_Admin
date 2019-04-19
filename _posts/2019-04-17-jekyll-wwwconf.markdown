@@ -3,12 +3,11 @@ layout: post
 title: Jekyll WWW Configurer
 date:   2019-04-17 11:12:15 -0700
 categories: admin
+excerpt: >
+  > The `jekyll_wwwconf.sh` administration script is written for when a user has made a __new__ repository with documentation or other static content to be hosted.
 ---
 
-> This script is designed to be useful when a user has made a new repository.
-
-
-Available options listed via `jekyll_wwwconf.sh --help`, currently _wired_ for `Nginx` Web Server
+Available options may be listed via `jekyll_wwwconf.sh --help`, currently _wired_ for `Nginx` Web Server, and note [source][jekyll-wwwconf_source] is also available for auditing prior to issuing a `git clone`.
 
 
 For an example, _`Bill`_ has an `Excellent_Project` that they want to host on the private server; the administrator could issue the following...
@@ -46,3 +45,4 @@ So long as both users have had the [`jekyll_dnsconf.sh`][jekyll-dnsconf] script 
 
 {% capture jekyll_dnsconf %}{%- post_url 2019-04-17-jekyll-dnsconf -%}{% endcapture %}
 [jekyll-dnsconf]: {{ jekyll_dnsconf | relative_url }}
+[jekyll-wwwconf_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_wwwconf.sh

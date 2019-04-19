@@ -3,14 +3,16 @@ layout: post
 title: Jekyll User Modifier
 date:   2019-04-17 11:12:13 -0700
 categories: admin
+excerpt: >
+  > The `jekyll_usermod.sh` administration script is intended for adding new `Git`/`Jekyll` users to a private server.
 ---
 
-> This script is designed to be useful when a new user is added.
->
-> By default new users are __not__ allowed to `clone` and/or `push` to their respective `git-shell-commands/` directories, but this may change in future revisions.
+By default new users are __not__ allowed to `clone` and/or `push` to their respective [`git-shell-commands/`][git-shell-commands_source] directories, but this may change in future revisions.
 
 
-Available options listed via `jekyll_usermod.sh --help`
+Available options may be listed via `jekyll_usermod.sh --help`, note [source][jekyll-usermod_source] is also available for auditing prior to issuing a `git clone`.
+
+___
 
 
 Example of creating a new user named _`Bill`_ with home directory under `/srv`
@@ -67,7 +69,7 @@ drwxr-xr-x 2 Bill devs ... shared_functions
 -------
 
 
-If at a latter point a new user by the name of _`Ted`_ who is also apart of the `devs` group needs to be added, it may look similar to...
+If at a later point a new user by the name of _`Ted`_ who is also apart of the `devs` group needs to be added, it may look similar to...
 
 
 ```bash
@@ -77,3 +79,6 @@ sudo jekyll_usermod.sh\
  --ssh-auth-keys="/path-to-teds/pub.key"\
  --help
 ```
+
+[git-shell-commands_source]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands
+[jekyll-usermod_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_usermod.sh

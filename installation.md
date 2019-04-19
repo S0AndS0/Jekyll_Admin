@@ -4,6 +4,9 @@ title: Installation
 permalink: /install/
 ---
 
+> This step is only needed once per server setup, see [updating][update] for updating pre-existing installs of this project.
+
+
 Elevate to root user account
 
 
@@ -62,3 +65,6 @@ exit
 
 > Note, installing via `make` will automatically checkout a local git branch
 > for tracking any local customizations.
+
+
+[update]: {{ "/update/" | relative_url }}

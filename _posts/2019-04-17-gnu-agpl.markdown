@@ -5,7 +5,7 @@ date:   2019-04-17 11:12:13 -0700
 categories: licenses
 ---
 
-Full length version is available within the `master` branch of this repository as [`LICENSE`][license]
+> Full length version is available within the `master` branch of this repository as [`LICENSE`][license]
 
 
 ```

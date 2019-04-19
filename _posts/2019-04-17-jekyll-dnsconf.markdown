@@ -3,12 +3,11 @@ layout: post
 title: Jekyll DNS Configurer
 date:   2019-04-17 11:12:14 -0700
 categories: admin
+excerpt: >
+  > The `jekyll_dnsconf.sh` administration script is designed for when a new _`Git`_/_`Jekyll`_ user is to be added to a private server.
 ---
 
-> This script is designed to be useful when a new user is added.
-
-
-Available options listed via `jekyll_dnsconf.sh --help`, currently _wired_ for `Unbound` DNS (Domain Name Server)
+Available options may be listed via `jekyll_dnsconf.sh --help`, currently _wired_ for `Unbound` DNS (Domain Name Server), and note [source][jekyll-dnsconf_source] is also available for auditing prior to issuing a `git clone`.
 
 
 Example of adding `ted` who is apart of the `devs` group to the `.lan` top level domain.
@@ -42,3 +41,6 @@ server:
 
 
 ... within the `/etc/unbound/unbound.conf.d/devs.lan.conf` file.
+
+
+[jekyll-dnsconf_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_dnsconf.sh
