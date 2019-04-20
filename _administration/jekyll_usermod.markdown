@@ -3,23 +3,25 @@ layout: post
 title: Jekyll User Modifier
 date:   2019-04-17 11:12:13 -0700
 categories: admin
-excerpt: >
-  > The `jekyll_usermod.sh` administration script is intended for adding new `Git`/`Jekyll` users to a private server.
+excerpt: >-
+  > The `jekyll_usermod.sh` administration script adds new `Git`/`Jekyll` users to private server
 ---
+
 
 By default new users are __not__ allowed to `clone` and/or `push` to their respective [`git-shell-commands/`][git-shell-commands_source] directories, but this may change in future revisions.
 
 
 Available options may be listed via `jekyll_usermod.sh --help`, note [source][jekyll-usermod_source] is also available for auditing prior to issuing a `git clone`.
 
+
 ___
 
 
-Example of creating a new user named _`Bill`_ with home directory under `/srv`
+Perhaps _`Joanna`_ will add _`Bill`_ first to the private server via...
 
 
 ```bash
-sudo jekyll_usermod.sh\
+ssh joan sudo jekyll_usermod.sh\
  --user="Bill"\
  --group="devs"\
  --ssh-auth-keys="/path-to-bills/pub.key"\
@@ -31,18 +33,18 @@ Assuming that _`Bill`_ has the following configurations within their local `.ssh
 
 
 ```
-Host private-git
+Host bill
    HostName <host-or-IP-goes-here>
    User Bill
    IdentitiesOnly yes
-   IdentityFile ~/.ssh/private-git-key
+   IdentityFile ~/.ssh/bills-private-key
 ```
 
 _`Bill`_ may now list the available `git-commands` via...
 
 
 ```bash
-ssh private-git list --help
+ssh Bill list --help
 ```
 
 
@@ -69,16 +71,21 @@ drwxr-xr-x 2 Bill devs ... shared_functions
 -------
 
 
-If at a later point a new user by the name of _`Ted`_ who is also apart of the `devs` group needs to be added, it may look similar to...
+If at a later point _`Elizabeth`_ wants to add _`Ted`_, who is also apart of the `devs` group, however let's also suppose that the administrator trusts _`Ted`_ a bit more to stay _on-track_ than _`Bill`_, which may look similar to...
 
 
 ```bash
-sudo jekyll_usermod.sh\
+ssh admin sudo jekyll_usermod.sh\
  --user="Ted"\
  --group="devs"\
+ --git-shell-copy-or-link="pushable"\
  --ssh-auth-keys="/path-to-teds/pub.key"\
  --help
 ```
+
+
+... not that they don't trust _`Bill`_, more that they trust that _`Bill`_ will do something _interesting_ to get the same permissions as _`Ted`_.
+
 
 [git-shell-commands_source]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands
 [jekyll-usermod_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_usermod.sh

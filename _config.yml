@@ -31,10 +31,29 @@ sass:
     - _scss
 
 
+<<<<<<< HEAD
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
 # exclude:
+=======
+## Thanks be to - https://jekyllrb.com/docs/collections/
+collections:
+  administration:
+    output: true
+    layout: post
+  git_shell_commands:
+    output: true
+    layout: post
+  licensing:
+    output: true
+    layout: default
+
+
+## Exclude from processing; by default commented items will not be processed.
+exclude:
+  - README.md
+>>>>>>> srv-gh-pages
 #   - Gemfile
 #   - Gemfile.lock
 #   - node_modules

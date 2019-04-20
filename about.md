@@ -4,7 +4,45 @@ title: About
 permalink: /about/
 ---
 
-## ... this site
+## ... the project
+
+
+This project was born from the desire of an administrator wishing the following _meant something_...
+
+
+```bash
+ssh admin sudo jekyll_usermod.sh\
+ --user="Bill"\
+ --group="devs"\
+ --ssh-auth-keys="/path-to-bills/pub.key"\
+ --help
+```
+
+... _like_, make a user named _`Bill`_ within the (possibly shared) _`devs`_ group.
+
+
+Which would allow _`Bill`_ to do _something like_...
+
+
+```bash
+ssh Bill git-init Excellent_Project
+```
+
+... and have that mean something to the effect of, make a new repository under _`Bill`'s_ `${HOME}/git` directory ready for `git clone` and `git push` operations.
+
+
+> In this case `/srv/Bill/git/Excellent_Project`. would be _`clone`able_ via...
+
+
+```bash
+git clone Bill:git/Excellent_Project
+```
+
+
+Feature-creep then had it's _marry way_ with the project, so to speak, and now there's many more _incantations_ that this project will respond to.
+
+
+## ... this site's documentation
 
 
 At it's core this site's documentation is built in large part thanks to the [Jekyll][jekyll-docs] teams' amazing work both with their projects and with fostering an astounding level of team-work within the community of Open Source developers. Other third party resources utilized in building this site are (but probably not limited to) the following unordered list.
