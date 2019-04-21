@@ -23,7 +23,7 @@ layout: default
 
     {%- assign has_output = False -%}
     {%- assign has_feed = False -%}
-    {%- if target_collection.size > 0 -%}{%- comment -%}<br> # Work-around for syntax highlighting text-editors #{%- endcomment -%}
+    {%- if target_collection.size > 0 -%}{%- comment -%}<br> syntax highlighting  work-around #{%- endcomment -%}
       {%- capture workspace_collection -%}
         <h2 class="post-list-heading">{{- page.list_title | default: "Posts" -}}</h2>
         <ul class="post-list">
@@ -42,7 +42,7 @@ layout: default
               {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
               <span class="post-meta">{{- post.date | date: date_format -}}</span>
               <h3>
-                <a class="post-link" href="{{- post.url | absolute_url -}}">
+                <a class="post-link" href="{{- post.url | relative_url -}}">
                   {{- post.title | escape -}}
                 </a>
               </h3>
@@ -62,7 +62,7 @@ layout: default
           <svg class="svg-icon orange">
             <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
           </svg>
-          <a href="{{- collection_name | append: "/feed.xml" | relative_url -}}">Subscribe</a>
+          <a href="{{- collection_name | append: '/feed.xml' | relative_url -}}">Subscribe</a>
         </p>
       {%- endif -%}
 
