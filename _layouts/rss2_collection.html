@@ -4,6 +4,7 @@ layout: null
 {%- capture rss_workspace -%}
   {%- comment -%}
     Big thanks to - https://stackoverflow.com/a/42057699/2632107
+     and - https://gist.github.com/roachhd/f664d2cae2da899be3f6
 
     Configuration note; one should have `site.url` assigned,
      either via `url: "http://example.com"` or through
@@ -23,6 +24,7 @@ layout: null
   {%- assign target_collection = site[collection_name] -%}
 
   {%- assign collection_home = page.collection_home | default: collection_name -%}
+  {%- assign collection_description = page.description | default: site.description -%}
   {%- assign this_time_stamp = page.date | date: '%s' -%}
   {%- assign latest_time_stamp = page.date | date: '%s' -%}
   {%- assign rss_items_has_output = False -%}
@@ -43,10 +45,10 @@ layout: null
 
       <item>
         <title>{{- post.title -}}</title>
-        <description>{{- post_synopsis | escape -}}</description>
         <link>{{- post.url | absolute_url -}}</link>
         <guid isPermaLink="true">{{- post.url | absolute_url -}}</guid>
         <pubDate>{{- post.date | date: date_format -}}</pubDate>
+        <description>{{- post_synopsis | xml_escape -}}</description>
       </item>
 
       {%- assign this_time_stamp = post.date | date: '%s' -%}
@@ -65,6 +67,8 @@ layout: null
       <lastBuildDate>{{- site.time | date: date_format -}}</lastBuildDate>
       <pubDate>{{- latest_time_stamp | date: date_format -}}</pubDate>
       <ttl>{{- page.time_to_live | default: '1800' -}}</ttl>
+      <description>{{ collection_description | xml_escape }}</description>
+      <atom:link href="{{- collection_name | append: '/feed.xml' | absolute_url -}}" rel="self" type="application/rss+xml" />
       {%- if rss_items_has_output == True -%}
         {{- rss_items_workspace | strip -}}{%- assign rss_items_workspace = nil -%}
       {%- endif -%}
