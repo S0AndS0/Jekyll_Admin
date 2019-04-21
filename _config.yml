@@ -4,7 +4,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Collection of Bash scripts for Jekyll and Git server administration.
   Unless otherwise stated both documentation and code are shared under
   the "GNU AGPL version 3" license by default.
-url: "'https://s0ands0.github.io'" # Required for `absolute_url` Liquid piping
+url: 'https://s0ands0.github.io' # Required for `absolute_url` Liquid piping
 author: S0AndS0
 
 # Build settings
