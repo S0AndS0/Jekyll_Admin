@@ -58,7 +58,7 @@ At it's core this site's documentation is built in large part thanks to the [Jek
 ## ... privacy
 
 
-Seems like every site has to address this somewhere these days, _quick-n-short of it_ is The project maintainers at this point are __not__ interested in collecting or storing such things. GitHub and CDNs utilized to bring you this site are the only entities (that project maintainers are aware of) at all concerned with directly collecting your meta-data here.
+Seems like every site has to address this somewhere these days, _quick-n-short of it_ is _`The Project's`_ maintainers at this point are __not__ interested in collecting or storing such things. GitHub and CDNs utilized to bring you this site are the only entities (that project maintainers are aware of) at all concerned with directly collecting your meta-data here.
 
 
 [jekyll-docs]: https://jekyllrb.com/docs/home

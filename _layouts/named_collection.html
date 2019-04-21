@@ -1,56 +1,71 @@
 ---
 layout: default
 ---
-{% comment %}
-License Note
+{%- capture workspace_collections -%}
+  {%- comment -%}
+    License note from S0AndS0; an editor in this context.
 
-Minima, where the following code is sourced from is shared under
-the MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
+    Minima (where the following code is sourced from), is shared under the
+    MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
 
-Thus any alterations to Minima source code is re-shared under the MIT Lisense
-{% endcomment %}
-{% capture workspace_collections %}
-{% assign collection_name = page.collection_name | default: include.collection_name | default: nil %}
-{% assign target_collection = site[collection_name] %}
+    Thus any alterations to Minima source code is re-shared under the MIT Lisense
+  {%- endcomment -%}
 
-<div class="home">
-  {%- if page.title -%}
-    <h1 class="page-heading">{{ page.title }}</h1>
-  {%- endif -%}
+  {%- assign collection_name = page.collection_name | default: include.collection_name | default: nil -%}
+  {%- assign target_collection = site[collection_name] -%}
 
-  {{ content }}
-
-  {% assign has_output = False %}
-  {%- if target_collection.size > 0 -%}
-    {% capture workspace_collection %}
-    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
-    <ul class="post-list">
-      {%- for post in target_collection -%}
-      {%- if page.relative_path == post.relative_path -%}
-        {%- continue -%}
-      {%- else -%}
-        {% assign has_output = True %}
-      {%- endif -%}
-      <li>
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
-        <h3>
-          <a class="post-link" href="{{ post.url | relative_url }}">
-            {{ post.title | escape }}
-          </a>
-        </h3>
-        {%- if site.show_excerpts -%}
-          {{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}
-        {%- endif -%}
-      </li>
-      {%- endfor -%}
-    </ul>
-    {% endcapture %}
-
-    {%- if has_output == True -%}
-      {{- workspace_collection -}}
+  <div class="home">
+    {%- if page.title -%}
+      <h1 class="page-heading">{{- page.title -}}</h1>
     {%- endif -%}
-  {%- endif -%}
 
-</div>
-{% endcapture %}{{ workspace_collections | strip }}{% assign workspace_collections = nil %}
+    {{- content -}}
+
+    {%- assign has_output = False -%}
+    {%- assign has_feed = False -%}
+    {%- if target_collection.size > 0 -%}{%- comment -%}<br> # Work-around for syntax highlighting text-editors #{%- endcomment -%}
+      {%- capture workspace_collection -%}
+        <h2 class="post-list-heading">{{- page.list_title | default: "Posts" -}}</h2>
+        <ul class="post-list">
+          {%- for post in target_collection -%}
+            {%- assign post_file_name = post.url | split: '/' | last -%}
+            {%- if page.relative_path == post.relative_path -%}
+              {%- continue -%}
+            {%- elsif post_file_name == 'feed.xml' -%}
+              {%- assign has_feed = True -%}
+              {%- continue -%}
+            {%- else -%}
+              {%- assign has_output = True -%}
+            {%- endif -%}
+
+            <li>
+              {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+              <span class="post-meta">{{- post.date | date: date_format -}}</span>
+              <h3>
+                <a class="post-link" href="{{- post.url | absolute_url -}}">
+                  {{- post.title | escape -}}
+                </a>
+              </h3>
+              {%- if site.show_excerpts -%}
+                {{- post.excerpt | markdownify | remove: '<p>' | remove: '</p>' -}}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endcapture -%}
+
+      {%- if has_output == True -%}
+        {{- workspace_collection -}}{%- assign workspace_collection = nil -%}
+      {%- endif -%}
+      {%- if has_feed == True -%}
+        <p class="feed-subscribe">
+          <svg class="svg-icon orange">
+            <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
+          </svg>
+          <a href="{{- collection_name | append: "/feed.xml" | relative_url -}}">Subscribe</a>
+        </p>
+      {%- endif -%}
+
+    {%- endif -%}
+  </div>
+{%- endcapture -%}{{- workspace_collections | strip -}}{%- assign workspace_collections = nil -%}

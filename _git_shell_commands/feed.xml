@@ -1,0 +1,8 @@
+---
+layout: feed_collection
+title: Git Shell Commands
+collection_name: git_shell_commands
+collection_home: /git_shell_commands/
+time_to_live: 1800
+date: 2019-04-20 11:12:14 -0700
+---

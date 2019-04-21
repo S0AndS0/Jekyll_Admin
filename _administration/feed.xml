@@ -1,0 +1,8 @@
+---
+layout: feed_collection
+title: Administration
+collection_name: administration
+collection_home: /admin/
+time_to_live: 1800
+date: 2019-04-20 11:12:13 -0700
+---
