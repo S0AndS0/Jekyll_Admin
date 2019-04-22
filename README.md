@@ -28,7 +28,7 @@ ___
 ### Administration Scripts
 
 
-- [_`jekyll_usermod.sh`_][source_jekyll-usermod], adds new user, with ssh-pub-key (git-shell access only), and [`_installs_`][docs_jekyll_usermod] the following to the home directory of the new user;
+- [_`jekyll_usermod.sh`_][source_jekyll-usermod], adds new user, with ssh-pub-key (git-shell access only), and [_`installs`_][docs_jekyll_usermod] the following to the home directory of the new user;
 
     - _`Jekyll`_, for _translating_ MarkDown to HTML (HyperText Markup Language), just to list one of many things that _`Jekyll`'ll_ do
     - copy or link selected `git-shell-command` scripts, intended to simplify some of the repetitively redundant tasks involved with _`Git`_ and _`Jekyll`_ development
@@ -50,8 +50,8 @@ ___
 [docs_collection_administration]: https://s0ands0.github.io/Jekyll_Admin/admin/
 [docs_collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
 [docs_collection_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
-[docs_install]: https://s0ands0.github.io/Jekyll_Admin/install/
-[docs_update]: https://s0ands0.github.io/Jekyll_Admin/update/
+[docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation.html
+[docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating.html
 [docs_jekyll_dnsconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll_dnsconf.html
 [docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll_usermod.html
 [docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll_wwwconf.html
