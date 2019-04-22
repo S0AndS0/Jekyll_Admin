@@ -16,7 +16,7 @@ layout: null
     Minima (the default Jekyll Theme), is shared under the
     MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
 
-    Thus any alterations to Minima source code is re-shared under the MIT Lisense
+    Thus these alterations to Minima source code are re-shared under the MIT Lisense
   {%- endcomment -%}
 
   {%- assign date_format = '%a, %d %b %Y %T %z' -%}
@@ -32,10 +32,8 @@ layout: null
 
   {%- capture rss_items_workspace -%}
     {%- for post in target_collection -%}
-      {%- assign post_synopsis = post.description | default: post.excerpt -%}
       {%- assign post_file_name = post.url | split: '/' | last | split: '.' | first -%}
-
-      {%- if page.relative_path == post.relative_path -%}
+      {%- if page.relative_path == post.relative_path or post_file_name == 'feed' -%}
         {%- continue -%}
       {%- elsif post_file_name == collection_name or post_file_name == 'index' -%}
         {%- continue -%}
@@ -43,8 +41,10 @@ layout: null
         {%- assign rss_items_has_output = True -%}
       {%- endif -%}
 
+      {%- assign post_synopsis = post.description | default: post.excerpt -%}
+
       <item>
-        <title>{{- post.title -}}</title>
+        <title>{{- post.title | xml_escape -}}</title>
         <link>{{- post.url | absolute_url -}}</link>
         <guid isPermaLink="true">{{- post.url | absolute_url -}}</guid>
         <pubDate>{{- post.date | date: date_format -}}</pubDate>
@@ -55,6 +55,9 @@ layout: null
       {%- if latest_time_stamp < this_time_stamp -%}{%- comment -%}> Syntax highlighting work-around{%- endcomment -%}
         {%- assign latest_time_stamp = this_time_stamp -%}
       {%- endif -%}
+
+      {%- assign post_file_name = nil -%}
+      {%- assign post_synopsis = nil -%}
     {%- endfor -%}
   {%- endcapture -%}
 
@@ -62,7 +65,8 @@ layout: null
   <?xml version="1.0" encoding="UTF-8" ?>
   <rss version="2.0">
     <channel>
-      <title>{{- page.title | default: 'RSS Title' -}}</title>
+      <title>{{- page.title | default: 'RSS Title' | xml_escape -}}</title>
+      <description>{{ collection_description | xml_escape }}</description>
       <link>{{- page.url | absolute_url -}}</link>
       <lastBuildDate>{{- site.time | date: date_format -}}</lastBuildDate>
       <pubDate>{{- latest_time_stamp | date: date_format -}}</pubDate>

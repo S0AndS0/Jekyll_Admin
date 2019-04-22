@@ -1,5 +1,5 @@
 ---
-layout: rss2_collection
+layout: collections/feeds/rss2_entries
 title: Administration
 collection_name: administration
 collection_home: /admin/

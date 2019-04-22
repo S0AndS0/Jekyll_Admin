@@ -1,5 +1,5 @@
 ---
-layout: rss2_collection
+layout: collections/feeds/rss2_entries
 title: Git Shell Commands
 collection_name: git_shell_commands
 collection_home: /git_shell_commands/

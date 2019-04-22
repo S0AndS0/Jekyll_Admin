@@ -1,0 +1,102 @@
+---
+layout: null
+---
+{%- capture atom_workspace -%}
+  {%- comment -%}
+    Big thanks to - https://en.wikipedia.org/wiki/Atom_(Web_standard)
+
+    Configuration note; one should have `site.url` assigned,
+     either via `url: "http://example.com"` or through
+     `build`/`serve` Jekyll command line options.
+
+    ___
+    License note from S0AndS0; an editor in this context.
+
+    Minima (the default Jekyll Theme), is shared under the
+    MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
+
+    Thus these alterations to Minima source code are re-shared under the MIT Lisense
+  {%- endcomment -%}
+
+  {%- assign date_format = '%a, %d %b %Y %T %z' -%}
+  {%- assign collection_name = page.collection_name | default: include.collection_name | default: nil -%}
+  {%- assign target_collection = site[collection_name] -%}
+
+  {%- assign collection_home = page.collection_home | default: collection_name -%}
+  {%- assign collection_description = page.description | default: site.description -%}
+  {%- assign this_time_stamp = page.date | date: '%s' -%}
+  {%- assign latest_time_stamp = page.date | date: '%s' -%}
+  {%- assign atom_entries_has_output = False -%}
+
+
+  {%- capture atom_entries_workspace -%}
+    {%- for post in target_collection -%}
+      {%- assign post_file_name = post.url | split: '/' | last | split: '.' | first -%}
+      {%- if page.relative_path == post.relative_path or post_file_name == 'feed' -%}
+        {%- continue -%}
+      {%- elsif post_file_name == collection_name or post_file_name == 'index' -%}
+        {%- continue -%}
+      {%- else -%}
+        {%- assign atom_entries_has_output = True -%}
+      {%- endif -%}
+
+      {%- assign post_summary = post.description | default: post.excerpt -%}
+      {%- assign post_author = post.author | default: page.author | default: site.author -%}
+      {%- assign post_email = post.email | default: page.email | default: site.email -%}
+
+      <entry>
+        <title>{{- post.title | xml_escape -}}</title>
+        <link rel="alternate" type="text/html" href="{{- post.url | absolute_url -}}" />
+        {%- comment -%}
+        <link href="{{- post.url | absolute_url -}}" />
+        <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+        {%- endcomment -%}
+        <updated>{{- post.date | date: date_format -}}</updated>
+        <summary>{{- post_summary | xml_escape -}}</summary>
+
+        {%- comment -%}
+        <content type="xhtml">
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>This be where more post content may go</p>
+          </div>
+        </content>
+        {%- endcomment -%}
+
+        {%- if post_author -%}
+          <author>
+            <name>{{ post_author | xml_escape }}</name>
+            {%- if post_email -%}<email>{{ post_email }}</email>{%- endif -%}
+          </author>
+        {%- endif -%}
+      </entry>
+
+      {%- assign this_time_stamp = post.date | date: '%s' -%}
+      {%- if latest_time_stamp < this_time_stamp -%}{%- comment -%}> Syntax highlighting work-around{%- endcomment -%}
+        {%- assign latest_time_stamp = this_time_stamp -%}
+      {%- endif -%}
+
+      {%- assign post_file_name = nil -%}
+      {%- assign post_summary = nil -%}
+      {%- assign post_author = nil -%}
+      {%- assign post_email = nil -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+
+  <?xml version="1.0" encoding="UTF-8" ?>
+  <feed xmlns="http://www.w3.org/2005/Atom">
+    <title>{{- page.title | default: 'Atom Feed Title' | xml_escape -}}</title>
+    {%- comment -%}
+    <subtitle>A Subtitle</subtitle>
+    {%- endcomment -%}
+    <link href="{{- page.url | absolute_url -}}" rel="self" />
+    <link href="{{- collection_home | absolute_url -}}" />
+    {%- comment -%}
+    <id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+    {%- endcomment -%}
+    <updated>{{- latest_time_stamp | date: date_format -}}</updated>
+    {%- if atom_entries_has_output == True -%}
+      {{- atom_entries_workspace | strip -}}{%- assign atom_entries_workspace = nil -%}
+    {%- endif -%}
+  </feed>
+{%- endcapture -%}{{- atom_workspace | strip -}}{%- assign atom_workspace = nil -%}

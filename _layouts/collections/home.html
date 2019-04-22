@@ -13,6 +13,8 @@ layout: default
 
   {%- assign collection_name = page.collection_name | default: include.collection_name | default: nil -%}
   {%- assign target_collection = site[collection_name] -%}
+  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+
 
   <div class="home">
     {%- if page.title -%}
@@ -22,7 +24,8 @@ layout: default
     {{- content -}}
 
     {%- assign has_output = False -%}
-    {%- assign has_feed = False -%}
+    {%- assign has_atom_feed = False -%}
+    {%- assign has_rss_feed = False -%}
     {%- if target_collection.size > 0 -%}{%- comment -%}<br> syntax highlighting  work-around #{%- endcomment -%}
       {%- capture workspace_collection -%}
         <h2 class="post-list-heading">{{- page.list_title | default: "Posts" -}}</h2>
@@ -31,15 +34,17 @@ layout: default
             {%- assign post_file_name = post.url | split: '/' | last -%}
             {%- if page.relative_path == post.relative_path -%}
               {%- continue -%}
-            {%- elsif post_file_name == 'feed.xml' -%}
-              {%- assign has_feed = True -%}
+            {%- elsif post_file_name == 'feed.rss' -%}
+              {%- assign has_rss_feed = True -%}
+              {%- continue -%}
+            {%- elsif post_file_name == 'feed.atom' -%}
+              {%- assign has_atom_feed = True -%}
               {%- continue -%}
             {%- else -%}
               {%- assign has_output = True -%}
             {%- endif -%}
 
             <li>
-              {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
               <span class="post-meta">{{- post.date | date: date_format -}}</span>
               <h3>
                 <a class="post-link" href="{{- post.url | relative_url -}}">
@@ -57,12 +62,38 @@ layout: default
       {%- if has_output == True -%}
         {{- workspace_collection -}}{%- assign workspace_collection = nil -%}
       {%- endif -%}
-      {%- if has_feed == True -%}
+
+      {%- comment -%}
+        Note for future _includes/header.html modifications
+
+        <link
+         rel="alternate"
+         title="{{- collection_name -}}"
+         type="application/atom+xml"
+         href="{{- collection_name | append: '/feed.atom' | relative_url -}}"
+        />
+      {%- endcomment -%}
+      {%- if has_rss_feed == True or has_atom_feed == True -%}
         <p class="feed-subscribe">
-          <svg class="svg-icon orange">
-            <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
-          </svg>
-          <a href="{{- collection_name | append: '/feed.xml' | relative_url -}}">RSSv2</a>
+          {%- if has_rss_feed == True -%}
+            <span>
+              <svg class="svg-icon orange">
+                <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
+              </svg>
+              <a href="{{- collection_name | append: '/feed.rss' | relative_url -}}">RSSv2</a>
+            </span>
+          {%- endif -%}
+
+          {% if has_atom_feed == True %}
+            <span>
+              {% if has_rss_feed != True %}
+                <svg class="svg-icon orange">
+                  <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
+                </svg>
+              {% else %}or {% endif %}
+              <a href="{{- collection_name | append: '/feed.atom' | relative_url -}}">Atom</a>
+            </span>
+          {% endif %}
         </p>
       {%- endif -%}
 

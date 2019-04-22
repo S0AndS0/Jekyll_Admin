@@ -1,5 +1,5 @@
 ---
-layout: named_collection
+layout: collections/home
 collection_name: git_shell_commands
 title: Git Shell Commands
 list_title: Usage Examples
