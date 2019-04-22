@@ -40,7 +40,7 @@ ___
 
 
 [license]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/LICENSE
-[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licenses/2019/04/17/gnu-agpl.html
+[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/2019-04-17-gnu-agpl.html
 [fork]: https://help.github.com/en/articles/fork-a-repo
 [pull-request]: https://help.github.com/en/articles/about-pull-requests
 [issues]: https://github.com/S0AndS0/Jekyll_Admin/issues
