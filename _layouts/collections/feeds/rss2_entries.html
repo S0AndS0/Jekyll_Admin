@@ -71,8 +71,6 @@ layout: null
       <lastBuildDate>{{- site.time | date: date_format -}}</lastBuildDate>
       <pubDate>{{- latest_time_stamp | date: date_format -}}</pubDate>
       <ttl>{{- page.time_to_live | default: '1800' -}}</ttl>
-      <description>{{ collection_description | xml_escape }}</description>
-      <atom:link href="{{- collection_name | append: '/feed.xml' | absolute_url -}}" rel="self" type="application/rss+xml" />
       {%- if rss_items_has_output == True -%}
         {{- rss_items_workspace | strip -}}{%- assign rss_items_workspace = nil -%}
       {%- endif -%}

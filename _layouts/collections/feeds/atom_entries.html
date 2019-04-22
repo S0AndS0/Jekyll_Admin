@@ -16,9 +16,15 @@ layout: null
     MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
 
     Thus these alterations to Minima source code are re-shared under the MIT Lisense
-  {%- endcomment -%}
+
+  ___
+
+  Nevermind the zombie-code behind the curtain here
 
   {%- assign date_format = '%a, %d %b %Y %T %z' -%}
+  {%- endcomment -%}
+
+  {%- assign date_format = '%Y-%m-%dT%T%:z' -%}
   {%- assign collection_name = page.collection_name | default: include.collection_name | default: nil -%}
   {%- assign target_collection = site[collection_name] -%}
 
@@ -54,13 +60,13 @@ layout: null
         <updated>{{- post.date | date: date_format -}}</updated>
         <summary>{{- post_summary | xml_escape -}}</summary>
 
-        {%- comment -%}
-        <content type="xhtml">
-          <div xmlns="http://www.w3.org/1999/xhtml">
-            <p>This be where more post content may go</p>
-          </div>
-        </content>
-        {%- endcomment -%}
+        {%- if post.content -%}
+          <content type="xhtml">
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              {{ post.content | markdownify }}
+            </div>
+          </content>
+        {%- endif -%}
 
         {%- if post_author -%}
           <author>
