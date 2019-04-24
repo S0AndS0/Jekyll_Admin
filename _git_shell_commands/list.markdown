@@ -4,7 +4,7 @@ title: List
 date:   2019-04-19 11:12:21 -0700
 categories: git_shell_commands
 excerpt: >-
-  > The `list` client script lists files and/or directory paths under `${HOME}`.
+  The `list` client script lists files and/or directory paths under `${HOME}`.
 ---
 
 

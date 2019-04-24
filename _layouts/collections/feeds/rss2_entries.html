@@ -1,14 +1,12 @@
 ---
 layout: null
+version: 0.0.1
 ---
 {%- capture rss_workspace -%}
   {%- comment -%}
-    Big thanks to - https://stackoverflow.com/a/42057699/2632107
+    Thanks be to - https://stackoverflow.com/a/42057699/2632107
      and - https://gist.github.com/roachhd/f664d2cae2da899be3f6
-
-    Configuration note; one should have `site.url` assigned,
-     either via `url: "http://example.com"` or through
-     `build`/`serve` Jekyll command line options.
+     and - https://www.w3schools.com/xml/xml_rss.asp
 
     ___
     License note from S0AndS0; an editor in this context.
@@ -17,6 +15,31 @@ layout: null
     MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
 
     Thus these alterations to Minima source code are re-shared under the MIT Lisense
+    ___
+
+    ## Configuration notes
+
+    Assign `site.url`, either via command line Jekyll `build`/`serve`
+     command line option or via the following within `_config.yml`
+
+      url: "http://example.com"` or through
+
+    Each collection `page` should have the following FrontMatter deffinitions
+
+      ---
+      title: Title of Page
+      date: 2019-04-17 11:12:11 -0300
+      #date_updated:  # Optional and formatted like `date` above
+      description: A description of page content
+      #excerpt: Or a snipit about this page
+      ## Following is optional and in this example case would allow
+      ##  for embeding CSV data within `content` tags, defaults to `html`
+      #content_type: 'text/delimited'
+      time_to_live: 1800  # Number of seconds till update is recomended
+      ---
+
+    Note though that `excerpt` requires `site.show_excerpts` to be non-`false`
+     and __not__ setting a `description` for those pages using `excerpt`s
   {%- endcomment -%}
 
   {%- assign date_format = '%a, %d %b %Y %T %z' -%}
@@ -42,32 +65,36 @@ layout: null
       {%- endif -%}
 
       {%- assign post_synopsis = post.description | default: post.excerpt -%}
+      {%- assign post_date_updated = post.date_updated | default: post.date -%}
+
+      {%- assign this_time_stamp = post_date_updated | date: '%s' -%}
+      {%- if latest_time_stamp < this_time_stamp -%}{%- comment -%}> Syntax highlighting work-around{%- endcomment -%}
+        {%- assign latest_time_stamp = this_time_stamp -%}
+      {%- endif -%}
 
       <item>
         <title>{{- post.title | xml_escape -}}</title>
         <link>{{- post.url | absolute_url -}}</link>
         <guid isPermaLink="true">{{- post.url | absolute_url -}}</guid>
-        <pubDate>{{- post.date | date: date_format -}}</pubDate>
+        <pubDate>{{- post_date_updated | date: date_format -}}</pubDate>
         <description>{{- post_synopsis | xml_escape -}}</description>
       </item>
-
-      {%- assign this_time_stamp = post.date | date: '%s' -%}
-      {%- if latest_time_stamp < this_time_stamp -%}{%- comment -%}> Syntax highlighting work-around{%- endcomment -%}
-        {%- assign latest_time_stamp = this_time_stamp -%}
-      {%- endif -%}
 
       {%- assign post_file_name = nil -%}
       {%- assign post_synopsis = nil -%}
     {%- endfor -%}
   {%- endcapture -%}
 
+  {%- assign page_rights = page.copy_right | default: collection_home.copy_right | default: site.copy_right -%}
+  {%- assign page_rights = page_rights | default: site.github.license.name | default: 'All rights reserved' -%}
 
   <?xml version="1.0" encoding="UTF-8" ?>
   <rss version="2.0">
     <channel>
       <title>{{- page.title | default: 'RSS Title' | xml_escape -}}</title>
-      <description>{{ collection_description | xml_escape }}</description>
       <link>{{- page.url | absolute_url -}}</link>
+      <description>{{ collection_description | xml_escape }}</description>
+      <copyright>Copyright {{ site.time | date: '%Y' }} {{ page_author | xml_escape }}. {{ page_rights | xml_escape }}</copyright>
       <lastBuildDate>{{- site.time | date: date_format -}}</lastBuildDate>
       <pubDate>{{- latest_time_stamp | date: date_format -}}</pubDate>
       <ttl>{{- page.time_to_live | default: '1800' -}}</ttl>

@@ -4,14 +4,14 @@ title: Jekyll User Modifier
 date:   2019-04-17 11:12:13 -0700
 categories: admin
 excerpt: >-
-  > The `jekyll_usermod.sh` administration script adds new `Git`/`Jekyll` users to private server
+  The `jekyll_usermod.sh` administration script adds new `Git`/`Jekyll` users to private server
 ---
 
 
 By default new users are __not__ allowed to `clone` and/or `push` to their respective [`git-shell-commands/`][git-shell-commands_source] directories, but this may change in future revisions.
 
 
-Available options may be listed via `jekyll_usermod.sh --help`, note [source][jekyll-usermod_source] is also available for auditing prior to issuing a `git clone`.
+Available options may be listed via `jekyll_usermod.sh --help`; [source][jekyll-usermod_source] is also available for auditing prior to issuing a `git clone`.
 
 
 ___

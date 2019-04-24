@@ -4,7 +4,7 @@ title: Repository Remove
 date:   2019-04-19 11:12:22 -0700
 categories: git_shell_commands
 excerpt: >-
-  > The `repo-remove` client script removes named repository from `${HOME}/git`
+  The `repo-remove` client script removes named repository from `${HOME}/git`
 ---
 
 

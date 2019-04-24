@@ -4,7 +4,7 @@ title: Jekyll Build
 date:   2019-04-19 11:12:19 -0700
 categories: git_shell_commands
 excerpt: >-
-  > The `jekyll-build` client script builds static site files for name repository under `${HOME}/www`
+  The `jekyll-build` client script builds static site files for name repository under `${HOME}/www`
 ---
 
 

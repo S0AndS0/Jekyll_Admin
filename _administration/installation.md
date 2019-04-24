@@ -3,8 +3,7 @@ layout: post
 title: Installation
 date:   2019-04-17 11:12:11 -0700
 categories: admin
-excerpt: >-
-  > This step is only needed once per server setup, see `Update` for updating pre-existing installs of this project
+description: This step is only needed once per server setup, see `Update` for updating pre-existing installs of this project
 ---
 
 
@@ -95,9 +94,8 @@ Administrators such as _`Joanna`_ would then only have a few more steps to follo
 Namely [`jekyll_usermod.sh`][post_jekyll_usermod] and [`jekyll_dnsconf.sh`][post_jekyll_dnsconf] scripts for every user, then repeated use of [`jekyll_wwwconf.sh`][post_jekyll_wwwconf] script for each repository that a user wishes to have static site files hosted.
 
 
-[update]: {{ "/update/" | relative_url }}
+[post_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll_dnsconf.html
+[post_jekyll_usermod]: /Jekyll_Admin/administration/jekyll_usermod.html
+[post_jekyll_wwwconf]: /Jekyll_Admin/administration/jekyll_wwwconf.html
 
 [makefile_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile
-[post_jekyll_dnsconf]: {{ '/administration/jekyll_dnsconf.html' | relative_url }}
-[post_jekyll_usermod]: {{ '/administration/jekyll_usermod.html' | relative_url }}
-[post_jekyll_wwwconf]: {{ '/administration/jekyll_wwwconf.html' | relative_url }}

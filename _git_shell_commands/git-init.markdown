@@ -4,7 +4,7 @@ title: Git Initialize
 date:   2019-04-19 11:12:17 -0700
 categories: git_shell_commands
 excerpt: >-
-  > The `git-init` client script makes new repositories under `${HOME}/git` ready for `git clone` and/or `git push` operations
+  The `git-init` client script makes new repositories under `${HOME}/git` ready for `git clone` and/or `git push` operations
 ---
 
 

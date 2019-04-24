@@ -4,10 +4,10 @@ title: Jekyll WWW Configurer
 date:   2019-04-17 11:12:15 -0700
 categories: admin
 excerpt: >-
-  > The `jekyll_wwwconf.sh` administration script adds a __new__ repository for given user to Web Server configurations
+  The `jekyll_wwwconf.sh` administration script adds a __new__ repository for given user to Web Server configurations
 ---
 
-Available options may be listed via `jekyll_wwwconf.sh --help`, currently _wired_ for `Nginx` Web Server, and note [source][jekyll-wwwconf_source] is also available for auditing prior to issuing a `git clone`.
+Available options may be listed via `jekyll_wwwconf.sh --help`, currently _wired_ for `Nginx` Web Server; [source][jekyll-wwwconf_source] is also available for auditing prior to issuing a `git clone`.
 
 
 For an example, _`Bill`_ has an `Excellent_Project` that they want to host on the private server; the administrator, _`Elizabeth`_, could issue the following...
@@ -43,6 +43,5 @@ ssh joan sudo jekyll_wwwconf.sh\
 So long as both users have had the [`jekyll_dnsconf.sh`][jekyll-dnsconf] script ran with similar options to those described in the related post, both _`Bill`_ and _`Ted`_ can check-out each-other's hosted documentation via `http://ted.devs.lan/Radical_Features` and `http://bill.devs.lan/Excellent_Project`
 
 
-{% capture jekyll_dnsconf %}{{ '/administration/2019-04-17-jekyll-dnsconf.html' | relative_url }}{% endcapture %}
-[jekyll-dnsconf]: {{ jekyll_dnsconf }}
+[jekyll-dnsconf]: /Jekyll_Admin/administration/jekyll_dnsconf.html
 [jekyll-wwwconf_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_wwwconf.sh

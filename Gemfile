@@ -16,6 +16,10 @@ gem "minima", "~> 2.0"
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
 gem "github-pages", group: :jekyll_plugins
 
+# See - https://github.com/jekyll/github-metadata
+# Adds site.github to Liquid building name space
+gem "jekyll-github-metadata"
+
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.6"

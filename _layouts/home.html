@@ -30,7 +30,9 @@ layout: default
               {{ post.title | escape }}
             </a>
           </h3>
-          {%- if site.show_excerpts -%}
+          {%- if post.description -%}
+            {{ post.description | markdownify | remove: '<p>' | remove: '</p>' }}
+          {%- elsif site.show_excerpts and post.excerpt -%}
             {{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}
           {%- endif -%}
         </li>

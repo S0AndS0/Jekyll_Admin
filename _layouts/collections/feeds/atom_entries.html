@@ -1,13 +1,15 @@
 ---
 layout: null
+date_format: '%Y-%m-%dT%T%:z'
+version: 0.0.1
 ---
 {%- capture atom_workspace -%}
   {%- comment -%}
-    Big thanks to - https://en.wikipedia.org/wiki/Atom_(Web_standard)
-
-    Configuration note; one should have `site.url` assigned,
-     either via `url: "http://example.com"` or through
-     `build`/`serve` Jekyll command line options.
+    Thanks be to - https://en.wikipedia.org/wiki/Atom_(Web_standard)
+     and - https://validator.w3.org/feed/docs/atom.html
+     and - https://natelandau.com/jekyll-rss-feed-template/
+     and - https://validator.w3.org/feed/docs/rfc4287.html
+     and - https://tools.ietf.org/html/draft-nottingham-http-cache-channels-00
 
     ___
     License note from S0AndS0; an editor in this context.
@@ -16,93 +18,186 @@ layout: null
     MIT Lisense, https://github.com/jekyll/minima/blob/master/LICENSE.txt
 
     Thus these alterations to Minima source code are re-shared under the MIT Lisense
+    ___
 
-  ___
+    ## Configuration notes
 
-  Nevermind the zombie-code behind the curtain here
+    Assign `site.url`, either via command line Jekyll `build`/`serve`
+     command line option or via the following within `_config.yml`
 
-  {%- assign date_format = '%a, %d %b %Y %T %z' -%}
+      url: "http://example.com"` or through
+
+    Each collection `page` should have the following FrontMatter deffinitions
+
+      ---
+      title: Title of Page
+      date: 2019-04-17 11:12:11 -0300
+      #date_updated:  # Optional and formatted like `date` above
+      description: A description of page content
+      #excerpt: Or a snipit about this page
+      ## Following is optional and in this example case would allow
+      ##  for embeding CSV data within `content` tags, defaults to `html`
+      #content_type: 'text/delimited'
+      time_to_live: 1800  # Number of seconds till update is recomended
+      ---
+
+    Note though that `excerpt` requires `site.show_excerpts` to be non-`false`
+     and __not__ setting a `description` for those pages using `excerpt`s
   {%- endcomment -%}
 
-  {%- assign date_format = '%Y-%m-%dT%T%:z' -%}
   {%- assign collection_name = page.collection_name | default: include.collection_name | default: nil -%}
   {%- assign target_collection = site[collection_name] -%}
+  {%- assign collection_content_type = page.content_type | default: target_collection.feeds.atom.content_type -%}
 
-  {%- assign collection_home = page.collection_home | default: collection_name -%}
-  {%- assign collection_description = page.description | default: site.description -%}
+  {%- unless this_repo -%}
+    {%- assign repo_name = site.github.repository_name -%}
+    {%- assign this_repo = site.github.public_repositories | where: "name", repo_name | first -%}
+  {%- endunless -%}
+
   {%- assign this_time_stamp = page.date | date: '%s' -%}
   {%- assign latest_time_stamp = page.date | date: '%s' -%}
   {%- assign atom_entries_has_output = False -%}
 
-
   {%- capture atom_entries_workspace -%}
     {%- for post in target_collection -%}
-      {%- assign post_file_name = post.url | split: '/' | last | split: '.' | first -%}
-      {%- if page.relative_path == post.relative_path or post_file_name == 'feed' -%}
+      {%- if page.relative_path == post.relative_path or post.slug == 'feed' -%}
         {%- continue -%}
-      {%- elsif post_file_name == collection_name or post_file_name == 'index' -%}
+      {%- elsif post.slug == collection_name or post.slug == 'index' -%}
         {%- continue -%}
       {%- else -%}
         {%- assign atom_entries_has_output = True -%}
       {%- endif -%}
 
       {%- assign post_summary = post.description | default: post.excerpt -%}
-      {%- assign post_author = post.author | default: page.author | default: site.author -%}
-      {%- assign post_email = post.email | default: page.email | default: site.email -%}
+      {%- assign post_date_updated = post.date_updated | default: post.date -%}
+      {%- assign post_word_count = post_summary | append: post.content | number_of_words -%}
+      {%- assign post_content_type = post.content_type | default: collection_content_type -%}
 
-      <entry>
-        <title>{{- post.title | xml_escape -}}</title>
-        <link rel="alternate" type="text/html" href="{{- post.url | absolute_url -}}" />
-        {%- comment -%}
-        <link href="{{- post.url | absolute_url -}}" />
-        <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
-        {%- endcomment -%}
-        <updated>{{- post.date | date: date_format -}}</updated>
-        <summary>{{- post_summary | xml_escape -}}</summary>
-
-        {%- if post.content -%}
-          <content type="xhtml">
-            <div xmlns="http://www.w3.org/1999/xhtml">
-              {{ post.content | markdownify }}
-            </div>
-          </content>
-        {%- endif -%}
-
-        {%- if post_author -%}
-          <author>
-            <name>{{ post_author | xml_escape }}</name>
-            {%- if post_email -%}<email>{{ post_email }}</email>{%- endif -%}
-          </author>
-        {%- endif -%}
-      </entry>
-
-      {%- assign this_time_stamp = post.date | date: '%s' -%}
+      {%- assign this_time_stamp = post_date_updated | date: '%s' -%}
       {%- if latest_time_stamp < this_time_stamp -%}{%- comment -%}> Syntax highlighting work-around{%- endcomment -%}
         {%- assign latest_time_stamp = this_time_stamp -%}
       {%- endif -%}
 
-      {%- assign post_file_name = nil -%}
+      <entry>
+        <title>{{- post.title | xml_escape -}}</title>
+        <link rel="alternate" type="text/html" href="{{- post.url | absolute_url -}}" />
+        <id>urn:uuid:{{- this_repo.id -}}-{{- this_time_stamp -}}-{{- post_word_count -}}</id>
+        {%- comment -%}
+        <link href="{{- post.url | absolute_url -}}" />
+        {%- endcomment -%}
+        <published>{{- post.date | date: layout.date_format -}}</published>
+        <updated>{{- post_date_updated | date: layout.date_format -}}</updated>
+        <summary>{{- post_summary | xml_escape -}}</summary>
+
+        {%- if post.author and post.author != page_author -%}
+          <author>
+            <name>{{- post.author | xml_escape -}}</name>
+            {%- if post.email -%}
+              <email>{{- post.email -}}</email>
+            {%- endif -%}
+            {%- if post.uri -%}
+              <uri>{{- post.uri -}}</uri>
+            {%- endif -%}
+          </author>
+        {%- endif -%}
+
+        {%- if post.contributors -%}
+          {%- capture contributors_workspace -%}
+            {%- for contributor in post.contributors -%}
+              <contributor>
+                <name>{{ contributor | xml_escape }}</name>
+              </contributor>
+            {%- endfor -%}
+          {%- endcapture -%}{{ contributors_workspace | strip }}{%- assign contributors = nil -%}
+        {%- endif -%}
+
+        {%- if post.content -%}
+          {%- if post_content_type != 'json' or post_content_type != 'xml' -%}
+            {%- capture post_content_data_string -%}
+              xml:base="{{ site.url }}"
+            {%- endcapture -%}
+          {%- endif -%}
+
+          {%- if post_content_type == 'xhtml' -%}
+            <content type="xhtml" {{ post_content_data_string }}>
+              <div xmlns="http://www.w3.org/1999/xhtml">
+                {{ post.content | markdownify }}
+              </div>
+            </content>
+          {%- elsif post_content_type == 'xml' -%}
+            <content type="text/xml">
+              {{ post.content }}
+            </content>
+          {%- elsif post_content_type == 'json' -%}
+            <content type="text/json">
+              {{ post.content }}
+            </content>
+          {%- elsif post_content_type -%}
+            <content type="{{- post_content_type -}}" {{ post_content_data_string }}>
+              {{ post.content }}
+            </content>
+          {%- else -%}
+            <content type="html" {{ post_content_data_string }}>
+              <![CDATA[ {{ post.content | markdownify }} ]]>
+            </content>
+          {%- endif -%}
+        {%- endif -%}
+      </entry>{%- comment -%}<br>{%- endcomment -%}
+
+      {%- assign post_date_updated = nil -%}
+      {%- assign post_content_type = nil -%}
       {%- assign post_summary = nil -%}
-      {%- assign post_author = nil -%}
-      {%- assign post_email = nil -%}
+      {%- assign post_word_count = nil -%}
+      {%- assign post_content_data_string = nil -%}
     {%- endfor -%}
   {%- endcapture -%}
 
 
+  {%- assign collection_home = page.collection_home | default: target_collection.relative_directory -%}
+  {%- assign collection_home_page = site.pages | where: "url", collection_home | first -%}
+  {%- assign collection_home_summary = collection_home_page.description | default: collection_home_page.excerpt -%}
+  {%- assign collection_home_word_count = collection_home_summary | append: collection_home_page.content | number_of_words -%}
+
+  {%- assign page_author = page.author | default: site.author -%}
+  {%- assign page_email = page.email | default: site.email -%}
+  {%- assign page_title = page.title | default: collection_home.title | default: 'Atom Feed Title' -%}
+  {%- assign page_sub_title = page.sub_title | default: collection_home.sub_title | default: nil -%}
+
+  {%- assign page_rights = page.copy_right | default: collection_home.copy_right | default: site.copy_right -%}
+  {%- assign page_rights = page_rights | default: site.github.license.name | default: 'All rights reserved' -%}
+
   <?xml version="1.0" encoding="UTF-8" ?>
   <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>{{- page.title | default: 'Atom Feed Title' | xml_escape -}}</title>
-    {%- comment -%}
-    <subtitle>A Subtitle</subtitle>
-    {%- endcomment -%}
-    <link href="{{- page.url | absolute_url -}}" rel="self" />
+    <title>{{ page_title | xml_escape }}</title>
+    {% if page_sub_title %}
+      <subtitle>{{ page_sub_title | xml_escape }}</subtitle>
+    {%- endif -%}
+    <rights>Copyright {{ site.time | date: '%Y' }} {{ page_author | xml_escape }}. {{ page_rights | xml_escape }}</rights>
+    <link href="{{- page.url | absolute_url -}}" rel="self" type="application/atom+xml" />
     <link href="{{- collection_home | absolute_url -}}" />
-    {%- comment -%}
-    <id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+    <id>urn:uuid:{{- this_repo.id -}}-{{- latest_time_stamp -}}-{{- collection_home_word_count -}}</id>
+
+    {%- if page_author -%}
+      <author>
+        <name>{{ page_author | xml_escape }}</name>
+        {%- if page_email -%}<email>{{- page_email -}}</email>{%- endif -%}
+      </author>
+    {%- endif -%}
+
+    <updated>{{- latest_time_stamp | date: layout.date_format -}}</updated>
+    <cc:precision>{{- page.time_to_live | default: 1800 -}}</cc:precision>
+    {%- comment -%}#Following if I read right is when feed goes _bad_ like milk and tells readers when to _throw it out_
+    <cc:lifetime>25920000</cc:lifetime>
     {%- endcomment -%}
-    <updated>{{- latest_time_stamp | date: date_format -}}</updated>
+
     {%- if atom_entries_has_output == True -%}
       {{- atom_entries_workspace | strip -}}{%- assign atom_entries_workspace = nil -%}
     {%- endif -%}
+
   </feed>
+
+  {%- assign page_author = nil -%}
+  {%- assign page_email = nil -%}
+  {%- assign collection_home_summary = nil -%}
+  {%- assign collection_home_word_count = nil -%}
 {%- endcapture -%}{{- atom_workspace | strip -}}{%- assign atom_workspace = nil -%}

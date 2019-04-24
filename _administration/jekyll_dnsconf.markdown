@@ -4,10 +4,10 @@ title: Jekyll DNS Configurer
 date:   2019-04-17 11:12:14 -0700
 categories: admin
 excerpt: >-
-  > The `jekyll_dnsconf.sh` administration script adds a _`Git`_/_`Jekyll`_ user to DNS configurations
+  The `jekyll_dnsconf.sh` administration script adds a _`Git`_/_`Jekyll`_ user to DNS configurations
 ---
 
-Available options may be listed via `jekyll_dnsconf.sh --help`, currently _wired_ for `Unbound` DNS (Domain Name Server), and note [source][jekyll-dnsconf_source] is also available for auditing prior to issuing a `git clone`.
+Available options may be listed via `jekyll_dnsconf.sh --help`, currently _wired_ for `Unbound` DNS (Domain Name Server); [source][jekyll-dnsconf_source] is also available for auditing prior to issuing a `git clone`.
 
 
 Supposing that _`Elizabeth`_ is tasked with adding _`Ted`_, who is apart of the `devs` group, to the `.lan` top level domain...

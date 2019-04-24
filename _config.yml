@@ -13,6 +13,7 @@ theme: minima
 show_excerpts: true
 plugins:
   - jekyll-feed
+  - jekyll-github-metadata
 
 
 ## Theme settings
@@ -35,13 +36,10 @@ sass:
 collections:
   administration:
     output: true
-    layout: post
   git_shell_commands:
     output: true
-    layout: post
   licensing:
     output: true
-    layout: default
 
 
 ## Exclude from processing; by default commented items will not be processed.

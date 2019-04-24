@@ -34,7 +34,7 @@ layout: default
             {%- assign post_file_name = post.url | split: '/' | last -%}
             {%- if page.relative_path == post.relative_path -%}
               {%- continue -%}
-            {%- elsif post_file_name == 'feed.rss' -%}
+            {%- elsif post_file_name == 'feed.xml' -%}
               {%- assign has_rss_feed = True -%}
               {%- continue -%}
             {%- elsif post_file_name == 'feed.atom' -%}
@@ -51,8 +51,14 @@ layout: default
                   {{- post.title | escape -}}
                 </a>
               </h3>
-              {%- if site.show_excerpts -%}
-                {{- post.excerpt | markdownify | remove: '<p>' | remove: '</p>' -}}
+              {%- if post.description -%}
+                <blockquote>
+                  {{- post.description | markdownify | remove: '<p>' | remove: '</p>' -}}
+                </blockquote>
+              {%- elsif site.show_excerpts and post.excerpt -%}
+                <blockquote>
+                  {{- post.excerpt | markdownify | remove: '<p>' | remove: '</p>' -}}
+                </blockquote>
               {%- endif -%}
             </li>
           {%- endfor -%}
@@ -80,7 +86,7 @@ layout: default
               <svg class="svg-icon orange">
                 <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
               </svg>
-              <a href="{{- collection_name | append: '/feed.rss' | relative_url -}}">RSSv2</a>
+              <a href="{{- collection_name | append: '/feed.xml' | relative_url -}}">RSSv2</a>
             </span>
           {%- endif -%}
 

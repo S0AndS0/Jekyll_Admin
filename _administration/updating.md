@@ -5,7 +5,7 @@ date:   2019-04-17 11:12:12 -0700
 categories: admin
 # admin_name: Elizabeth
 excerpt: >-
-  > The following instructions are relevant only after following `Install` instructions for this project
+  The following instructions are relevant only after following `Install` instructions for this project
 ---
 
 
@@ -67,12 +67,12 @@ exit
 ```
 
 
-> Note, updating via `make` will automatically commit any changes to the local `git` branch checked-out during `make install` prior to changing branches to `master` and `pull`ing in any new updates. After which the local branch is checked-out, `master` branch changes are merged, and scripts are re-linked.
+> Note, updating via `make` will automatically commit any changes to the local `git` branch checked-out during [`make install`][install] prior to changing branches to `master` and `pull`ing in any new updates. After which the local branch is checked-out, `master` branch changes are merged, and scripts are re-linked.
 
 
 And that would the extent of what _should_ be needed to update administration scripts, however, updating preexisting user account `git_shell_commands` scripts is still a _bit_ more involved.
 
 
-[install]: {{ "/install/" | relative_url }}
+[install]: /Jekyll_Admin/administration/install.html
 
 [makefile_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile
