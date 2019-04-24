@@ -185,8 +185,8 @@ version: 0.0.1
     {%- endif -%}
 
     <updated>{{- latest_time_stamp | date: layout.date_format -}}</updated>
-    <cc:precision>{{- page.time_to_live | default: 1800 -}}</cc:precision>
     {%- comment -%}#Following if I read right is when feed goes _bad_ like milk and tells readers when to _throw it out_
+    <cc:precision>{{- page.time_to_live | default: 1800 -}}</cc:precision>
     <cc:lifetime>25920000</cc:lifetime>
     {%- endcomment -%}
 
