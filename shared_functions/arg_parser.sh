@@ -77,7 +77,7 @@ argument_parser(){
 						_var_value="$(return_scrubbed_arg "${_user_opt}" "${_opt_type}")"
 						_exit_status="${?}"
 					else
-						let i++
+						i+=1
 						_var_value="$(return_scrubbed_arg "${_args_user_list[${i}]}" "${_opt_type}")"
 						_exit_status="${?}"
 						unset _args_user_list[$(( i - 1 ))]

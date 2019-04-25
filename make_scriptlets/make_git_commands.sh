@@ -15,7 +15,6 @@ while [[ -h "${__SOURCE__}" ]]; do
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
-__PATH__="${__DIR__}/${__NAME__}"
 __REPO_DIR__="${__DIR__%/*}"
 __ORIG_PWD__="${PWD}"
 
@@ -24,7 +23,6 @@ __ORIG_PWD__="${PWD}"
 #
 ## Provided     'failure'
 set -eE -o functrace
-source "${__DIR__}/examples.sh"
 trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
 
 usage(){
@@ -41,6 +39,11 @@ EOF
 }
 
 git_pull_update(){
+	_git_remotes="$(git remote -v)"
+	if ! [ "${#_git_remotes}" -gt '0' ]; then
+		echo 'No remotes configured to git pull from!'
+		return 1
+	fi
 	cd "${__REPO_DIR__}"
 	_orig_branch="$(git branch --list | awk '/\*/{print $2}')"
 	if grep -qE -- '^Untracked files|^Changes to be committed|^Changes not staged' <<<"$(git status)"; then
@@ -69,20 +72,21 @@ git_checkout_install(){
 	else
 		git checkout -b "${_LOCAL_BRANCH}"
 	fi
+	git config core.fileMode false
 	git merge ${_AUTHOR_BRANCH}
 	cd "${__ORIG_PWD__}"
 }
 
-_git_remotes="$(git remote -v)"
-if [ "${#_git_remotes}" -gt '0' ]; then
-	case "${1,,}" in
-		'update'|'git-update')
-			git_pull_update
-		;;
-		'install'|'git-checkout')
-			git_checkout_install
-		;;
-	esac
-else
-	echo "No remotes configured to git pull from"
-fi
+case "${1,,}" in
+	'update'|'git-update')
+		git_pull_update
+	;;
+	'install'|'git-checkout')
+		git_checkout_install
+	;;
+	*)
+		usage
+		exit 1
+	;;
+esac
+exit "${?}"

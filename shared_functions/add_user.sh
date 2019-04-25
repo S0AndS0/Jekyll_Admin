@@ -78,8 +78,8 @@ add_jekyll_user(){
 			groupadd ${_group}
 		fi
 		## Relaxed regex from defaults to allow capitalization in usernames
-		NAME_REGEX='^[a-zA-Z][-a-zA-Z0-9]*$' adduser <<-EOF
-		--force-badname\
+		NAME_REGEX='^[a-zA-Z][-a-zA-Z0-9]*$' adduser\
+		 --force-badname\
 		 --system\
 		 --disabled-password\
 		 --gecos ''\
@@ -87,11 +87,11 @@ add_jekyll_user(){
 		 --home "${_home,,}"\
 		 --ingroup ${_group}\
 		 ${_user}
-		EOF
-		if ! [ -z "${_additional_groups}" ]; then
+
+		if [ -n "${_additional_groups}" ]; then
 			## Add any additional groups that do not exist yet
 			for _additional_group in ${_additional_groups//,/ }; do
-				if getent "${_additional_group}" 1>/dev/null; then continue; fi
+				if getent 'group' "${_additional_group}" 1>/dev/null; then continue; fi
 				echo "Adding group ${_additional_group}"
 				groupadd "${_additional_group}"
 			done

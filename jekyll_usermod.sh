@@ -93,7 +93,11 @@ usage(){
 #
 #	--ssh-auth-keys="${_ssh_auth_keys}"
 # Path to authorized_keys file to copy over to ${_HOME_BASE}/${_user}/.ssh
-#  directory.
+#  directory. Note if using redirection, eg...
+#
+#    `--ssh-auth-keys="\$(<~/.ssh/pub.key)"`
+#
+#  ... then an equals-sign (`=`) is required!
 #
 #	--git-shell-allowed="${_git_shell_allowed}"
 # Maybe list of specific scripts under 'git_shell_commands/' directory, 'none',
@@ -152,6 +156,7 @@ add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_
 #add_firejail_user "${_user}"
 add_ssh_authorized_keys "${_user}" "${_ssh_auth_keys}"
 jekyll_modify_user_path "${_user}"
+echo "... the following may take awhile..."
 jekyll_user_install "${_user}"
 copy_or_link_git_shell_commands "${_user}" "${_git_shell_allowed}" "${_git_shell_copy_or_link}" "${_clobber}"
 

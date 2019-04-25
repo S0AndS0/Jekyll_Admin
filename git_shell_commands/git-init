@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
+
 __SOURCE__="${BASH_SOURCE[0]}"
 while [[ -h "${__SOURCE__}" ]]; do
 	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
-__PATH__="${__DIR__}/${__NAME__}"
 __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Initializes new git repository ready for cloning &/or pushing'
 
@@ -18,7 +18,7 @@ source "${__DIR__}/shared_functions/license"
 
 
 usage(){
-	_return_status="${1:-0}"
+	_message="${1}"
 	_repo_name="${_repo_name:-repository-name}"
 	cat <<EOF
 ## Usage
@@ -55,7 +55,9 @@ usage(){
 # -h	--help help
 #  Display this message and exit
 EOF
-	return "${_return_status}"
+	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+		printf 'Error - %s\n' "${_message}" >&2
+	fi
 }
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
 _valid_args=('--help|-h|help:bool'
@@ -76,13 +78,19 @@ if ((_quiet)); then  _git_args+=('--quiet');  fi
 if [ -n "${_template}" ]; then  _git_args+=("--template='${_template}'"); fi
 if [ -n "${_repo_name}" ]; then _git_args+=("${_repo_name}"); fi
 
-if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+if ((_help)) || ((_exit_status)); then
 	usage "${_exit_status}"
 	exit "${_exit_status}"
 elif ((_license)); then
 	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
 	exit 0
 fi
+
+if [ -z "${_repo_name}" ]; then
+	usage 'missing repository name argument!'
+	exit "1"
+fi
+
 
 _git_path="${HOME}/git/${_repo_name:?# No repository name provided}"
 _git_parent_dir="${_git_path%/*}"
@@ -96,17 +104,17 @@ if [ -d "${_git_path}" ]; then
 	_git_preexisting_dir="$(git rev-parse --git-dir 2>/dev/null)"
 	if [[ "$?" == '0' ]] || [ -n "${_git_preexisting_dir}" ]; then
 		if [[ "${_git_preexisting_dir}" == "${_git_path}/.git" ]] || [[ "${_git_preexisting_dir}" == "${_git_path}" ]]; then
-			echo "# Already tracked by git: ${_git_preexisting_dir}"
+			printf '# Already tracked by git: %s\n' "${_git_preexisting_dir}"
 			exit 1
 		fi
 	fi
 fi
 
 cd "${_git_parent_dir}" || exit 1
-echo "## git init ${_git_args[@]}"
+printf '## git init %s\n' "${_git_args[@]}"
 git init ${_git_args[@]}
 
-if ! [[ "${_repo_bare}" ]]; then
+if ! ((_bare)); then
 	cd "${_git_parent_dir}/${_repo_name}" || exit 1
 	if [[ "$(git config receive.denyCurrentBranch)" != 'updateInstead' ]]; then
 		git config receive.denyCurrentBranch updateInstead
@@ -115,5 +123,5 @@ fi
 
 [[ "${_old_PWD}" == "${_git_path}" ]] || cd "${_old_PWD}"
 
-echo "# Clone ${_repo_name} via: git clone ${USER}@domain_or_ip:${_git_path//${HOME}\//}"
-echo "# ${__NAME__} finished"
+printf '# Clone %s via: git clone %s@domain_or_ip:%s\n' "${_repo_name}" "${USER}" "${_git_path//${HOME}\//}"
+printf '# %s finished\n' "${__NAME__}"

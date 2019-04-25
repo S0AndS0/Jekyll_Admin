@@ -6,7 +6,6 @@ while [[ -h "${__SOURCE__}" ]]; do
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
-__PATH__="${__DIR__}/${__NAME__}"
 __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Copies named theme files to named repository and git commits the changes'
 
@@ -22,7 +21,7 @@ source "${__DIR__}/shared_functions/license"
 
 
 usage(){
-	_return_status="${1:-0}"
+	_message="${1}"
 	_repo_name="${_repo_name:-repository-name}"
 	_theme_name="${_theme_name:-theme-name}"
 	cat <<EOF
@@ -48,7 +47,9 @@ usage(){
 $(for _name in ${_available_theme_names[@]}; do printf '# %s\n' "${_name}"; done)
 #
 EOF
-	return "${_return_status}"
+	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+		printf 'Error - %s\n' "${_message}" >&2
+	fi
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
@@ -59,12 +60,17 @@ _valid_args=('--help|-h|help:bool'
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
 
-if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+if ((_help)) || ((_exit_status)); then
 	usage "${_exit_status}"
-	exit "${_exit_status}"
+	exit "$?"
 elif ((_license)); then
 	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
 	exit 0
+fi
+
+if [ -z "${_repo_name}" ]; then
+	usage 'missing repository name argument!'
+	exit "1"
 fi
 
 
@@ -83,11 +89,6 @@ for _path in ${_gem_user_install_dir}/jekyll-theme-*; do
 	_available_theme_names+=("${_name}")
 done
 
-if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
-	usage "${_exit_status}"
-	exit "$?"
-fi
-
 _git_path="${HOME}/git/${_repo_name}"
 _jekyll_config_yml_path="${_git_path}/_config.yml"
 _old_PWD="${PWD}"
@@ -102,7 +103,10 @@ if [[ "${_git_path}/${_git_dir}" != "${_git_path}/.git" ]] || ! [ -f "${_jekyll_
 	exit 1
 fi
 [[ -n "${_theme_name}" ]] || _theme_name="$(awk '/theme:/{print $2}' "${_jekyll_config_yml_path}")"
-if [ -z "${_theme_name}" ]; then usage; exit "$?"; fi
+if [ -z "${_theme_name}" ]; then
+	usage 'cannot find theme name!'
+	exit "1"
+fi
 
 for _theme_path in "${_available_theme_paths[@]}"; do
 	case "${_theme_path}" in
@@ -127,4 +131,4 @@ fi
 
 git_add_commit "Added files from ${_chosen_theme_name}"
 
-echo "# ${__NAME__} finished"
+printf '# %s finished\n' "${__NAME__}"

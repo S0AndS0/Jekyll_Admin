@@ -6,7 +6,6 @@ while [[ -h "${__SOURCE__}" ]]; do
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
-__PATH__="${__DIR__}/${__NAME__}"
 __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Runs "ls -hl" against supplied path within home directory'
 
@@ -19,7 +18,7 @@ source "${__DIR__}/shared_functions/license"
 
 
 usage(){
-	_return_status="${1}"
+	_message="${1}"
 	_print_path="${_path//${HOME}\//}"
 	cat <<EOF
 ## Usage
@@ -34,8 +33,11 @@ usage(){
 #  Displays this message and exits
 #
 EOF
-	ls -hl "${_path}"
-	return "${_return_status:-$?}"
+	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+		printf 'Error - %s\n' "${_message}" >&2
+	else
+		ls -hl "${_path}"
+	fi
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
@@ -56,6 +58,11 @@ elif ((_license)); then
 	exit 0
 fi
 
+if [ -z "${_path}" ]; then
+	usage 'missing path argument!'
+	exit "1"
+fi
+
 
 if [ -d "${HOME}/${_path}" ]; then
 	ls -hl "${HOME}/${_path}"; exit $?
@@ -65,4 +72,4 @@ else
 	usage; exit 1
 fi
 
-echo "# ${__NAME__} finished"
+printf '# %s finished\n' "${__NAME__}"

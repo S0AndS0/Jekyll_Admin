@@ -6,7 +6,6 @@ while [[ -h "${__SOURCE__}" ]]; do
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
-__PATH__="${__DIR__}/${__NAME__}"
 __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Sets permissions for named repository to that of the $USER:$GROUP'
 
@@ -20,7 +19,7 @@ source "${__DIR__}/shared_functions/license"
 
 _group="$(groups | awk '{print $1}')"
 usage(){
-	_return_status="${1:-0}"
+	_message="${1}"
 	_repo_name="${_repo_name:-repository-name}"
 	cat <<EOF
 ## Usage
@@ -37,7 +36,9 @@ usage(){
 # -h	--help help
 #  Displays this message and exits
 EOF
-	return "${_return_status}"
+	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+		printf 'Error - %s\n' "${_message}" >&2
+	fi
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
@@ -49,7 +50,7 @@ _exit_status="$?"
 
 _git_path="${HOME}/git/${_repo_name}"
 
-if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+if ((_help)) || ((_exit_status)); then
 	usage "${_exit_status}"
 	exit "${_exit_status}"
 elif ((_license)); then
@@ -57,15 +58,20 @@ elif ((_license)); then
 	exit 0
 fi
 
+if [ -z "${_repo_name}" ]; then
+	usage 'missing repository name argument!'
+	exit "1"
+fi
 
 if ! [ -d "${_git_path}" ]; then
-	echo "# No repository ${_repo_name} at ${_git_path}"
+	printf '# No repository %s at %s\n' "${_repo_name}" "${_git_path}"
 	exit 1
 fi
+
 
 chown --recursive "${USER}":"${_group}" "${_git_path}"
 _prune_list='-path .git/hooks -o -path hooks -o path .git/objects/pack -o objects/pack'
 find "${_git_path}" -type d \( ${_prune_list} \) -prune -exec chmod 750 {} \;
 find "${_git_path}" -type f  \( ${_prune_list} \) -prune -exec chmod 640 {} \;
 
-echo "# ${__NAME__} finished"
+printf '# %s finished\n' "${__NAME__}"

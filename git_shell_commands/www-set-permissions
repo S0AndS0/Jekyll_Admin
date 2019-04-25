@@ -6,7 +6,6 @@ while [[ -h "${__SOURCE__}" ]]; do
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
-__PATH__="${__DIR__}/${__NAME__}"
 __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Sets permissions for named repository site files under "~/www" directory'
 
@@ -19,7 +18,7 @@ source "${__DIR__}/shared_functions/license"
 
 
 usage(){
-	_return_status="${1:-0}"
+	_message="${1}"
 	_repo_name="${_repo_name:-repository-name}"
 	cat <<EOF
 ## Usage
@@ -37,7 +36,9 @@ usage(){
 # -h	--help help
 #  Displays this message and exits
 EOF
-	return "${_return_status}"
+	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+		printf 'Error - %s\n' "${_message}" >&2
+	fi
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
@@ -47,12 +48,7 @@ _valid_args=('--help|-h|help:bool'
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
 
-_www="${HOME}/www"
-_www_group="$(groups ${USER} | grep -oE 'www[-a-z]{0,29}')"
-_srv_path="${_www}/${_repo_name,,}"
-
-
-if ((_help)) || ((_exit_status)) || [ -z "${_repo_name}" ]; then
+if ((_help)) || ((_exit_status)); then
 	usage "${_exit_status}"
 	exit "$?"
 elif ((_license)); then
@@ -60,15 +56,23 @@ elif ((_license)); then
 	exit 0
 fi
 
+if [ -z "${_repo_name}" ]; then
+	usage 'missing repository name argument!'
+	exit "1"
+fi
+
+_www="${HOME}/www"
+_www_group="$(groups ${USER} | grep -oE 'www[-a-z]{0,29}')"
+_srv_path="${_www}/${_repo_name,,}"
 
 if [ -z "${_www_group}" ]; then
-	echo "# No www group found for ${USER}"
+	printf '# No www group found for %s\n' "${USER}"
 	exit 1
 fi
 if ! [ -d "${_www}" ]; then
-	echo "# No www directory at ${_www}"
+	printf '# No www directory at %s\n' "${_www}"
 	if [ -e "${HOME}/git-shell-commands/jekyll-build"]; then
-		echo "# try: ssh ${USER}@host-or-ip jekyll-build ${_repo_name}"
+		printf '# try: ssh %s@host-or-ip jekyll-build %s\n' "${USER}" "${_repo_name}"
 	fi
 	exit 1
 fi
@@ -77,4 +81,4 @@ chown --recursive "${USER}":"${_www_group}" "${_srv_path}"
 find "${_srv_path}" -type d -exec chmod 750 {} \;
 find "${_srv_path}" -type f -exec chmod 640 {} \;
 
-echo "# ${__NAME__} finished"
+printf '# %s finished\n' "${__NAME__}"

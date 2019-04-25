@@ -53,13 +53,14 @@ uninstall: ## Removes symbolic links to project scripts
 install: ## Symbolically links to project scripts and runs git checkout local
 	bash "$(ROOT_DIR)/make_scriptlets/make_git_commands.sh" 'install'
 	test -d "$(SCRIPT_INSTALL_DIR)" && $(foreach s,$(SCRIPT_NAMES_TO_LINK),\
-		if [ ! -f "$(SCRIPT_INSTALL_DIR)/$(s)" ];\
-			then ln -vs "$(ROOT_DIR)/$(s)" "$(SCRIPT_INSTALL_DIR)/$(s)"; fi;)
+		if [ ! -f "$(SCRIPT_INSTALL_DIR)/$(s)" ]; then\
+			ln -vs "$(ROOT_DIR)/$(s)" "$(SCRIPT_INSTALL_DIR)/$(s)";\
+			chmod u+x "$(ROOT_DIR)/$(s)"; fi;)
 
 update: ## Runs; make uninstall, git pull (via script), then make install
 	$(MAKE) uninstall
 	bash "$(ROOT_DIR)/make_scriptlets/make_git_commands.sh" 'update'
-	$(MAKE) install
+	@echo "Please run '$(MAKE) install' to complete update!"
 
 list: SHELL := /bin/bash
 list: ## Lists available make commands
