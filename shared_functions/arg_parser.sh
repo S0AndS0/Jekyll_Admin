@@ -20,7 +20,7 @@ arg_scrubber_posix(){
 }
 
 return_scrubbed_arg(){
-  _raw_value="${1:-1}"
+  _raw_value="${1}"
   _opt_type="${2:?## Error - no option type provided to return_scrubbed_arg}"
   case "${_opt_type}" in
     'bool'*)  _value="${_TRUE}"      ;;
@@ -84,7 +84,7 @@ argument_parser(){
 					fi
 				;;
 				${_valid_opts_pattern_alt}) ## Parse for script-name --foo=bar
-					_var_value="$(return_scrubbed_arg "${_user_opt##*=}" "${_opt_type}")"
+					_var_value="$(return_scrubbed_arg "${_user_opt#*=}" "${_opt_type}")"
 					_exit_status="${?}"
 				;;
 				*)                          ## Parse for script-name direct_value
