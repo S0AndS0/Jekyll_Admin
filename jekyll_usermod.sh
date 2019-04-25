@@ -95,9 +95,10 @@ usage(){
 # Path to authorized_keys file to copy over to ${_HOME_BASE}/${_user}/.ssh
 #  directory. Note if using redirection, eg...
 #
-#    --ssh-auth-keys=\\"\$(<~/.ssh/pub.key)\\"
+#    --ssh-auth-keys=\\""\$(<~/.ssh/pub.key)\\""
+#    --ssh-auth-keys \\"'\$(<~/.ssh/pub.key)'\\"
 #
-#  ... then an equals-sign ('=') is required!
+#  ... then double quoting is required!
 #
 #	--git-shell-allowed="${_git_shell_allowed}"
 # Maybe list of specific scripts under 'git_shell_commands/' directory, 'none',
