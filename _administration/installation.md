@@ -15,10 +15,10 @@ Assuming _`Joanna`'s_ local `~/.ssh/config` looks similar to...
 
 ```
 Host joan
-   HostName <host-or-IP-goes-here>
-   User joan
-   IdentitiesOnly yes
-   IdentityFile ~/.ssh/joans-private-key
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/private.key
+    HostName <ip-to-server>
+    User joan
 ```
 
 

@@ -1,7 +1,4 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
 layout: home
 list_title: Usage
 ---
@@ -17,7 +14,7 @@ ___
 
 > ## Note for Firejail users
 >
-> Issues [1817](https://github.com/netblue30/firejail/issues/1817), [887](https://github.com/netblue30/firejail/issues/887) for Firejail shows a bit of the history of login shell options not working so great, in the case of `git` the following errors pop when Firejail is used as the *between* shell and a user __with authorized access__ attempts to clone
+> Issues [1817][firejail-issue-1817], [887][firejail-issue-887] for Firejail shows a bit of the history of login shell options not working so great, in the case of `git` the following errors pop when Firejail is used as the *between* shell and a user __with authorized access__ attempts to clone
 
 ```
     Cloning into 'test-repo'...
@@ -28,6 +25,20 @@ ___
     and the repository exists.
 ```
 
+>
+> Or in other-words, explore other avenues of _sandboxing_ if security is of concern. Because this project was designed for convenience first.
 
-[administration]: {{ '/admin/' | relative_url }}
-[git-shell-commands]: {{ 'git_shell_commands' | relative_url }}
+
+___
+
+
+To add to this project's code base or documentation (or stomp a bug), please review the [contributing] collection and add yourself to the [contributors] collection in order to speed-up `Pull Request` review process.
+
+
+[administration]: /Jekyll_Admin/admin/
+[git-shell-commands]: /Jekyll_Admin/git_shell_commands/
+[contributing]: /Jekyll_Admin/contributing/
+[contributors]: /Jekyll_Admin/contributors/
+
+[firejail-issue-1817]: https://github.com/netblue30/firejail/issues/1817
+[firejail-issue-887]: https://github.com/netblue30/firejail/issues/887

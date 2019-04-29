@@ -3,8 +3,7 @@ layout: post
 title: WWW Set Permissions
 date:   2019-04-19 11:12:24 -0700
 categories: git_shell_commands
-excerpt: >-
-  The `www-set-permissions` client script resets static file permissions for named repository under `${HOME}/www`
+description: The `www-set-permissions` client script resets static file permissions for named repository under `${HOME}/www`
 ---
 
 

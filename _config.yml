@@ -22,6 +22,7 @@ minima:
     github: S0AndS0
     youtube_channel: UCmR4BGgzj_ZrrDIR0A0uSEg
     youtube_channel_name: Various Video Guides
+    twitter: S0_And_S0
 
 
 ## Thanks be to - https://stackoverflow.com/a/45870924/2632107
@@ -35,6 +36,10 @@ sass:
 ## Thanks be to - https://jekyllrb.com/docs/collections/
 collections:
   administration:
+    output: true
+  contributing:
+    output: true
+  contributors:
     output: true
   git_shell_commands:
     output: true

@@ -3,8 +3,7 @@ layout: post
 title: Jekyll WWW Configurer
 date:   2019-04-17 11:12:15 -0700
 categories: admin
-excerpt: >-
-  The `jekyll_wwwconf.sh` administration script adds a __new__ repository for given user to Web Server configurations
+description: The `jekyll_wwwconf.sh` administration script adds a __new__ repository for given user to Web Server configurations
 ---
 
 Available options may be listed via `jekyll_wwwconf.sh --help`, currently _wired_ for `Nginx` Web Server; [source][jekyll-wwwconf_source] is also available for auditing prior to issuing a `git clone`.

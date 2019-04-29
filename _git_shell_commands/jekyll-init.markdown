@@ -3,8 +3,7 @@ layout: post
 title: Jekyll Initialize
 date:   2019-04-19 11:12:20 -0700
 categories: git_shell_commands
-excerpt: >-
-  The `jekyll-init` client script starts a new `git` repository with a `gh-pages` branch ready for `git clone`, `git push`, and `jekyll-build` operations
+description: The `jekyll-init` client script starts a new `git` repository with a `gh-pages` branch ready for `git clone`, `git push`, and `jekyll-build` operations
 ---
 
 

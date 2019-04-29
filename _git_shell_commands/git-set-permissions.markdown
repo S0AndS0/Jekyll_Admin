@@ -3,8 +3,7 @@ layout: post
 title: Git Set Permissions
 date:   2019-04-19 11:12:18 -0700
 categories: git_shell_commands
-excerpt: >-
-  The `git-set-permissions` client script designed to _refresh_ permissions for named repository
+description: The `git-set-permissions` client script designed to _refresh_ permissions for named repository
 ---
 
 

@@ -3,8 +3,7 @@ layout: post
 title: Bundle Install
 date:   2019-04-19 11:12:14 -0700
 categories: git_shell_commands
-excerpt: >-
-  The `bundle-install` client script installs _`Gem`_ and _`Jekyll`_ dependencies for named repository
+description: The `bundle-install` client script installs _`Gem`_ and _`Jekyll`_ dependencies for named repository
 ---
 
 

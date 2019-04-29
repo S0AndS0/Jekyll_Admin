@@ -3,8 +3,7 @@ layout: post
 title: Jekyll User Modifier
 date:   2019-04-17 11:12:13 -0700
 categories: admin
-excerpt: >-
-  The `jekyll_usermod.sh` administration script adds new `Git`/`Jekyll` users to private server
+description: The `jekyll_usermod.sh` administration script adds new `Git`/`Jekyll` users to private server
 ---
 
 

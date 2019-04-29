@@ -3,6 +3,7 @@ layout: default
 title: GNU Affero General Public License
 date:   2019-04-17 11:12:13 -0700
 categories: licenses
+description: Full length version is available within the `master` branch of this repository
 ---
 
 > Full length version is available within the `master` branch of this repository as [`LICENSE`][license]

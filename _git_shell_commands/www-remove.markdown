@@ -3,8 +3,7 @@ layout: post
 title: WWW Remove
 date:   2019-04-19 11:12:23 -0700
 categories: git_shell_commands
-excerpt: >-
-  The `www-remove` client script removes named repository's static files from `${HOME}/www`
+description: The `www-remove` client script removes named repository's static files from `${HOME}/www`
 ---
 
 

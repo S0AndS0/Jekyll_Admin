@@ -1,10 +1,10 @@
 ---
 layout: collections/home
-collection_name: administration
-title: Administration
-list_title: Usage Examples
-permalink: /admin/
-description: Bash scripts for Jekyll/Git allowed users and server configuration modifications
+collection_name: contributing
+title: Contributing
+list_title: Advanced Setup Examples
+permalink: /contributing/
+description: How to add to code base or documentation of this project
 ---
 
 For this collection of examples, assume that administrators _`Joanna`_ and _`Elizabeth`_ have the following configuration blocks within their local `~/.ssh/config` files...
@@ -14,11 +14,23 @@ For this collection of examples, assume that administrators _`Joanna`_ and _`Eli
 
 
 ```
+Host server_admin
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/private.key
+    HostName <ip-to-server>
+    User root
+
 Host liz
     IdentitiesOnly yes
     IdentityFile ~/.ssh/private.key
     HostName <ip-to-server>
     User liz
+
+Host git_liz
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/private.key
+    HostName <ip-to-server>
+    User Elizabeth
 ```
 
 
@@ -31,6 +43,12 @@ Host joan
     IdentityFile ~/.ssh/private.key
     HostName <ip-to-server>
     User joan
+
+Host git_joan
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/private.key
+    HostName <ip-to-server>
+    User Joanna
 ```
 
 

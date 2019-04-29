@@ -17,10 +17,10 @@ Assuming _`Elizabeth`'s_ local `~/.ssh/config` looks similar to...
 
 ```
 Host liz
-   HostName <host-or-IP-goes-here>
-   User liz
-   IdentitiesOnly yes
-   IdentityFile ~/.ssh/lizs-private-key
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/private.key
+    HostName <ip-to-server>
+    User liz
 ```
 
 
@@ -52,7 +52,7 @@ And updating via `make` would be as easy as...
 
 
 ```bash
-make update
+make update && make install
 ```
 
 
