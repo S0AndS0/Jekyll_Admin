@@ -97,16 +97,16 @@ Once local changes are bug-free see [`git merge local_gh-pages`][docs_merge] exa
 
 
 
-[docs_install]: /administration/installation.html
-[docs_jekyll_usermod]: /administration/jekyll_usermod.html
-[docs_jekyll_dnsconf]: /administration/jekyll_dnsconf.html
-[docs_jekyll_wwwconf]: /administration/jekyll_wwwconf.html
+[docs_install]: /Jekyll_Admin/administration/installation.html
+[docs_jekyll_usermod]: /Jekyll_Admin/administration/jekyll_usermod.html
+[docs_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll_dnsconf.html
+[docs_jekyll_wwwconf]: /Jekyll_Admin/administration/jekyll_wwwconf.html
 
-[docs_bundle_install]: /git_shell_commands/bundle-install.html
-[docs_jekyll_build]: /git_shell_commands/jekyll-build.html
-[docs_edit_configs]: /git_shell_commands/edit-configs.html
+[docs_bundle_install]: /Jekyll_Admin/git_shell_commands/bundle-install.html
+[docs_jekyll_build]: /Jekyll_Admin/git_shell_commands/jekyll-build.html
+[docs_edit_configs]: /Jekyll_Admin/git_shell_commands/edit-configs.html
 
-[docs_merge]: /contributing/merge.html
-[docs_pull_request]: /contributing/pull_request.html
+[docs_merge]: /Jekyll_Admin/contributing/merge.html
+[docs_pull_request]: /Jekyll_Admin/contributing/pull_request.html
 
 [help_github_metadata]: https://help.github.com/en/articles/repository-metadata-on-github-pages

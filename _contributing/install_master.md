@@ -62,13 +62,13 @@ If adding new scripts then update the `SCRIPT_NAMES_TO_LINK` variable within the
 Once local changes are bug-free see [`git merge local_master`][docs_merge] examples, and [Pull Request][docs_pull_request] tips.
 
 
-[docs_install]: /administration/installation.html
-[docs_updating]: /administration/updating.html
-[docs_jekyll_usermod]: /administration/jekyll_usermod.html
-[docs_jekyll_dnsconf]: /administration/jekyll_dnsconf.html
-[docs_jekyll_wwwconf]: /administration/jekyll_wwwconf.html
+[docs_install]: /Jekyll_Admin/administration/installation.html
+[docs_updating]: /Jekyll_Admin/administration/updating.html
+[docs_jekyll_usermod]: /Jekyll_Admin/administration/jekyll_usermod.html
+[docs_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll_dnsconf.html
+[docs_jekyll_wwwconf]: /Jekyll_Admin/administration/jekyll_wwwconf.html
 
-[docs_merge]: /contributing/merge.html
-[docs_pull_request]: /contributing/pull_request.html
+[docs_merge]: /Jekyll_Admin/contributing/merge.html
+[docs_pull_request]: /Jekyll_Admin/contributing/pull_request.html
 
 [source_makefile]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile
