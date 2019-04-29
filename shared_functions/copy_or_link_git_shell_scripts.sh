@@ -10,17 +10,19 @@ copy_or_link_git_shell_commands(){
 	_group="$(groups ${_user} | awk '{print $3}')"
 	_script_dir="${__DIR__}/git_shell_commands"
 	_available_scripts="$(find "${_script_dir}" -type f)"
-	echo "__DIR__ -> $__DIR__"
 	_home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
-	[[ -d "${_home}" ]] || echo "Cannot locate home directory for ${_user}" || return 1
+	if ! [ -d "${_home}" ]; then
+		printf 'Cannot locate home directory for %s\n' "${_user}"
+		return 1
+	fi
 
 	if [[ "${_allowed_scripts,,}" == 'none' ]] || [[ -z "${_allowed_scripts,,}" ]]; then
 		if [[ "${_allowed_scripts,,}" == 'none' ]] && [[ "${_clobber,,}" == 'yes' ]] && [ -d "${_home}/git-shell-commands" ]; then
-			echo "Notice - allowed scripts set to ${_allowed_scripts,,}, clobber set to ${_clobber,,}, and pre-existing git-shell-commands directory detected"
+			printf 'Notice - allowed scripts set to %s, clobber set to %s, and pre-existing git-shell-commands directory detected\n' "${_allowed_scripts,,}" "${_clobber,,}"
 			rm -rfv "${_home}/git-shell-commands"
 			return 0
 		fi
-		echo "Skipping coping or linking of git shell commands for ${_user}"
+		printf 'Skipping coping or linking of git shell commands for %s\n' "${_user}"
 		return 0
 	fi
 

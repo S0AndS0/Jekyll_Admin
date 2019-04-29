@@ -29,7 +29,7 @@ remove_nginx_config(){	## remove_nginx_config user:group repo-name tld clobber
 			if [ -L "${_sites_enabled_path}" ]; then
 				rm -v "${_sites_enabled_path}"
 			else
-				echo "No symbolic link to remove at: ${_sites_enabled_path}"
+				printf 'No symbolic link to remove at: %s\n' "${_sites_enabled_path}"
 			fi
 		;;
 		'remove')
@@ -45,7 +45,7 @@ remove_nginx_config(){	## remove_nginx_config user:group repo-name tld clobber
 					remove_from_to "${_start_regex}" "${_end_regex}" "${_sites_available_path}"
 				fi
 			else
-				echo "No configuration file to remove at: ${_sites_available_path}"
+				printf 'No configuration file to remove at: %s\n' "${_sites_available_path}"
 			fi
 		;;
 		'delete')
@@ -53,7 +53,7 @@ remove_nginx_config(){	## remove_nginx_config user:group repo-name tld clobber
 			[[ -f "${_sites_available_path}" ]] && rm -v "${_sites_available_path}"
 		;;
 	esac
-	echo "## remove_nginx_config finished"
+	echo '## remove_nginx_config finished'
 }
 
 write_nginx_config_direct(){	## write_nginx_config_direct user repo-name group tld interface clobber
@@ -61,9 +61,7 @@ write_nginx_config_direct(){	## write_nginx_config_direct user repo-name group t
 	_user="${_user_group%%:*}"
 	_group="${_user_group##*:}"
 	_group="${_group:-(groups ${_user} | awk '{print $3}')}"
-	# _user="${1:?No user name provided}"
 	_repo="${2:?No repository name provided}"
-	# _group="${3-$(groups ${_user} | awk '{print $3}')}"
 	_tld="${3:-lan}"
 	_interface="${4:-$(ls -1 /sys/class/net/ | grep -v 'lo' | head -1)}"
 	_clobber="${5:-no}"
@@ -78,17 +76,17 @@ write_nginx_config_direct(){	## write_nginx_config_direct user repo-name group t
 		_www_dir="${_home}/www/${_repo}"
 	fi
 	if ! [ -d "${_www_dir}" ]; then
-		echo "Try 'ssh ${_user}@host-or-ip jekyll-build ${_repo}' first"
+		printf 'Try "ssh %s@host-or-ip jekyll-build %s" first\n' "${_user}" "${_repo}"
 		exit 1
 	fi
 
 	if [ -f "${_sites_available_path}" ]; then
 		case "${_clober,,}" in
 			'yes')
-				echo "NOTICE - Nginx sites-available config already exists, clobber set to ${_clobber,,}"
+				printf 'NOTICE - Nginx sites-available config already exists, clobber set to %s\n' "${_clobber,,}"
 			;;
 			*)
-				echo "ERROR - Nginx sites-available config already exists, clobber set to ${_clobber,,}"
+				printf 'ERROR - Nginx sites-available config already exists, clobber set to %s\n' "${_clobber,,}"
 				exit 1
 			;;
 		esac
@@ -103,7 +101,7 @@ write_nginx_config_direct(){	## write_nginx_config_direct user repo-name group t
 			_ipv4="$(ip -4 addr show ${_interface} | awk '/inet /{gsub("/"," "); print $2}' | head -1)"
 			_ipv6="$(ip -6 addr show ${_interface} | awk '/inet6 /{gsub("/"," "); print $2}' | head -1)"
 			if [[ -z "${_ipv4}" ]] && [[ -z "${_ipv6}" ]]; then
-				echo "Cannot find IP address for $_interface"
+				printf 'Cannot find IP address for %s\n' "${_interface}"
 				exit 1
 			fi
 			[[ -n "${_ipv4}" ]] && _listen_ipv4="listen ${_ipv4}"
@@ -138,7 +136,7 @@ write_nginx_config_direct(){	## write_nginx_config_direct user repo-name group t
 		EOF
 		## Search for pre-existing configuration for repository
 		if [ -f "${_sites_available_path}" ] && grep -q -- "${_match_location}" "${_sites_available_path}"; then
-			echo "Location config for ${_repo} already exists within ${_sites_available_path}"
+			printf 'Location config for %s already exists within %s\n' "${_repo}" "${_sites_available_path}"
 			exit 1
 		fi
 		read -r -d '' _new_conf <<-EOF
@@ -151,7 +149,7 @@ write_nginx_config_direct(){	## write_nginx_config_direct user repo-name group t
 		_www_path="${_home}/www/${_user}"
 		## Search for pre-existing configuration for repository
 		if [ -f "${_sites_available_path}" ] && grep -q -- "${_www_path}" "${_sites_available_path}"; then
-			echo "Location config for ${_repo} already exists within ${_sites_available_path}"
+			printf 'Location config for %s already exists within %s\n' "${_repo}" "${_sites_available_path}"
 			exit 1
 		fi
 		read -r -d '' _new_conf <<-EOF
@@ -171,7 +169,7 @@ nginx_enable_config(){	## nginx_enable_config user
 	_site_available="$(find ${_NGINX_CONF_DIR}/sites-available -type f | grep -i -- "${_user}" | head -1)"
 	_site_enabled="${_NGINX_CONF_DIR}/sites-enabled/${_site_available##*/}"
 	if ! [ -f "${_site_available}" ]; then
-		echo "ERROR - No site available at: ${_site_available}"
+		printf 'ERROR - No site available at: %s\n' "${_site_available}"
 		exit 1
 	fi
 	[[ -L "${_site_enabled}" ]] || ln -sv "${_site_available}" "${_site_enabled}"

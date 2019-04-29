@@ -6,8 +6,6 @@ while [[ -h "${__SOURCE__}" ]]; do
 	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
 done
 __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
-# __NAME__="${__SOURCE__##*/}"
-# __PATH__="${__SUB_DIR__}/${__NAME__}"
 
 ## Provides:	remove_from_to <search-start> <search-end> <file-path>
 source "${__SUB_DIR__}/clobber_config.sh"
@@ -18,12 +16,12 @@ source "${__SUB_DIR__}/network_info.sh"
 
 _DNS_CONF_DIR="/etc/unbound/unbound.conf.d"
 
+
 remove_unbound_config(){
 	_user_group="${1:?No user:domain provided}"
 	_user="${_user_group%%:*}"
 	_group="${_user_group##*:}"
 	_group="${_group:-(groups ${_user} | awk '{print $3}')}"
-	# _group="${1:?No group/domain name provided}"
 	_tld="${2:?No Top Level Domain name provided}"
 	_interface="${3:-all}"
 	_clobber="${4:-no}"
@@ -60,11 +58,11 @@ remove_unbound_config(){
 			[[ -f "${_dns_conf_path}" ]] && rm -v "${_dns_conf_path}"
 		;;
 		*)
-			echo "ERROR - clobber set to ${_clobber}"
+			printf 'ERROR - clobber set to %s\n' "${_clobber}"
 			exit 1
 		;;
 	esac
-	echo "## remove_unbound_config finished"
+	echo '## remove_unbound_config finished'
 }
 
 ## By default everything is served under the group domain with users being
@@ -94,10 +92,10 @@ write_unbound_config(){	## write_unbound_config group tld interface clobber
 	if [[ -f "${_dns_conf_path}" ]]; then
 		case "${_clobber,,}" in
 			'yes')
-				echo "# Notice - configuration file ${_dns_conf_path} is being appended to"
+				printf '# Notice - configuration file %s is being appended to\n' "${_dns_conf_path}"
 			;;
 			*)
-				echo "# Error - configuration file ${_dns_conf_path} already exists"
+				printf '# Error - configuration file %s already exists\n' "${_dns_conf_path}"
 				return 1
 			;;
 		esac
@@ -119,10 +117,10 @@ write_unbound_config(){	## write_unbound_config group tld interface clobber
 		if ! grep -q -- "$(tail -1 <<<"${_ipv4_config}")" "${_dns_conf_path}" 2>/dev/null; then
 			tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ipv4_config}"
 		else
-			echo "# Configuration block for ${_group} already exists in ${_dns_conf_path}"
+			printf '# Configuration block for %s already exists in %s\n' "${_group}" "${_dns_conf_path}"
 		fi
 	else
-		echo "# No IPv4 address detected"
+		echo '# No IPv4 address detected'
 	fi
 	if [ -n "${_ipv6}" ]; then
 		read -r -d '' _ipv6_config <<-EOF
@@ -132,10 +130,10 @@ write_unbound_config(){	## write_unbound_config group tld interface clobber
 		if ! grep -q -- "$(tail -1 <<<"${_ipv6_config}")" "${_dns_conf_path}" 2>/dev/null; then
 			tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ipv6_config}"
 		else
-			echo "# Error - configuration block for ${_group} already exists in ${_dns_conf_path}"
+			printf '# Error - configuration block for %s already exists in %s\n' "${_group}" "${_dns_conf_path}"
 		fi
 	else
-		echo "# No IPv6 address detected"
+		echo '# No IPv6 address detected'
 	fi
 	echo '## write_unbound_config finished'
 }

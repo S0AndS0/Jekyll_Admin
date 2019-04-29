@@ -10,17 +10,17 @@ modify_etc_shells(){
 	## Add firejail to available shells if not already available
 	if [ -e "${_firejail_shell}" ] && [[ "${_firejail_shell}" == "${_login_shell}" ]]; then
 		if ! grep -q -- "${_firejail_shell}" '/etc/shells'; then
-			echo "Adding ${_firejail_shell} to /etc/shells"
+			printf 'Adding %s to /etc/shells\n' "${_firejail_shell}"
 			tee -a /etc/shells >/dev/null <<<"${_firejail_shell}"
 		fi
 	## Or add 'git-shell' to available shells if not already available
 	elif [ -e "${_git_shell}" ] && [[ "${_git_shell}" == "${_login_shell}" ]]; then
 		if ! grep -q -- "${_git_shell}" '/etc/shells'; then
-			echo "Adding ${_git_shell} to /etc/shells"
+			printf 'Adding %s to /etc/shells\n' "${_git_shell}"
 			tee -a /etc/shells >/dev/null <<<"${_git_shell}"
 		fi
 	else
-		echo "modify_etc_shells not yet coded to add shell ${_login_shell} to /etc/shells"
+		printf 'modify_etc_shells not yet coded to add shell %s to /etc/shells\n' "${_login_shell}"
 		return 1
 	fi
 	echo '## modify_etc_shells finished'
@@ -32,7 +32,7 @@ add_ssh_authorized_keys(){
 	_home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
 	_authorized_keys="${_home}/.ssh/authorized_keys"
 	if [ -f "${_authorized_keys}" ]; then
-		echo "SSH authorized_keys file already exists for ${_user}"
+		printf 'SSH authorized_keys file already exists for %s\n' "${_user}"
 		return 1
 	fi
 	_group="$(groups ${_user} | awk '{print $3}')"
@@ -45,7 +45,7 @@ add_ssh_authorized_keys(){
 				tee -a "${_authorized_keys}" 1>/dev/null <<<"$(printf '%s\n' "${_new_ssh_keys}")"
 			;;
 			*)
-				echo "String did not match known authorized_keys format"
+				echo 'String did not match known authorized_keys format'
 				return 1
 			;;
 		esac
@@ -71,10 +71,11 @@ add_jekyll_user(){
 	_base_home_dir="${4:-/srv}"
 	_home="${_base_home_dir}/${_user,,}"
 	if grep -qiE -- "^${_user}:" '/etc/passwd'; then
-		echo "User $_user already exists"; return 1
+		printf 'User %s already exists\n' "${_user}"
+		return 1
 	else
 		if ! getent group "${_group}" 1>/dev/null; then
-			echo "Adding group ${_group}"
+			printf 'Adding group %s\n' "${_group}"
 			groupadd ${_group}
 		fi
 		## Relaxed regex from defaults to allow capitalization in usernames
@@ -92,7 +93,7 @@ add_jekyll_user(){
 			## Add any additional groups that do not exist yet
 			for _additional_group in ${_additional_groups//,/ }; do
 				if getent 'group' "${_additional_group}" 1>/dev/null; then continue; fi
-				echo "Adding group ${_additional_group}"
+				printf 'Adding group %s\n' "${_additional_group}"
 				groupadd "${_additional_group}"
 			done
 			## Add list of additional groups to user
@@ -113,11 +114,11 @@ add_firejail_user(){
 	[[ -e "${_git_shell}" ]]                        || return 1
 
 	if ! grep -q -- "${_user}" "${_firejail_conf_dir}/firejail.users"; then
-		echo "Appending '${_user}' to: ${_firejail_conf_dir}/firejail.users"
+		printf 'Appending "%s" to: %s/firejail.users\n' "${_user}" "${_firejail_conf_dir}"
 		tee -a "${_firejail_conf_dir}/firejail.users" 1>/dev/null <<<"${_user}"
 	fi
 	if ! grep -q -- "${_user}" "${_firejail_conf_dir}/login.users"; then
-		echo "Appending '${_user}:--shell=${_shell}' to: ${_firejail_conf_dir}/login.users"
+		printf 'Appending "%s:--shell=%s" to: %s/login.users\n' "${_user}" "${_shell}" "${_firejail_conf_dir}"
 		tee -a "${_firejail_conf_dir}/login.users" 1>/dev/null <<<"${_user}:--shell=${_shell}"
 	fi
 	echo '## add_firejail_user finished'

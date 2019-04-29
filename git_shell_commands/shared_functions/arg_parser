@@ -7,7 +7,7 @@ _DEFAULT_ACCEPTABLE_ARG_LIST=('--help|-h:bool' '--foo|-f:print' '--path:path-nil
 
 arg_scrubber_regex(){ printf '%s' "$(sed 's@.@\\.@g' <<<"${@//[^[:print:]$'\t'$'\n']/}")"; }
 arg_scrubber_path(){
-	printf '%s' "$(sed 's@\.\.*@.@g; s@--*@-@g' <<<"${@//[^a-z0-9A-Z ~+_./@:-]/}")"
+	printf '%q' "$(sed 's@\.\.*@.@g; s@--*@-@g' <<<"${@//[^a-z0-9A-Z ~+_./@:-]/}")"
 }
 arg_scrubber_posix(){
 	_value="${@//[^a-z0-9A-Z_.-]/}"
@@ -77,7 +77,7 @@ argument_parser(){
 					fi
 				;;
 				${_valid_opts_pattern_alt}) ## Parse for script-name --foo=bar
-					_var_value="$(return_scrubbed_arg "${_user_opt##*=}" "${_opt_type}")"
+					_var_value="$(return_scrubbed_arg "${_user_opt#*=}" "${_opt_type}")"
 					_exit_status="${?}"
 				;;
 				*)                         ## Parse for script-name direct_value

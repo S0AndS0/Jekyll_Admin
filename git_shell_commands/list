@@ -19,6 +19,7 @@ source "${__DIR__}/shared_functions/license"
 
 usage(){
 	_message="${1}"
+	_path="${_path:-${HOME}/git-shell-commands}"
 	_print_path="${_path//${HOME}\//}"
 	cat <<EOF
 ## Usage
@@ -36,7 +37,8 @@ EOF
 	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
 		printf 'Error - %s\n' "${_message}" >&2
 	else
-		ls -hl "${_path}"
+		echo '# Example of: list git-shell-commands'
+		ls -hl "${HOME}/git-shell-commands"
 	fi
 }
 
@@ -46,8 +48,6 @@ _valid_args=('--help|-h|help:bool'
              '--path:path-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="${?}"
-
-_path="${_path:-${HOME}/git-shell-commands}"
 
 
 if ((_help)) || ((_exit_status)); then

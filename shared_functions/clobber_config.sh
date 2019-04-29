@@ -8,7 +8,7 @@ remove_from_to(){ ## remove_from_to regex-start regex-stop file-path
   _search_end="${2:?No search end parameters provided}"
   _config_path="${3:?No config path provided}"
   if ! [ -f "${_config_path}" ]; then
-    echo "No configuration file found at: ${_config_path}"
+    printf 'No configuration file found at: %s\n' "${_config_path}"
     exit 1
   fi
   # echo "_search_start -> $_search_start"
@@ -26,7 +26,7 @@ remove_from_to(){ ## remove_from_to regex-start regex-stop file-path
     ## Above only removes line numbers that match, bellow removes one extra
     # _end_line_number="$(( ${_start_line_number} + ${_till_line_count} ))"
     if [ -n "${_start_line_number}" ]; then
-      echo "# sed -i \"${_start_line_number},${_end_line_number}d\" \"${_config_path}\""
+      printf '# sed -i \"%s,%sd\" "%s"\n' "${_start_line_number}" "${_end_line_number}" "${_config_path}"
       sed -i "${_start_line_number},${_end_line_number}d" "${_config_path}"
     fi
   done

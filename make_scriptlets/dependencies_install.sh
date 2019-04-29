@@ -23,7 +23,7 @@ detect_install_method_linux(){
 		;;
 		## Add more distribution specific function calls here
 		*)
-			echo "Error - dependencies_install.sh not currently coded for ${_top_likeness}"
+			printf 'Error - dependencies_install.sh not currently coded for %s\n' "${_top_likeness}"
 			return 1
 		;;
 	esac
@@ -39,7 +39,7 @@ if ! [ -z "${1}" ]; then
 		;;
 		## Add more OS specific function calls here
 		*)
-			echo "Error - dependencies_install.sh not currently coded for ${1:-unnamed}"
+			printf 'Error - dependencies_install.sh not currently coded for %s\n' "${1:-unnamed}"
 			return 1
 		;;
 	esac

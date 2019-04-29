@@ -9,7 +9,7 @@ clobber_ownership(){ ## clobber_ownership user:group path
   _sub_dir="${2:-git}"
   _path="${_home}/${_sub_dir}"
   if ! [ -d "${_path}" ] && ! [ -f "${_path}" ]; then
-    echo "No directory or file found at: ${_path}"
+    printf 'No directory or file found at: %s\n' "${_path}"
     exit 1
   fi
   _current_user_group="$(stat --format='%U:%G' "${_path}" | head -1)"
@@ -24,7 +24,7 @@ clobber_ownership(){ ## clobber_ownership user:group path
   elif [[ "${_group}" != "${_current_owner_group}" ]]; then
     find "${_path}" -group ${_current_group} -exec chgrp -h ${_group} {} \;
   else
-    echo "Going to have to re-think changing ownership of: ${_path}"
+    printf 'Going to have to re-think changing ownership of: %s\n' "${_path}"
     exit 1
   fi
 }

@@ -29,10 +29,10 @@ usage(){
 # ${__DESCRIPTION__}
 #
 # --branch -b="new-branch-name"
-#  Checks out new branch within ${_repo_name} with: git checkout --branch ${_branch}
+#  Check out new branch within ${_repo_name} with: git checkout -b ${_branch}
 #
 # ${_branch_name}
-#  Checks out exsisting branch within ${_repo_name} with: git checkout ${_branch_name}
+#  Check out exsisting branch within ${_repo_name} with: git checkout ${_branch_name}
 #
 # ${_repo_name}
 #  Name of repository to initialize
@@ -49,12 +49,18 @@ EOF
 }
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
 _valid_args=('--help|-h|help:bool'
-						 '--license|-l|license:bool'
-						 '--branch|-b:posix'
-						 '--branch-name:posix-nil'
-						 '--repo-name:posix-nil')
+             '--license|-l|license:bool'
+             '--branch|-b:posix'
+             '--branch-name:posix-nil'
+             '--repo-name:posix-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
+
+## Catch --branch <name> <repo>
+if [ -n "${_branch}" ]; then
+	_repo_name="${_branch_name}"
+	_branch_name=''
+fi
 
 if ((_help)) || ((_exit_status)); then
 	usage "${_exit_status}"
@@ -87,21 +93,19 @@ fi
 
 _git_args=()
 if [ -n "${_branch}" ]; then
-	_git_args+=('--branch' "${_branch}")
+	_git_args+=('-b' "${_branch}")
 elif [ -n "${_branch_name}" ]; then
 	_git_args+=("${_branch}")
 else
 	usage 'missing "--branch" or "--branch-name" argument!'
 	exit 1
 fi
-_git_args+=("${_repo_name}")
-
 
 _old_PWD="${PWD}"
 cd "${_git_path}" || exit 1
 git checkout ${_git_args[@]}
 _git_exit_status="${?}"
-cd "${_old_PWD}" || exit 1
+[[ "${_old_PWD}" == "${_git_path}" ]] || cd "${_old_PWD}"
 
 if ((_git_exit_status)); then
 	printf '%s encountered errors!\n' "${__NAME__}"

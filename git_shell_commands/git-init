@@ -114,6 +114,7 @@ cd "${_git_parent_dir}" || exit 1
 printf '## git init %s\n' "${_git_args[@]}"
 git init ${_git_args[@]}
 
+## Allow 'git push' on non-bare repositories
 if ! ((_bare)); then
 	cd "${_git_parent_dir}/${_repo_name}" || exit 1
 	if [[ "$(git config receive.denyCurrentBranch)" != 'updateInstead' ]]; then

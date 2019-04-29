@@ -7,7 +7,7 @@ jekyll_modify_user_path(){
 	_user="${1:?No user name provided}"
 	_home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
 	if [ -f "${_home}/.bash_aliases" ]; then
-		echo "${_home}/.bash_aliases already exists"
+		printf '%s/.bash_aliases already exists\n' "${_home}"
 		return 1
 	fi
 	## Save new user path variable for Ruby executables

@@ -72,29 +72,31 @@ if ! [ -d "${_git_path}" ]; then
 fi
 
 
+if [ -f "${_git_path}/_config.yml" ]; then
+	_config_files="_config.yml"
+elif [ -f "${_git_path}/_config.yaml" ]; then
+	_config_files="_config.yaml"
+else
+	printf '%s has no _config.yml or _config.yaml file\n' "${_repo_name}"
+	exit 1
+fi
+
+## Build cama seperated list of _config*.yml files
+while read _p; do
+	_f="${_p##*/}"
+	if [[ "${_f}" != '_config.yml' ]] || [[ "${_f}" != '_config.yaml' ]]; then
+		_config_files+=",${_f}"
+	fi
+done < <(ls -1 "${_git_path}"/_config*.y*ml)
+
+
 [[ -d "${_www}" ]] || mkdir -vp "${_www}"
 
 _pwd="${PWD}"
 cd "${_git_path}"
 source "${HOME}/.bash_aliases"
 
-## Build list cama seperated list of _config*.yml files
-while read _p; do
-	_f="${_p##*/}"
-	if [[ "$_f" != '_config.yml' ]]; then
-		if [ -z "$_t" ]; then
-			_t="$_f"
-		else
-			_t+=",$_f"
-		fi
-	fi
-done < <(ls -1 "${_git_path}"/_config*.yml)
-if [ -n "$_t" ]; then
-	_config_files="_config.yml,$_t"
-else
-	_config_files="_config.yml"
-fi
-
+## Use API keys if configured for repo and available to user during build process
 if grep -q -- 'jekyll-github-metadata' "${_git_path}/Gemfile" && [ -f "${_github_api_token_path}" ]; then
 	printf '# JEKYLL_GITHUB_TOKEN="$(<github-api-token-path)" bundle exec jekyll build --destination %s --config %s\n' "${_srv_path}" "${_config_files}"
 	JEKYLL_GITHUB_TOKEN="$(<"${_github_api_token_path}")" bundle exec jekyll build --destination "${_srv_path}" --config "${_config_files}"
@@ -103,8 +105,9 @@ else
 	bundle exec jekyll build --destination "${_srv_path}" --config "${_config_files}"
 fi
 
-cd "${_pwd}"
+[[ "${_pwd}" == "${_git_path}" ]] || cd "${_pwd}"
 
+## Set permissions for files and directories under repo www directory
 if [ -e "${HOME}/git-shell-commands/www-set-permissions" ]; then
   "${HOME}/git-shell-commands/www-set-permissions" "${_repo_name}"
 else
