@@ -39,7 +39,7 @@ ___
 
 
 [license]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/LICENSE
-[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/2019-04-17-gnu-agpl.html
+[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl.html
 [gh-pages-source]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
 [gh-pages]: https://s0ands0.github.io/Jekyll_Admin/
 [install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation.html
