@@ -101,12 +101,12 @@ usage(){
 # Shows values set for above options, print usage, then exits
 EOF
     if [ "${#_args[@]}" -gt '0' ]; then
-        cat <<-EOF
-        #
-        # Parsed command arguments
-        #
-        $(for _arg in "${_args[@]}"; do printf '#\t%s\n' "${_arg}"; done)
-        EOF
+        cat <<EOF
+#
+# Parsed command arguments
+#
+$(for _arg in "${_args[@]}"; do printf '#\t%s\n' "${_arg}"; done)
+EOF
     fi
 }
 

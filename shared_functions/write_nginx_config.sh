@@ -113,38 +113,38 @@ write_nginx_config_direct(){    ## write_nginx_config_direct user repo-name grou
         _conf="$(<"${_sites_available_path}")"
         _header="${_conf%\}*}"
     else
-        read -r -d '' _header <<-EOF
-        server {
-            location ~ /.git/ { deny all; }
-            ## Above should prevent general public from exploring repository files if
-            ##  Jekyll was told to build within the same directory as project source
-            ${_listen_ipv4:-# listen 0.0.0.0}:80;
-            ${_listen_ipv6:-# listen \[::\]}:80;
-            server_name ${_server_name};
-            index index.html index.htm;
-        EOF
+        read -r -d '' _header <<EOF
+server {
+    location ~ /.git/ { deny all; }
+    ## Above should prevent general public from exploring repository files if
+    ##  Jekyll was told to build within the same directory as project source
+    ${_listen_ipv4:-# listen 0.0.0.0}:80;
+    ${_listen_ipv6:-# listen \[::\]}:80;
+    server_name ${_server_name};
+    index index.html index.htm;
+EOF
     fi
 
     if [[ "${_user,,}" != "${_repo,,}" ]]; then
         _match_location="/${_repo}/"
-        read -r -d '' _location <<-EOF
-            location ${_match_location} {
-                root "${_www_dir%/*}";
-                try_files \$uri \$uri/ =404;
-                        error_page 404 /${_repo}/404.html;
-            }
-        EOF
+        read -r -d '' _location <<EOF
+    location ${_match_location} {
+        root "${_www_dir%/*}";
+        try_files \$uri \$uri/ =404;
+                error_page 404 /${_repo}/404.html;
+    }
+EOF
         ## Search for pre-existing configuration for repository
         if [ -f "${_sites_available_path}" ] && grep -q -- "${_match_location}" "${_sites_available_path}"; then
             printf 'Location config for %s already exists within %s\n' "${_repo}" "${_sites_available_path}"
             exit 1
         fi
-        read -r -d '' _new_conf <<-EOF
-        ${_header}
-            ${_location}
-        }
-        ## Notice - everything beyond above line is subject to auto-removal
-        EOF
+        read -r -d '' _new_conf <<EOF
+${_header}
+    ${_location}
+}
+## Notice - everything beyond above line is subject to auto-removal
+EOF
     else
         _www_path="${_home}/www/${_user}"
         ## Search for pre-existing configuration for repository
@@ -152,13 +152,13 @@ write_nginx_config_direct(){    ## write_nginx_config_direct user repo-name grou
             printf 'Location config for %s already exists within %s\n' "${_repo}" "${_sites_available_path}"
             exit 1
         fi
-        read -r -d '' _new_conf <<-EOF
-        ${_header}
-            root "${_www_path}";
-                error_page 404 /404.html;
-        }
-        ## Notice - everything beyond above line is subject to auto-removal
-        EOF
+        read -r -d '' _new_conf <<EOF
+${_header}
+    root "${_www_path}";
+        error_page 404 /404.html;
+}
+## Notice - everything beyond above line is subject to auto-removal
+EOF
     fi
     [[ -n "${_new_conf}" ]] && tee "${_sites_available_path}" 1>/dev/null <<<"${_new_conf}"
     echo '## write_nginx_config_direct finished'

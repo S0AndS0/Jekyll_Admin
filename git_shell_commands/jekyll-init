@@ -186,10 +186,10 @@ modify_config_yml(){
     fi
 
     if [[ "${_repo_name}" != "${_github_username}" ]]; then
-        tee -a "${_git_path}/_config_baseurl.yml" >/dev/null <<-EOF
-        # Use base URL to simulate GitHub pages behaviour
-        baseurl: "${_repo_name}"
-        EOF
+        tee -a "${_git_path}/_config_baseurl.yml" >/dev/null <<EOF
+# Use base URL to simulate GitHub pages behaviour
+baseurl: "${_repo_name}"
+EOF
     fi
 }
 

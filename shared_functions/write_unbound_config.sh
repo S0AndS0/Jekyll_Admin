@@ -101,18 +101,18 @@ write_unbound_config(){    ## write_unbound_config group tld interface clobber
         esac
     else
         ## Initialize configuration file otherwise
-        tee "${_dns_conf_path}" 1>/dev/null <<-EOF
-        server:
-            private-domain: "${_group}.${_tld}."
-            local-zone: "${_group}.${_tld}." static
-        EOF
+        tee "${_dns_conf_path}" 1>/dev/null <<EOF
+server:
+    private-domain: "${_group}.${_tld}."
+    local-zone: "${_group}.${_tld}." static
+EOF
     fi
 
     if [ -n "${_ipv4}" ]; then
-        read -r -d '' _ipv4_config <<-EOF
-            local-data: "${_url}.      IN A    ${_ipv4}"
-            local-data-ptr: "${_ipv4}    ${_url}."
-        EOF
+        read -r -d '' _ipv4_config <<EOF
+    local-data: "${_url}.      IN A    ${_ipv4}"
+    local-data-ptr: "${_ipv4}    ${_url}."
+EOF
         ## Unbound really does not take kindly to duplicate entries
         if ! grep -q -- "$(tail -1 <<<"${_ipv4_config}")" "${_dns_conf_path}" 2>/dev/null; then
             tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ipv4_config}"
@@ -123,10 +123,10 @@ write_unbound_config(){    ## write_unbound_config group tld interface clobber
         echo '# No IPv4 address detected'
     fi
     if [ -n "${_ipv6}" ]; then
-        read -r -d '' _ipv6_config <<-EOF
-            local-data: "${_url}.      IN A    ${_ipv6}"
-            local-data-ptr: "${_ipv6}    ${_url}."
-        EOF
+        read -r -d '' _ipv6_config <<EOF
+    local-data: "${_url}.      IN A    ${_ipv6}"
+    local-data-ptr: "${_ipv6}    ${_url}."
+EOF
         if ! grep -q -- "$(tail -1 <<<"${_ipv6_config}")" "${_dns_conf_path}" 2>/dev/null; then
             tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ipv6_config}"
         else

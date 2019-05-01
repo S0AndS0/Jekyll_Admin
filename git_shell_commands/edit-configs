@@ -62,9 +62,9 @@ fi
 
 if [ -n "${_github_api_token}" ]; then
     mkdir -vp "${_config_dir}"
-    tee "${_config_dir}/github-api-token" 1>/dev/null <<-EOF
-    ${_github_api_token}
-    EOF
+    tee "${_config_dir}/github-api-token" 1>/dev/null <<EOF
+${_github_api_token}
+EOF
 else
     usage 'missing "--github-api-token" argument!'
     exit "1"
