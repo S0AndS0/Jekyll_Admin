@@ -2,7 +2,7 @@
 
 __SOURCE__="${BASH_SOURCE[0]}"
 while [[ -h "${__SOURCE__}" ]]; do
-	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+    __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
@@ -18,9 +18,9 @@ source "${__DIR__}/shared_functions/license"
 
 
 usage(){
-	_message="${1}"
-	_repo_name="${_repo_name:-repository-name}"
-	cat <<EOF
+    _message="${1}"
+    _repo_name="${_repo_name:-repository-name}"
+    cat <<EOF
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_repo_name}
 #
@@ -33,12 +33,12 @@ usage(){
 # -l --license
 # Shows script or project license then exits
 #
-# -h	--help help
+# -h    --help help
 #  Displays this message and exits
 EOF
-	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
-		printf 'Error - %s\n' "${_message}" >&2
-	fi
+    if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+        printf 'Error - %s\n' "${_message}" >&2
+    fi
 }
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
@@ -52,16 +52,16 @@ _git_path="${HOME}/git/${_repo_name}"
 
 
 if ((_help)) || ((_exit_status)); then
-	usage "${_exit_status}"
-	exit "${_exit_status}"
+    usage "${_exit_status}"
+    exit "${_exit_status}"
 elif ((_license)); then
-	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
-	exit 0
+    __license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
+    exit 0
 fi
 
 if [ -z "${_repo_name}" ]; then
-	usage 'missing repository name argument!'
-	exit "1"
+    usage 'missing repository name argument!'
+    exit "1"
 fi
 
 

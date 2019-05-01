@@ -2,7 +2,7 @@
 
 __SOURCE__="${BASH_SOURCE[0]}"
 while [[ -h "${__SOURCE__}" ]]; do
-	__SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+    __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
 done
 __DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
 __NAME__="${__SOURCE__##*/}"
@@ -21,9 +21,9 @@ source "${__DIR__}/shared_functions/license"
 
 
 usage(){
-	_message="${1}"
-	_repo_name="${_repo_name:-repository-name}"
-	cat <<EOF
+    _message="${1}"
+    _repo_name="${_repo_name:-repository-name}"
+    cat <<EOF
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_git_args[@]:-$_repo_name}
 #
@@ -52,7 +52,7 @@ usage(){
 # -l --license
 # Shows script or project license then exits
 #
-# -h	--help help
+# -h    --help help
 #  Displays this message and exits
 #
 ## The following options maybe used to modify the generated _config.yml file
@@ -62,24 +62,24 @@ usage(){
 # --twitter-username ${_twitter_username}
 # --github-username ${_github_username}
 EOF
-	if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
-		printf 'Error - %s\n' "${_message}" >&2
-	fi
+    if [ -n "${_message}" ] && [[ "${_message}" != '0' ]]; then
+        printf 'Error - %s\n' "${_message}" >&2
+    fi
 }
 
 
 _args=("${@:?# No arguments provided try: ${__NAME__} help}")
 _valid_args=('--help|-h|help:bool'
-						 '--license|-l|license:bool'
-						 '--quiet:bool'
-						 '--clean:bool'
-						 '--shared:bool'
-						 '--template:path'
-						 '--title:print'
-						 '--email:print'
-						 '--twitter-username:posix'
-						 '--github-username:posix'
-						 '--repo-name:posix-nil')
+             '--license|-l|license:bool'
+             '--quiet:bool'
+             '--clean:bool'
+             '--shared:bool'
+             '--template:path'
+             '--title:print'
+             '--email:print'
+             '--twitter-username:posix'
+             '--github-username:posix'
+             '--repo-name:posix-nil')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
 _git_args=()
@@ -92,29 +92,29 @@ if [ -n "${_repo_name}" ]; then _git_args+=("${_repo_name}"); fi
 ## Set defaults for some variables if not already set
 _github_username="${_github_username:-$USER}"
 if [ -z "${_title}" ]; then
-	for _word in ${_repo_name//[-_]/ }; do
-		if [[ "${#_word}" -ge '4' ]]; then
-			_temp_title+=("${_word^}")
-		else
-			_temp_title+=("${_word}")
-		fi
-	done
-	_title="${_temp_title[@]}"
+    for _word in ${_repo_name//[-_]/ }; do
+        if [[ "${#_word}" -ge '4' ]]; then
+            _temp_title+=("${_word^}")
+        else
+            _temp_title+=("${_word}")
+        fi
+    done
+    _title="${_temp_title[@]}"
 fi
 _bundle_path="${HOME}/.bundle/install"
 
 
 if ((_help)) || ((_exit_status)); then
-	usage "${_exit_status}"
-	exit "${_exit_status}"
+    usage "${_exit_status}"
+    exit "${_exit_status}"
 elif ((_license)); then
-	__license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
-	exit 0
+    __license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
+    exit 0
 fi
 
 if [ -z "${_repo_name}" ]; then
-	usage 'missing repository name argument!'
-	exit "1"
+    usage 'missing repository name argument!'
+    exit "1"
 fi
 
 _git_path="${HOME}/git/${_repo_name:?No repository name provided}"
@@ -124,17 +124,17 @@ _git_dir="$(git rev-parse --git-dir 2>/dev/null)"
 
 
 if [[ "${_git_path}/${_git_dir}" == "${_git_path}/.git" ]]; then
-	printf '# Skipping git init, path already tracked by git: %s\n' "${_git_preexisting_dir}"
+    printf '# Skipping git init, path already tracked by git: %s\n' "${_git_preexisting_dir}"
 elif [[ "${_git_path}/${_git_dir}" == "${_git_path}/." ]]; then
-	echo '# Bare git repository detected, cannot install Jekyll to that right now'
-	exit 1
+    echo '# Bare git repository detected, cannot install Jekyll to that right now'
+    exit 1
 else
-	if [ -e "${HOME}/git-shell-commands/git-init" ]; then
-		"${HOME}/git-shell-commands/git-init" ${_git_args[@]}
-	else
-		cd "${HOME}/git" || exit 1
-		git init ${_git_args[@]}
-	fi
+    if [ -e "${HOME}/git-shell-commands/git-init" ]; then
+        "${HOME}/git-shell-commands/git-init" ${_git_args[@]}
+    else
+        cd "${HOME}/git" || exit 1
+        git init ${_git_args[@]}
+    fi
 fi
 
 
@@ -143,54 +143,54 @@ _git_branches="$(git branch --list)"
 _orig_branch="$(awk '/\*/{print $2}' <<<"${_git_branches}")"
 _pages_branch="$(awk '/gh-pages/{print $2}' <<<"${_git_branches}")"
 if [ -n "${_pages_branch}" ]; then
-	printf '# There is already a pages branch %s for repository %s\n' "${_pages_branch}" "${_repo_name}"
-	exit 1
+    printf '# There is already a pages branch %s for repository %s\n' "${_pages_branch}" "${_repo_name}"
+    exit 1
 fi
 
 git_add_commit "Added files on ${_orig_branch} prior to installing Bundler & Jekyll to gh-pages branch"
 
 git checkout -b gh-pages
 if [[ "$(git config receive.denyCurrentBranch)" != 'updateInstead' ]]; then
-	git config receive.denyCurrentBranch updateInstead
+    git config receive.denyCurrentBranch updateInstead
 fi
 
 if ((_clean)); then
-	for _path in ${_git_path}/*; do
-		case "${_path}" in
-			*'.git')       [[ -d "${_path}" ]] && continue ;;
-			*'.gitignore') [[ -f "${_path}" ]] && continue ;;
-		esac
-		git rm -rf "${_path}"
-	done
-	git_add_commit 'Cleaned gh-pages branch of files from parent branch'
+    for _path in ${_git_path}/*; do
+        case "${_path}" in
+            *'.git')       [[ -d "${_path}" ]] && continue ;;
+            *'.gitignore') [[ -f "${_path}" ]] && continue ;;
+        esac
+        git rm -rf "${_path}"
+    done
+    git_add_commit 'Cleaned gh-pages branch of files from parent branch'
 fi
 
 
 modify_config_yml(){
-	if ! [ -f "${_git_path}/_config.yml" ]; then
-		printf 'Error - no Jekyll config file found under %s\n' "${_git_path}" >&2
-		return 1
-	fi
+    if ! [ -f "${_git_path}/_config.yml" ]; then
+        printf 'Error - no Jekyll config file found under %s\n' "${_git_path}" >&2
+        return 1
+    fi
 
-	if [ -n "${_title}" ]; then
-		sed -i "/title:/ { s#:[a-zA-Z 0-9]*#${_title}#; }" "${_git_path}/_config.yml"
-	fi
-	if [ -n "${_email}" ]; then
-		sed -i "/email:/ { s#:[a-zA-Z 0-9]*#${_email}#; }" "${_git_path}/_config.yml"
-	fi
-	if [ -n "${_twitter_username}" ]; then
-		sed -i "/_twitter_username:/ { s#:[a-zA-Z 0-9]*#${_twitter_username}#; }" "${_git_path}/_config.yml"
-	fi
-	if [ -n "${_github_username}" ]; then
-		sed -i "/github_username:/ { s#:[a-zA-Z 0-9]*#${_github_username}#; }" "${_git_path}/_config.yml"
-	fi
+    if [ -n "${_title}" ]; then
+        sed -i "/title:/ { s#:[a-zA-Z 0-9]*#${_title}#; }" "${_git_path}/_config.yml"
+    fi
+    if [ -n "${_email}" ]; then
+        sed -i "/email:/ { s#:[a-zA-Z 0-9]*#${_email}#; }" "${_git_path}/_config.yml"
+    fi
+    if [ -n "${_twitter_username}" ]; then
+        sed -i "/_twitter_username:/ { s#:[a-zA-Z 0-9]*#${_twitter_username}#; }" "${_git_path}/_config.yml"
+    fi
+    if [ -n "${_github_username}" ]; then
+        sed -i "/github_username:/ { s#:[a-zA-Z 0-9]*#${_github_username}#; }" "${_git_path}/_config.yml"
+    fi
 
-	if [[ "${_repo_name}" != "${_github_username}" ]]; then
-		tee -a "${_git_path}/_config_baseurl.yml" >/dev/null <<-EOF
-		# Use base URL to simulate GitHub pages behaviour
-		baseurl: "${_repo_name}"
-		EOF
-	fi
+    if [[ "${_repo_name}" != "${_github_username}" ]]; then
+        tee -a "${_git_path}/_config_baseurl.yml" >/dev/null <<-EOF
+        # Use base URL to simulate GitHub pages behaviour
+        baseurl: "${_repo_name}"
+        EOF
+    fi
 }
 
 

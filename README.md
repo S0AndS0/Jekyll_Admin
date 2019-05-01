@@ -49,14 +49,14 @@ ___
 
 [branch_gh-pages]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
 [docs_home]: https://s0ands0.github.io/Jekyll_Admin/
-[docs_collection_administration]: https://s0ands0.github.io/Jekyll_Admin/admin/
+[docs_collection_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
 [docs_collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
 [docs_collection_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
 [docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation.html
 [docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating.html
-[docs_jekyll_dnsconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll_dnsconf.html
-[docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll_usermod.html
-[docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll_wwwconf.html
+[docs_jekyll_dnsconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-dnsconf.html
+[docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-usermod.html
+[docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf.html
 
 
 [source_jekyll-dnsconf]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_dnsconf.sh
