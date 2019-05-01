@@ -35,7 +35,7 @@ ___
 To add to this project's code base or documentation (or stomp a bug), please review the [contributing] collection and add yourself to the [contributors] collection in order to speed-up `Pull Request` review process.
 
 
-[administration]: /Jekyll_Admin/admin/
+[administration]: /Jekyll_Admin/administration/
 [git-shell-commands]: /Jekyll_Admin/git_shell_commands/
 [contributing]: /Jekyll_Admin/contributing/
 [contributors]: /Jekyll_Admin/contributors/

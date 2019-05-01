@@ -64,12 +64,12 @@ exit
 ```
 
 
-> Note, updating via `make` will automatically commit any changes to the local `git` branch checked-out during [`make install`][install] prior to changing branches to `master` and `pull`ing in any new updates. After which the local branch is checked-out, `master` branch changes are merged, and scripts are re-linked.
+> Note, updating via `make` will automatically commit any changes to the local `git` branch checked-out during [`make install`][docs_install] prior to changing branches to `master` and `pull`ing in any new updates. After which the local branch is checked-out, `master` branch changes are merged, and scripts are re-linked.
 
 
 And that would the extent of what _should_ be needed to update administration scripts, however, updating preexisting user account `git_shell_commands` scripts is still a _bit_ more involved.
 
 
-[install]: /Jekyll_Admin/administration/installation.html
+[docs_install]: /Jekyll_Admin/administration/installation/
 
 [makefile_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile

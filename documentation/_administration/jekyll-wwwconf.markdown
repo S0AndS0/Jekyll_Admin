@@ -38,8 +38,8 @@ ssh joan sudo jekyll_wwwconf.sh\
 ```
 
 
-So long as both users have had the [`jekyll_dnsconf.sh`][jekyll-dnsconf] script ran with similar options to those described in the related post, both _`Bill`_ and _`Ted`_ can check-out each-other's hosted documentation via `http://ted.devs.lan/Radical_Features` and `http://bill.devs.lan/Excellent_Project`
+So long as both users have had the [`jekyll_dnsconf.sh`][docs_jekyll_dnsconf] script ran with similar options to those described in the related post, both _`Bill`_ and _`Ted`_ can check-out each-other's hosted documentation via `http://ted.devs.lan/Radical_Features` and `http://bill.devs.lan/Excellent_Project`
 
 
-[jekyll-dnsconf]: /Jekyll_Admin/administration/jekyll-dnsconf.html
+[docs_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll-dnsconf/
 [jekyll-wwwconf_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_wwwconf.sh

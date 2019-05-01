@@ -1,8 +1,9 @@
 ---
-layout: collections/feeds/rss2_entries
+layout: collections/feeds/atom_entries
 title: Contributors
 collection_name: contributors
 collection_home: /contributors/
 date: 2019-04-24 11:12:13 -0700
-time_to_live: 1800
+content_type: xhtml
+permalink: /:collection/:name:output_ext
 ---

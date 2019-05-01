@@ -1,8 +1,9 @@
 ---
-layout: collections/feeds/rss2_entries
+layout: collections/feeds/atom_entries
 title: Licensing
 collection_name: licensing
 collection_home: /licensing/
-time_to_live: 1800
 date: 2019-04-17 11:12:13 -0700
+content_type: xhtml
+permalink: /:collection/:name:output_ext
 ---

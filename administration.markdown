@@ -1,7 +1,7 @@
 ---
 layout:    collections/home
 title:     Administration
-permalink: /admin/
+permalink: /administration/
 collection_name: administration
 date: 2019-04-17 11:12:11 -0700
 list_title: Usage Examples

@@ -34,27 +34,28 @@ sass:
 
 
 ## Thanks be to - https://jekyllrb.com/docs/collections/
-collections_dir: doc_collections
+collections_dir: documentation
 collections:
   administration:
     output: true
-    permalink: /:collection/:name:output_ext
+    permalink: /:collection/:name/
   contributing:
     output: true
-    permalink: /:collection/:name:output_ext
+    permalink: /:collection/:name/
   contributors:
     output: true
-    permalink: /:collection/:name:output_ext
+    permalink: /:collection/:name/
   git_shell_commands:
     output: true
-    permalink: /:collection/:name:output_ext
+    permalink: /:collection/:name/
   licensing:
     output: true
-    permalink: /:collection/:name:output_ext
+    permalink: /:collection/:name/
 
 
 ## Enabled to publish future dated content
 future: true
+
 
 ## Exclude from processing; by default commented items will not be processed.
 exclude:

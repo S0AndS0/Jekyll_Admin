@@ -102,4 +102,4 @@ Next see [Pull Request][docs_pull_request] tips for notifying this project's mai
 [fork_list]: https://github.com/S0AndS0/Jekyll_Admin/network/members
 
 [collection_home]: /Jekyll_Admin/contributing/
-[docs_pull_request]: /Jekyll_Admin/contributing/pull-request.html
+[docs_pull_request]: /Jekyll_Admin/contributing/pull-request/

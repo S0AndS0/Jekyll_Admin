@@ -19,4 +19,4 @@ ssh Bill bundle-install Excellent_Project
 
 
 [source_master__bundle-install]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/bundle-install
-[post_jekyll-build]: /Jekyll_Admin/git_shell_commands/jekyll-build.html
+[post_jekyll-build]: /Jekyll_Admin/git_shell_commands/jekyll-build/

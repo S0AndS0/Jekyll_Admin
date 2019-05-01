@@ -34,11 +34,12 @@ layout: default
             {%- assign post_file_name = post.url | split: '/' | last -%}
             {%- if page.relative_path == post.relative_path -%}
               {%- continue -%}
-            {%- elsif post_file_name == 'feed.xml' -%}
-              {%- assign has_rss_feed = True -%}
-              {%- continue -%}
-            {%- elsif post_file_name == 'feed.atom' -%}
-              {%- assign has_atom_feed = True -%}
+            {%- elsif post.slug == 'feed' -%}
+              {%- if post.ext == '.xml' -%}
+                {%- assign has_rss_feed = True -%}
+              {%- elsif post.ext == '.atom' -%}
+                {%- assign has_atom_feed = True -%}
+              {%- endif -%}
               {%- continue -%}
             {%- else -%}
               {%- assign has_output = True -%}

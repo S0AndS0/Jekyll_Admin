@@ -96,7 +96,7 @@ git remote add fork https://github.com/<GitHub-UserName>/Jekyll_Admin.git
 ------
 
 
-And where _`Joanna`_ to have already [_`fork`ed_][fork_link] and cloned from there, eg...
+And to continue the example suppose _`Joanna`_ has already [_`fork`ed_][fork_link] and cloned from there, eg...
 
 
 ```bash

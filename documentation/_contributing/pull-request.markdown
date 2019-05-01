@@ -11,7 +11,7 @@ GitHub has documented very thoroughly the process of creating a Pull Request fro
 Additionally please don't forget to add or update the relative _`_contributors/<GitHub-UserName>.markdown`_ file, eg...
 
 
-### Example `_contributors/<GitHub-UserName>.markdown`
+### `_contributors/<GitHub-UserName>.markdown`
 
 
 ```
@@ -29,6 +29,7 @@ etc...
 
 
 ... prior to making first Pull Request, subsequent requests this is not required though updating anything out of date is a solid idea.
+
 
 ___
 

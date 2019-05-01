@@ -2,7 +2,8 @@
 layout: collections/feeds/rss2_entries
 title: Administration
 collection_name: administration
-collection_home: /admin/
+collection_home: /administration/
 time_to_live: 1800
 date: 2019-04-20 11:12:13 -0700
+permalink: /:collection/:name:output_ext
 ---

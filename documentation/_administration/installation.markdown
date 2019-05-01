@@ -91,12 +91,12 @@ exit
 Administrators such as _`Joanna`_ would then only have a few more steps to follow before unleashing imaginative clients like _`Bill`_ and _`Ted`_ on the private server.
 
 
-Namely [`jekyll_usermod.sh`][post_jekyll_usermod] and [`jekyll_dnsconf.sh`][post_jekyll_dnsconf] scripts for every user, then repeated use of [`jekyll_wwwconf.sh`][post_jekyll_wwwconf] script for each repository that a user wishes to have static site files hosted.
+Namely [`jekyll_usermod.sh`][docs_jekyll_usermod] and [`jekyll_dnsconf.sh`][docs_jekyll_dnsconf] scripts for every user, then repeated use of [`jekyll_wwwconf.sh`][docs_jekyll_wwwconf] script for each repository that a user wishes to have static site files hosted.
 
 
 
-[post_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll-dnsconf.html
-[post_jekyll_usermod]: /Jekyll_Admin/administration/jekyll-usermod.html
-[post_jekyll_wwwconf]: /Jekyll_Admin/administration/jekyll-wwwconf.html
+[docs_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll-dnsconf/
+[docs_jekyll_usermod]: /Jekyll_Admin/administration/jekyll-usermod/
+[docs_jekyll_wwwconf]: /Jekyll_Admin/administration/jekyll-wwwconf/
 
 [makefile_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile

@@ -5,4 +5,5 @@ collection_name: contributing
 collection_home: /contributing/
 date: 2019-04-24 11:12:13 -0700
 time_to_live: 1800
+permalink: /:collection/:name:output_ext
 ---

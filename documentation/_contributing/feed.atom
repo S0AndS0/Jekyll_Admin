@@ -5,4 +5,5 @@ collection_name: contributing
 collection_home: /contributing/
 date: 2019-04-24 11:12:13 -0700
 content_type: xhtml
+permalink: /:collection/:name:output_ext
 ---
