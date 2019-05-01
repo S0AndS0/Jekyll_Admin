@@ -44,7 +44,7 @@ ___
 [fork]: https://help.github.com/en/articles/fork-a-repo
 [issues]: https://github.com/S0AndS0/Jekyll_Admin/issues
 [license]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/LICENSE
-[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/2019-04-17-gnu-agpl.html
+[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
 [pull-request]: https://help.github.com/en/articles/about-pull-requests
 
 [branch_gh-pages]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
@@ -52,11 +52,11 @@ ___
 [docs_collection_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
 [docs_collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
 [docs_collection_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
-[docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation.html
-[docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating.html
-[docs_jekyll_dnsconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-dnsconf.html
-[docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-usermod.html
-[docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf.html
+[docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation/
+[docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating/
+[docs_jekyll_dnsconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-dnsconf/
+[docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-usermod/
+[docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf/
 
 
 [source_jekyll-dnsconf]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_dnsconf.sh

@@ -25,11 +25,11 @@ After which a [Pull Request][docs_dev_pull_request] may be issued for this proje
 [fork_list]: https://github.com/S0AndS0/Jekyll_Admin/network/members
 
 [docs_contributing]: https://s0ands0.github.io/Jekyll_Admin/contributing/
-[docs_dev_admin]: https://s0ands0.github.io/Jekyll_Admin/install-master.html
-[docs_dev_commands]: https://s0ands0.github.io/Jekyll_Admin/install-git-shell-commands.html
-[docs_dev_pages]: https://s0ands0.github.io/Jekyll_Admin/install-gh-pages.html
-[docs_dev_merge]: https://s0ands0.github.io/Jekyll_Admin/merge.html
-[docs_dev_pull_request]: https://s0ands0.github.io/Jekyll_Admin/pull-request.html
+[docs_dev_admin]: https://s0ands0.github.io/Jekyll_Admin/contributing/install-master/
+[docs_dev_commands]: https://s0ands0.github.io/Jekyll_Admin/contributing/install-git-shell-commands/
+[docs_dev_pages]: https://s0ands0.github.io/Jekyll_Admin/contributing/install-gh-pages/
+[docs_dev_merge]: https://s0ands0.github.io/Jekyll_Admin/contributing/merge/
+[docs_dev_pull_request]: https://s0ands0.github.io/Jekyll_Admin/contributing/pull-request/
 
 [dir_git_shell_commands]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands
 [source_makefile]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile
