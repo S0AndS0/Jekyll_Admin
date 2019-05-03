@@ -10,10 +10,13 @@ failure(){
     local _code="${3:-0}"
     local _msg_height="$(wc -l <<<"${_msg}")"
     if [ "${_msg_height}" -gt '1' ]; then
-        printf 'Line: %s - Exit: %s\n%s\n' "${_lineno}" "${_code}" "${_msg}"
+        printf 'Line: %s\n%s\n' "${_lineno}" "${_msg}"
     else
-        printf 'Line: %s - Exit: %s - %s\n' "${_lineno}" "${_code}" "${_msg}"
+        printf 'Line: %s - %s\n' "${_lineno}" "${_msg}"
     fi
-    if ((_code)); then exit ${_code}; fi
+    if ((_code)); then
+        printf 'Exit: %s\n' "${_code}"
+        exit ${_code}
+    fi
     return ${_code}
 }
