@@ -51,6 +51,9 @@ collections:
   licensing:
     output: true
     permalink: /:collection/:name/
+  styling:
+    output: true
+    permalink: /:collection/:name/
 
 
 ## Enabled to publish future dated content

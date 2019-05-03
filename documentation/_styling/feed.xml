@@ -1,0 +1,9 @@
+---
+layout: collections/feeds/rss2_entries
+title: Styling
+collection_name: styling
+collection_home: /styling/
+date: 2019-04-29 11:12:13 -0700
+time_to_live: 1800
+permalink: /:collection/:name:output_ext
+---

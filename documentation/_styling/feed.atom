@@ -1,0 +1,9 @@
+---
+layout: collections/feeds/atom_entries
+title: Styling
+collection_name: styling
+collection_home: /styling/
+date: 2019-04-29 11:12:13 -0700
+content_type: xhtml
+permalink: /:collection/:name:output_ext
+---

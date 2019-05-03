@@ -32,13 +32,15 @@ ___
 ___
 
 
-To add to this project's code base or documentation (or stomp a bug), please review the [contributing] collection and add yourself to the [contributors] collection in order to speed-up `Pull Request` review process.
+To add to this project's code base or documentation (or stomp a bug), please review the [contributing], and [styling] tips collections, then add yourself to the [contributors] collection in order to speed-up `Pull Request` review process.
+
 
 
 [administration]: /Jekyll_Admin/administration/
 [git-shell-commands]: /Jekyll_Admin/git_shell_commands/
 [contributing]: /Jekyll_Admin/contributing/
 [contributors]: /Jekyll_Admin/contributors/
+[styling]: /Jekyll_Admin/styling/
 
 [firejail-issue-1817]: https://github.com/netblue30/firejail/issues/1817
 [firejail-issue-887]: https://github.com/netblue30/firejail/issues/887
