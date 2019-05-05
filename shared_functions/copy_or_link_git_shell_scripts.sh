@@ -66,7 +66,7 @@ copy_or_link_git_shell_commands(){
             chown --recursive "${_user}":"${_group}" "${_home}/git-shell-commands"
             find "${_home}/git-shell-commands" -type f -exec chmod 740 {} \;
             find "${_home}/git-shell-commands" -type d -exec chmod 750 {} \;
-            su --shell $(which bash) --login ${_user} <<-'EOF'
+            su --shell $(which bash) --login ${_user} <<'EOF'
             _old_PWD="${PWD}"
             cd "${HOME}/git-shell-commands"
             git init .
@@ -74,7 +74,7 @@ copy_or_link_git_shell_commands(){
             git add --all
             git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added git-shell-commands to git tracking and allowed pushing for ${USER}"
             cd "${_old_PWD}"
-            EOF
+EOF
         ;;
         *)
             chmod 550 "${_home}/git-shell-commands"

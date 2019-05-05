@@ -1,0 +1,56 @@
+## Note, "[ci skio]" or "[skip ci]" within a commit message _should_
+##  cause Travis Continuous Integration to skip the following
+
+## Clone settings for repository
+git:
+  depth: 3
+  branch: master
+
+
+## List of Operating Systems to test on
+os:
+  - linux
+
+
+## Attempt to limit environment to only what is required
+language: bash
+matrix:
+  include:
+    - bash
+
+
+before_install:
+  - chmod +x .travis-ci/before_install.sh
+  - .travis-ci/before_install.sh
+
+# install:
+#   - chmod +x .travis-ci/install.sh
+#   - .travis-ci/install.sh
+#
+# script:
+#   - chmod +x .travis-ci/script.sh
+#   - .travis-ci/script.sh
+#
+# after_success:
+#   - chmod +x .travis-ci/after_success.sh
+#   - .travis-ci/after_success.sh
+#
+# after_failure:
+#   - chmod +x .travis-ci/after_failure.sh
+#   - .travis-ci/after_failure.sh
+#
+# before_deploy:
+#   - chmod +x .travis-ci/before_deploy.sh
+#   - .travis-ci/before_deploy.sh
+#
+# deploy:
+#   - chmod +x .travis-ci/deploy.sh
+#   - .travis-ci/deploy.sh
+#
+# after_deploy:
+#   - chmod +x .travis-ci/after_deploy.sh
+#   - .travis-ci/after_deploy.sh
+#
+# after_script:
+#   - chmod +x .travis-ci/after_script.sh
+#   - .travis-ci/after_script.sh

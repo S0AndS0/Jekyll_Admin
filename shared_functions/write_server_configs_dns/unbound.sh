@@ -1,27 +1,28 @@
 #!/usr/bin/env bash
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
+
+_DNS_CONF_DIR="/etc/unbound/unbound.conf.d"
+
 ## Find true directory script resides in, true name, and true path
 __SOURCE__="${BASH_SOURCE[0]}"
 while [[ -h "${__SOURCE__}" ]]; do
     __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
 done
 __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+__G_PARENT__="$(dirname "${__SUB_DIR__}")"
+
 
 ## Provides:    remove_from_to <search-start> <search-end> <file-path>
-source "${__SUB_DIR__}/clobber_config.sh"
+source "${__G_PARENT__}/clobber_config.sh"
 
 ## Provides:    interface_ipv4 <interface>
 #        interface_ipv6 <interface>
-source "${__SUB_DIR__}/network_info.sh"
+source "${__G_PARENT__}/network_info.sh"
 
-_DNS_CONF_DIR="/etc/unbound/unbound.conf.d"
 
 
 remove_unbound_config(){
-    _user_group="${1:?No user:domain provided}"
-    _user="${_user_group%%:*}"
-    _group="${_user_group##*:}"
-    _group="${_group:-(groups ${_user} | awk '{print $3}')}"
+    _group="${1:?No group/domain name provided}"
     _tld="${2:?No Top Level Domain name provided}"
     _interface="${3:-all}"
     _clobber="${4:-no}"
@@ -29,11 +30,7 @@ remove_unbound_config(){
 
     case "${_clobber,,}" in
         'remove')
-            if [[ "${_user}" == "${_group}" ]]; then
-                _url="${_group}.${_tld}"
-            else
-                _url="${_user}.${_group}.${_tld}"
-            fi
+            _url="${_group}.${_tld}"
 
             if [ -z "${_interface}" ] || [ "${_interface,,}" == 'all' ]; then
                 _ipv4="([0-9][.]){3}[0-9]"
@@ -41,6 +38,11 @@ remove_unbound_config(){
             else
                 _ipv4="$(interface_ipv4 "${_interface}")"
                 _ipv6="$(interface_ipv6 "${_interface}")"
+            fi
+
+            if [ -z "${_ipv4}" ] && [ -z "${_ipv6}" ]; then
+                printf 'Error - no IP address detected for %s interface\n' "${_interface}" >&2
+                return 1
             fi
 
             if [ -n "${_ipv4}" ]; then
@@ -58,23 +60,37 @@ remove_unbound_config(){
             [[ -f "${_dns_conf_path}" ]] && rm -v "${_dns_conf_path}"
         ;;
         *)
-            printf 'ERROR - clobber set to %s\n' "${_clobber}"
-            exit 1
+            printf 'Error - clobber set to %s\n' "${_clobber}" >&2
+            return 1
         ;;
     esac
-    echo '## remove_unbound_config finished'
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
+
+write_unbound_ip_domain_block(){    ## write_unbound_ip_domain_block IP URL
+    local _ip_addr="${1:?No IP address provided}"
+    local _url="${2:?No URL provided}"
+
+    read -r -d '' _ip_config <<EOF
+local-data: "${_url}.      IN A    ${_ip_addr}"
+local-data-ptr: "${_ip_addr}    ${_url}."
+EOF
+    ## Unbound really does not take kindly to duplicate entries
+    if grep -q -- "$(tail -1 <<<"${_ip_config}")" "${_dns_conf_path}" 2>/dev/null; then
+        printf '# Configuration block for %s already exists in %s\n' "${_group}" "${_dns_conf_path}" >&2
+        return 1
+    fi
+    tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ip_config}"
+}
+
 
 ## By default everything is served under the group domain with users being
 ##  sub-domains under that, thus one only needs to configure local DNS
 ##  resolution to the group domain and have the web server handle user and
 ##  repository specific url to directory path resolution.
 write_unbound_config(){    ## write_unbound_config group tld interface clobber
-    _user_group="${1:?No user:domain provided}"
-    _user="${_user_group%%:*}"
-    _group="${_user_group##*:}"
-    _group="${_group:-(groups ${_user} | awk '{print $3}')}"
-    # _group="${1:?No group/domain name provided}"
+    _group="${1:?No group/domain name provided}"
     _tld="${2:?No Top Level Domain name provided}"
     _interface="${3:-$(ls -1 /sys/class/net/ | grep -v 'lo' | head -1)}"
     _clobber="${4:-no}"
@@ -82,12 +98,12 @@ write_unbound_config(){    ## write_unbound_config group tld interface clobber
     _ipv4="$(interface_ipv4 "${_interface}")"
     _ipv6="$(interface_ipv6 "${_interface}")"
 
-    if [[ "${_user}" == "${_group}" ]]; then
-        _url="${_group}.${_tld}"
-    else
-        _url="${_user,,}.${_group}.${_tld}"
+    if [ -z "${_ipv4}" ] && [ -z "${_ipv6}" ]; then
+        printf 'Error - no IP address detected for %s interface\n' "${_interface}" >&2
+        return 1
     fi
 
+    _url="${_group}.${_tld}"
     _dns_conf_path="${_DNS_CONF_DIR}/${_group}.${_tld}.conf"
     if [[ -f "${_dns_conf_path}" ]]; then
         case "${_clobber,,}" in
@@ -95,7 +111,7 @@ write_unbound_config(){    ## write_unbound_config group tld interface clobber
                 printf '# Notice - configuration file %s is being appended to\n' "${_dns_conf_path}"
             ;;
             *)
-                printf '# Error - configuration file %s already exists\n' "${_dns_conf_path}"
+                printf '# Error - configuration file %s already exists\n' "${_dns_conf_path}" >&2
                 return 1
             ;;
         esac
@@ -109,31 +125,15 @@ EOF
     fi
 
     if [ -n "${_ipv4}" ]; then
-        read -r -d '' _ipv4_config <<EOF
-    local-data: "${_url}.      IN A    ${_ipv4}"
-    local-data-ptr: "${_ipv4}    ${_url}."
-EOF
-        ## Unbound really does not take kindly to duplicate entries
-        if ! grep -q -- "$(tail -1 <<<"${_ipv4_config}")" "${_dns_conf_path}" 2>/dev/null; then
-            tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ipv4_config}"
-        else
-            printf '# Configuration block for %s already exists in %s\n' "${_group}" "${_dns_conf_path}"
-        fi
+        write_unbound_ip_domain_block "${_ipv4}" "${_url}"
     else
         echo '# No IPv4 address detected'
     fi
+
     if [ -n "${_ipv6}" ]; then
-        read -r -d '' _ipv6_config <<EOF
-    local-data: "${_url}.      IN A    ${_ipv6}"
-    local-data-ptr: "${_ipv6}    ${_url}."
-EOF
-        if ! grep -q -- "$(tail -1 <<<"${_ipv6_config}")" "${_dns_conf_path}" 2>/dev/null; then
-            tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ipv6_config}"
-        else
-            printf '# Error - configuration block for %s already exists in %s\n' "${_group}" "${_dns_conf_path}"
-        fi
+        write_unbound_ip_domain_block "${_ipv6}" "${_url}"
     else
         echo '# No IPv6 address detected'
     fi
-    echo '## write_unbound_config finished'
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }

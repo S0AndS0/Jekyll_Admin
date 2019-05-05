@@ -47,53 +47,65 @@ source "${__DIR__}/shared_functions/arg_parser.sh"
 ## Provides:    'write_nginx_config_direct <user> <repo> group tld interface clobber'
 ##        'remove_nginx_config <user>:group|domain <repo> <tld> <clobber>'
 ##        'nginx_enable_config <user>'
-source "${__DIR__}/shared_functions/write_nginx_config.sh"
+source "${__DIR__}/shared_functions/write_server_configs_web/nginx.sh"
 
 ## Provides: '__license__ <description> <author>'
 source "${__DIR__}/shared_functions/license.sh"
 
 
 usage(){
+    local -n _parsed_argument_list="${1}"
     cat <<EOF
-## Options
-# -u    --user=${_user}
-# Name of user to look under their home for '~/www' directory, for Jekyll
-#  built static files built from ${_repo} for serving via ${_server}
-#
-# -r    --repo=${_repo}
-#
-# -g -d    --domain --group=${_group}
-# Domain/group name that user will become a sub-domain of.
-#
-# -s    --server=${_server}
-# Server type, eg 'apache2' or 'nginx' to write and link configuration files
-#  for. Try '${__NAME__} examples'
-#
-# -i    --interface=${_interface}
-# Interface that web-server is listening on. IPv4 & IPv6 listening addresses
-#  will automatically be parsed and added to the ${_server} configuration or
-#  config. directory if available.
-#
-# -t    --tld --top-level-domain=${_tld}
-# Top level domain name, eg 'local', 'io' or 'com', etc. Note if left empty or
-#  unset, and if repo contains a period eg 'jekyll-template.local' then the
-#  last word is parsed out as the TLD.
-#
-# -c    --clobber=${_clobber}
-# If 'yes' then pre-existing server configuration files will be appended to.
-#  If 'remove' then pre-existing location configuration will be removed for
-#  given repository.
-#  If 'disable' then the symbolic link pointing to given user web server
-#  configurations will be removed, disabling all sites for that user.
-#  If 'delete' then both operations for remove and disable will be preformed
-#  Default: 'no'
-#
-# -l --license
-# Shows script or project license then exits
-#
-# -h    --help
-# Shows values set for above options, print usage, then exits
+${__DESCRIPTION__}
+
+# Options
+  -u    --user=${_user}
+Name of user to look under their home for '~/www' directory, for Jekyll
+ built static files built from ${_repo} for serving via ${_server}
+
+  -r    --repo=${_repo}
+
+  -g    -d    --domain    --group=${_group}
+Domain/group name that user will become a sub-domain of.
+
+  -s    --server=${_server}
+Server type, eg 'apache2' or 'nginx' to write and link configuration files
+ for. Try '${__NAME__} examples'
+
+  -i    --interface=${_interface}
+Interface that web-server is listening on. IPv4 & IPv6 listening addresses
+ will automatically be parsed and added to the ${_server} configuration or
+ config. directory if available.
+
+  -t    --tld    --top-level-domain=${_tld}
+Top level domain name, eg 'local', 'io' or 'com', etc. Note if left empty or
+ unset, and if repo contains a period eg 'jekyll-template.local' then the
+ last word is parsed out as the TLD.
+
+  -c    --clobber=${_clobber}
+If 'yes' then pre-existing server configuration files will be appended to.
+ If 'remove' then pre-existing location configuration will be removed for
+ given repository.
+ If 'disable' then the symbolic link pointing to given user web server
+ configurations will be removed, disabling all sites for that user.
+ If 'delete' then both operations for remove and disable will be preformed
+ Default: 'no'
+
+  -l    --license
+Shows script or project license then exits
+
+  -h    --help
+Shows values set for above options, print usage, then exits
 EOF
+
+    if [ "${#_parsed_argument_list[@]}" -gt '0' ]; then
+        cat <<EOF
+
+Parsed command arguments
+
+$(for _arg in "${_parsed_argument_list[@]}"; do printf '    %s\n' "${_arg}"; done)
+EOF
+    fi
 }
 
 
@@ -104,11 +116,11 @@ _args=("${@:?# No arguments provided try: ${__NAME__} help}")
 _valid_args=('--help|-h|help:bool'
              '--license|-l|license:bool'
              '--server|-s:posix'
+             '--interface|-i:posix'
              '--user|-u:posix'
-             '--repo|-r:posix'
              '--group|-g|--domain|-d:posix'
              '--tld|-t|--top-level-domain:alpha_numeric'
-             '--interface|-i:posix'
+             '--repo|-r:posix'
              '--clobber|-c:alpha_numeric')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"

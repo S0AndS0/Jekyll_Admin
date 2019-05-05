@@ -9,10 +9,12 @@ while [[ -h "${__SOURCE__}" ]]; do
     __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
 done
 __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
-__NAME__="${__SOURCE__##*/}"
-__PATH__="${__SUB_DIR__}/${__NAME__}"
+__G_PARENT__="$(dirname "${__SUB_DIR__}")"
 
-source "${__SUB_DIR__}/clobber_config.sh"
+
+## Provides:    remove_from_to <search-start> <search-end> <file-path>
+source "${__G_PARENT__}/clobber_config.sh"
+
 
 remove_nginx_config(){    ## remove_nginx_config user:group repo-name tld clobber
     _user_group="${1:?No user:domain provided}"
@@ -53,8 +55,9 @@ remove_nginx_config(){    ## remove_nginx_config user:group repo-name tld clobbe
             [[ -f "${_sites_available_path}" ]] && rm -v "${_sites_available_path}"
         ;;
     esac
-    echo '## remove_nginx_config finished'
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
 
 write_nginx_config_direct(){    ## write_nginx_config_direct user repo-name group tld interface clobber
     _user_group="${1:?No user:domain provided}"
@@ -76,8 +79,8 @@ write_nginx_config_direct(){    ## write_nginx_config_direct user repo-name grou
         _www_dir="${_home}/www/${_repo}"
     fi
     if ! [ -d "${_www_dir}" ]; then
-        printf 'Try "ssh %s@host-or-ip jekyll-build %s" first\n' "${_user}" "${_repo}"
-        exit 1
+        printf 'Try "ssh %s@host-or-ip jekyll-build %s" first\n' "${_user}" "${_repo}" >&2
+        return 1
     fi
 
     if [ -f "${_sites_available_path}" ]; then
@@ -86,8 +89,8 @@ write_nginx_config_direct(){    ## write_nginx_config_direct user repo-name grou
                 printf 'NOTICE - Nginx sites-available config already exists, clobber set to %s\n' "${_clobber,,}"
             ;;
             *)
-                printf 'ERROR - Nginx sites-available config already exists, clobber set to %s\n' "${_clobber,,}"
-                exit 1
+                printf 'Error - Nginx sites-available config already exists, clobber set to %s\n' "${_clobber,,}" >&2
+                return 1
             ;;
         esac
     fi
@@ -101,8 +104,8 @@ write_nginx_config_direct(){    ## write_nginx_config_direct user repo-name grou
             _ipv4="$(ip -4 addr show ${_interface} | awk '/inet /{gsub("/"," "); print $2}' | head -1)"
             _ipv6="$(ip -6 addr show ${_interface} | awk '/inet6 /{gsub("/"," "); print $2}' | head -1)"
             if [[ -z "${_ipv4}" ]] && [[ -z "${_ipv6}" ]]; then
-                printf 'Cannot find IP address for %s\n' "${_interface}"
-                exit 1
+                printf 'Error - cannot find IP address for %s\n' "${_interface}" >&2
+                return 1
             fi
             [[ -n "${_ipv4}" ]] && _listen_ipv4="listen ${_ipv4}"
             [[ -n "${_ipv6}" ]] && _listen_ipv6="listen [${_ipv6}]"
@@ -150,7 +153,7 @@ EOF
         ## Search for pre-existing configuration for repository
         if [ -f "${_sites_available_path}" ] && grep -q -- "${_www_path}" "${_sites_available_path}"; then
             printf 'Location config for %s already exists within %s\n' "${_repo}" "${_sites_available_path}"
-            exit 1
+            return 1
         fi
         read -r -d '' _new_conf <<EOF
 ${_header}
@@ -161,17 +164,18 @@ ${_header}
 EOF
     fi
     [[ -n "${_new_conf}" ]] && tee "${_sites_available_path}" 1>/dev/null <<<"${_new_conf}"
-    echo '## write_nginx_config_direct finished'
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
 
 nginx_enable_config(){    ## nginx_enable_config user
     _user="${1:?No user name provided}"
     _site_available="$(find ${_NGINX_CONF_DIR}/sites-available -type f | grep -i -- "${_user}" | head -1)"
     _site_enabled="${_NGINX_CONF_DIR}/sites-enabled/${_site_available##*/}"
     if ! [ -f "${_site_available}" ]; then
-        printf 'ERROR - No site available at: %s\n' "${_site_available}"
-        exit 1
+        printf 'Error - No site available at: %s\n' "${_site_available}" >&2
+        return 1
     fi
     [[ -L "${_site_enabled}" ]] || ln -sv "${_site_available}" "${_site_enabled}"
-    echo '## nginx_enable_config finished'
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }

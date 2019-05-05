@@ -39,9 +39,10 @@ __DESCRIPTION__='Writes DNS configurations for Jekyll and/or Git clients'
 source "${__DIR__}/shared_functions/failure.sh"
 trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
 
-## Provides:    'write_unbound_config <user> <repo> tld interface clobber'
-##                        'remove_unbound_config' <group> <tld> <interface> <clobber>
-source "${__DIR__}/shared_functions/write_unbound_config.sh"
+## Provides: 'write_unbound_config <group> tld interface clobber'
+##           'remove_unbound_config' <group> <tld> <interface> <clobber>
+##           'write_unbound_ip_domain_block' <ip> <url>
+source "${__DIR__}/shared_functions/write_server_configs_dns/unbound.sh"
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
 source "${__DIR__}/shared_functions/arg_parser.sh"
@@ -51,61 +52,60 @@ source "${__DIR__}/shared_functions/license.sh"
 
 
 usage(){
-    local -n _args="${1}"
+    local -n _parsed_argument_list="${1}"
   cat <<EOF
-#
-# Note: this script is only needed when a new user is added.
-#
-## Options
-# -s    --server=${_server}
-# Server type, eg 'apache2' or 'nginx' to write and link configuration files
-#  for. Try '${__NAME__} examples'
-#
-# -u    --user=${_user}
-# Name of user that will become a sub domain of ${_group}
-#  ${_user}.${_group}.${_tld}
-#  to be precise.
-#
-# -g -d    --group --domain=${_group}
-# The domain/group name that git client usernames are used as sub-domains for
-#  serving via web-server.
-#
-# Note if both user and group match then the url configured will be
-#  ${_group}.${_tld}
-#
-# -i    --interface=${_interface}
-# Interface that domain name server is listening on. IPv4 & IPv6 listening
-#  addresses will automatically be parsed and added to the ${_server}
-#  configuration or config. directory if available.
-# Note interface may also be set to 'all' if clobber is set to 'remove' to force
-#  removal of all configuration blocks that match specific urls, eg
-#  ${_user}.${_group}.${_tld} or ${_group}.${_tld}
-#
-# -t    --tld --top-level-domain=${_tld}
-#    Top level domain name, eg 'local', 'io' or 'com', etc. Note if left empty or
-#  unset, and if repo contains a period eg 'jekyll-template.local' then the
-#  last word is parsed out as the TLD.
-#
-# -c    --clobber=${_clobber}
-# If 'yes' then pre-existing server configuration group file will be appended
-#  with new configuration blocks.
-#  If 'remove' then pre-existing server configuration blocks will be removed
-#  from configuration file.
-#  If 'delete' then server configuration group file will be removed.
-#  Default is 'no'
-#
-# -l --license
-# Shows script or project license then exits
-#
-# -h    --help
-# Shows values set for above options, print usage, then exits
+${__DESCRIPTION__}
+
+Note, this script is only needed when a new user is added.
+
+# Options
+
+  -s    --server=${_server}
+Server type, eg 'apache2' or 'nginx' to write and link configuration files
+ for. Try '${__NAME__} examples'
+
+  -g    -d    --group    --domain=${_group}
+The domain/group name that git client usernames are used as sub-domains for
+ serving via web-server, eg...
+
+   http://${_group}.${_tld}
+   http://bill.${_group}.${_tld}
+   http://ted.${_group}.${_tld}
+
+  -i    --interface=${_interface}
+Interface that domain name server is listening on. IPv4 & IPv6 listening
+ addresses will automatically be parsed and added to the ${_server}
+ configuration or config. directory if available.
+
+Note interface may also be set to 'all' if clobber is set to 'remove' to force
+ removal of all configuration blocks that match specific urls, eg
+ ${_user}.${_group}.${_tld} or ${_group}.${_tld}
+
+  -t    --tld --top-level-domain=${_tld}
+Top level domain name, eg 'local', 'io' or 'com', etc.
+ Defaults to 'lan' if not set.
+
+  -c    --clobber=${_clobber}
+If 'yes' then pre-existing server configuration group file will be appended
+ with new configuration blocks.
+ If 'remove' then pre-existing server configuration blocks will be removed
+ from configuration file.
+ If 'delete' then server configuration group file will be removed.
+ Default is 'no'
+
+  -l    --license
+Shows script or project license then exits
+
+  -h    --help
+Shows values set for above options, print usage, then exits
 EOF
-    if [ "${#_args[@]}" -gt '0' ]; then
+
+    if [ "${#_parsed_argument_list[@]}" -gt '0' ]; then
         cat <<EOF
-#
-# Parsed command arguments
-#
-$(for _arg in "${_args[@]}"; do printf '#\t%s\n' "${_arg}"; done)
+
+Parsed command arguments
+
+$(for _arg in "${_parsed_argument_list[@]}"; do printf '    %s\n' "${_arg}"; done)
 EOF
     fi
 }
@@ -118,10 +118,9 @@ _args=("${@:?# No arguments provided try: ${__NAME__} help}")
 _valid_args=('--help|-h|help:bool'
              '--license|-l|license:bool'
              '--server|-s:posix'
-             '--user|-u:posix'
+             '--interface|-i:posix'
              '--group|-g|--domain|-d:posix'
              '--tld|-t|--top-level-domain:alpha_numeric'
-             '--interface|-i:posix'
              '--clobber|-c:alpha_numeric')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
@@ -142,11 +141,11 @@ case "${_server,,}" in
     'unbound')
         case "${_clobber,,}" in
             'remove'|'delete')
-                remove_unbound_config "${_user}:${_group}" "${_tld}" "${_interface}" "${_clobber}"
+                remove_unbound_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
                 # systemctl restart unbound.service
             ;;
             *)
-                write_unbound_config "${_user}:${_group}" "${_tld}" "${_interface}" "${_clobber}"
+                write_unbound_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
                 # systemctl restart unbound.service
             ;;
         esac

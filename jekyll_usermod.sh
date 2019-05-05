@@ -22,7 +22,6 @@ _HOME_BASE='/srv'
 #        [[ -d "${_home}" ]] && rm -rf ${_home}
 _git_shell_allowed='all'
 _git_shell_copy_or_link='copy'
-_GIT_SHELL_PUSHABLE='no'
 _clobber='no'
 _git_shell="$(which git-shell)"
 _LOGIN_SHELL="${_git_shell}"
@@ -76,48 +75,61 @@ source "${__DIR__}/shared_functions/license.sh"
 
 
 usage(){
+    local -n _parsed_argument_list="${1}"
     cat <<EOF
-## Options
-# -u    --user="${_user}"
-# Name of user to create and install Jekyll  under. Must be a new user name,
-#  account  will be locked, and home directory will be under ${_HOME_BASE}
-#
-# -g    --group="${_group}"
-# Name of group that may pull or clone but not push. This maybe useful for
-#  collaborative servers with multiple Jekyll/Git users sharing code within
-#  groups; try '--examples' option.
-#
-# -w    --www-group="${_www_group}"
-# Name of group that web server uses to serve content. Default for Apache2,
-#  Nginx and many others is "www-data"
-#
-#    --ssh-auth-keys="${_ssh_auth_keys}"
-# Path to authorized_keys file to copy over to ${_HOME_BASE}/${_user}/.ssh
-#  directory. Note if using redirection, eg...
-#
-#    --ssh-auth-keys=\\""\$(<~/.ssh/pub.key)\\""
-#    --ssh-auth-keys \\"'\$(<~/.ssh/pub.key)'\\"
-#
-#  ... then double quoting is required!
-#
-#    --git-shell-allowed="${_git_shell_allowed}"
-# Maybe list of specific scripts under 'git_shell_commands/' directory, 'none',
-#  or 'all' to select what scripts are linked or copied over to ${_user}
-#
-#    --git-shell-copy-or-link="${_git_shell_copy_or_link}"
-# Maybe 'copy', 'pushable' or 'link' to signify weather or not to link or copy
-#  scripts from 'git_shell_commands/' directory to
-#
-# -c    --clobber="${_clobber}"
-# Maybe 'yes' or 'no' and determines if specific files are overwritten or if
-#  errors are returned because of multiple runs of ${__NAME__}
-#
-# -l --license
-# Shows script or project license then exits
-#
-# -h    --help
-# Shows values set for above options, print usage, then exits
+${__DESCRIPTION__}
+
+# Options
+
+  -u    --user="${_user}"
+Name of user to create and install Jekyll  under. Must be a new user name,
+ account  will be locked, and home directory will be under ${_HOME_BASE}
+
+  -g    --group="${_group}"
+Name of group that may pull or clone but not push. This maybe useful for
+ collaborative servers with multiple Jekyll/Git users sharing code within
+ groups; try '--examples' option.
+
+  -w    --www-group="${_www_group}"
+Name of group that web server uses to serve content. Default for Apache2,
+ Nginx and many others is "www-data"
+
+  --ssh-auth-keys="${_ssh_auth_keys}"
+Path to authorized_keys file to copy over to ${_HOME_BASE}/${_user}/.ssh
+ directory. Note if using redirection, eg...
+
+    --ssh-auth-keys=\\""\$(<~/.ssh/pub.key)\\""
+    --ssh-auth-keys \\"'\$(<~/.ssh/pub.key)'\\"
+
+ ... then double quoting is required!
+
+  --git-shell-allowed="${_git_shell_allowed}"
+Maybe list of specific scripts under 'git_shell_commands/' directory, 'none',
+ or 'all' to select what scripts are linked or copied over to ${_user}
+
+  --git-shell-copy-or-link="${_git_shell_copy_or_link}"
+Maybe 'copy', 'pushable' or 'link' to signify weather or not to link or copy
+ scripts from 'git_shell_commands/' directory to
+
+  -c    --clobber="${_clobber}"
+Maybe 'yes' or 'no' and determines if specific files are overwritten or if
+ errors are returned because of multiple runs of ${__NAME__}
+
+  -l    --license
+Shows script or project license then exits
+
+  -h    --help
+Shows values set for above options, print usage, then exits
 EOF
+
+    if [ "${#_parsed_argument_list[@]}" -gt '0' ]; then
+        cat <<EOF
+
+Parsed command arguments
+
+$(for _arg in "${_parsed_argument_list[@]}"; do printf '    %s\n' "${_arg}"; done)
+EOF
+    fi
 }
 
 
