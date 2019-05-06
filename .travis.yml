@@ -51,7 +51,7 @@ before_script:
 script:
   - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "/home/travis/.ssh/bill.pub"
   - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
-  - ssh Bill@localhost -oStrictHostKeyChecking=accept-new -i "/home/travis/.ssh/bill" jekyll-build Bill
+  - ssh Bill@localhost -o StrictHostKeyChecking=accept-new -i "/home/travis/.ssh/bill" jekyll-build Bill
   - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
 
 after_failure:
