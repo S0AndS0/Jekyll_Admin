@@ -2,9 +2,9 @@
 ##  cause Travis Continuous Integration to skip the following
 
 ## Clone settings for repository
-git:
-  branch: master
-  # depth: 3
+# git:
+#   branch: master
+#   depth: 3
 
 
 ## List of Operating Systems to test on
@@ -15,10 +15,10 @@ os:
 
 ## Attempt to limit environment to only what is required
 language: bash
-matrix:
-  fast_finish: true
-  include:
-    - bash
+# matrix:
+#   fast_finish: true
+#   include:
+#     - bash
 
 
 branches:
