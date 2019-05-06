@@ -34,7 +34,8 @@ branches:
 ## Do the things
 before_install:
   # - sudo apt-get install -yqq unbound nginx git-core git ruby-full nodejs gawk
-  - sudo apt-get install -yqq unbound nginx git-core
+  - sudo apt-get install -yqq unbound nginx git-core curl
+  - curl -sSL https://get.rvm.io | bash -s stable
   - mkdir -vp "/home/travis/.ssh"
   - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
 
