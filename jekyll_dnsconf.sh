@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; fi
-set -eE -o functrace
+# set -eE -o functrace ## Causing errors with read eof redirection
 
 
 #

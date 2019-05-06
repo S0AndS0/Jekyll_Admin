@@ -6,15 +6,15 @@ if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
 modify_etc_shells(){
     _login_shell="${1:?No login shell path provided}"
     _git_shell="$(which git-shell)"
-    _firejail_shell="$(which firejail)"
-    ## Add firejail to available shells if not already available
-    if [ -e "${_firejail_shell}" ] && [[ "${_firejail_shell}" == "${_login_shell}" ]]; then
-        if ! grep -q -- "${_firejail_shell}" '/etc/shells'; then
-            printf 'Adding %s to /etc/shells\n' "${_firejail_shell}"
-            tee -a /etc/shells >/dev/null <<<"${_firejail_shell}"
-        fi
-    ## Or add 'git-shell' to available shells if not already available
-    elif [ -e "${_git_shell}" ] && [[ "${_git_shell}" == "${_login_shell}" ]]; then
+    # _firejail_shell="$(which firejail)"
+    # ## Add firejail to available shells if not already available
+    # if [ -e "${_firejail_shell}" ] && [[ "${_firejail_shell}" == "${_login_shell}" ]]; then
+    #     if ! grep -q -- "${_firejail_shell}" '/etc/shells'; then
+    #         printf 'Adding %s to /etc/shells\n' "${_firejail_shell}"
+    #         tee -a /etc/shells >/dev/null <<<"${_firejail_shell}"
+    #     fi
+    # ## Or add 'git-shell' to available shells if not already available
+    if [ -e "${_git_shell}" ] && [[ "${_git_shell}" == "${_login_shell}" ]]; then
         if ! grep -q -- "${_git_shell}" '/etc/shells'; then
             printf 'Adding %s to /etc/shells\n' "${_git_shell}"
             tee -a /etc/shells >/dev/null <<<"${_git_shell}"
