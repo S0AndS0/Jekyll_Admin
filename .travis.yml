@@ -8,7 +8,7 @@ git:
 
 
 ## List of Operating Systems to test on
-dist: xenial
+# dist: xenial
 os:
   - linux
 
@@ -16,6 +16,7 @@ os:
 ## Attempt to limit environment to only what is required
 language: bash
 matrix:
+  fast_finish: true
   include:
     - bash
 
@@ -27,12 +28,17 @@ branches:
     - gh-pages
 
 
+## Maybe make following builds a little faster
+cache:
+  directories:
+    - /home/travis/.ssh
+
+
 ## Do the things
 before_install:
   - sudo apt-get install -y unbound nginx git-core
-  - mkdir -vp "/tmp/ssh_test_keys"
-  - ssh-keygen -t ecdsa -f "/tmp/ssh_test_keys/bill" -C '' -N ''
-  - ssh-keygen -t ecdsa -f "/tmp/ssh_test_keys/ted" -C '' -N ''
+  - mkdir -vp "~/.ssh"
+  - ssh-keygen -t ecdsa -f "~/.ssh/bill" -C '' -N ''
 
 install:
   - chmod +x Makefile
@@ -40,47 +46,39 @@ install:
   - sudo make install
 
 before_script:
-  - if [ -e "$(which jekyll_usermod.sh)" ]; then echo 'Cannont locate installed jekyll_usermod.sh'; exit 1; fi
-  - if [ -e "$(which jekyll_dnsconf.sh)" ]; then echo 'Cannont locate installed jekyll_dnsconf.sh'; exit 1; fi
-  - if [ -e "$(which jekyll_wwwconf.sh)" ]; then echo 'Cannont locate installed jekyll_wwwconf.sh'; exit 1; fi
+  - [[ -e "$(which jekyll_usermod.sh)" ]]
+  - [[ -e "$(which jekyll_dnsconf.sh)" ]]
+  - [[ -e "$(which jekyll_wwwconf.sh)" ]]
 
 script:
-  - jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "/tmp/ssh_test_keys/bill"
-  - jekyll_usermod.sh --user "Ted" --group "devs" --ssh-auth-keys "'$(<"/tmp/ssh_test_keys/ted")'"
-  - jekyll_dnsconf.sh --domain "devs" --tld "lan"
-  - ssh Bill@localhost -i /tmp/ssh_test_keys/bill jekyll-build Bill
-  - ssh Ted@localhost -i /tmp/ssh_test_keys/ted jekyll-build Ted
-  - jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
-  - jekyll_wwwconf.sh --user "Ted" --domain "devs" --tld "lan" --repo "Ted"
+  - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "~/.ssh/bill.pub"
+  - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
+  - ssh Bill@localhost -oStrictHostKeyChecking=accept-new -i "~/.ssh/bill" jekyll-build Bill
+  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
 
+after_failure:
+  - echo 'after_failure asks - Where did you go wrong?'
+
+after_success:
+  - echo 'after_success states - No errors, this time...'
+
+after_script:
+  - echo 'after_script is all good!'
+
+
+## Build phase order thanks be to,
+##   https://docs.travis-ci.com/user/job-lifecycle/#the-job-lifecycle
+# apt addons        (optional)
+# cache components  (optional)
+# before_install:
 # install:
-#   - chmod +x .travis-ci/install.sh
-#   - .travis-ci/install.sh
-#
+# before_script:
 # script:
-#   - chmod +x .travis-ci/script.sh
-#   - .travis-ci/script.sh
-#
+# before_cache:     (optional)
 # after_success:
-#   - chmod +x .travis-ci/after_success.sh
-#   - .travis-ci/after_success.sh
-#
+## ... Or ...
 # after_failure:
-#   - chmod +x .travis-ci/after_failure.sh
-#   - .travis-ci/after_failure.sh
-#
-# before_deploy:
-#   - chmod +x .travis-ci/before_deploy.sh
-#   - .travis-ci/before_deploy.sh
-#
-# deploy:
-#   - chmod +x .travis-ci/deploy.sh
-#   - .travis-ci/deploy.sh
-#
-# after_deploy:
-#   - chmod +x .travis-ci/after_deploy.sh
-#   - .travis-ci/after_deploy.sh
-#
+# before_deploy:    (optional)
+# deploy:           (optional)
+# after_deploy:     (optional)
 # after_script:
-#   - chmod +x .travis-ci/after_script.sh
-#   - .travis-ci/after_script.sh
