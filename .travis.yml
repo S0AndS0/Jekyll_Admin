@@ -36,7 +36,7 @@ before_install:
   # - sudo apt-get install -yqq unbound nginx git-core git ruby-full nodejs gawk
   - sudo apt-get install -yqq unbound nginx git-core
   - mkdir -vp "/home/travis/.ssh"
-  - ssh-keygen -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
+  - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
 
 install:
   - chmod +x Makefile
@@ -44,9 +44,9 @@ install:
   - sudo make install
 
 before_script:
-  - [[ -e "$(which jekyll_usermod.sh)" ]]
-  - [[ -e "$(which jekyll_dnsconf.sh)" ]]
-  - [[ -e "$(which jekyll_wwwconf.sh)" ]]
+  - if ! [ -L "$(which jekyll_usermod.sh)" ]; then false; fi
+  - if ! [ -L "$(which jekyll_dnsconf.sh)" ]; then false; fi
+  - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then false; fi
 
 script:
   - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "/home/travis/.ssh/bill.pub"

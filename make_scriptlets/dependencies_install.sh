@@ -8,7 +8,7 @@ apt_get(){
     _args="${@}"
     _list="${_args//${1} /}"
     case "${1,,}" in
-        'install') apt-get update && apt-get install ${_list} ;;
+        'install') apt-get install -yqq ${_list} ;;
         *)         apt-get remove ${_list} ;;
     esac
     echo '## apt_get finished'
