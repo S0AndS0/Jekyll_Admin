@@ -97,7 +97,7 @@ case "${1,,}" in
     ;;
     'install'|'git-checkout')
         check_git_configs
-        git_checkout_install
+        git_checkout_install || echo 'Ignore if above states "Nothing to commit..."'
     ;;
     *)
         usage
