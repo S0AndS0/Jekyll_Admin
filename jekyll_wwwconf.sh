@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; fi
-## set -e ## Causing errors with read eof redirection
-#set -eE -o functrace
-#set -E -o functrace
 
 
 #
@@ -39,7 +36,7 @@ __DESCRIPTION__='Writes Web Server configurations for Jekyll and/or Git client p
 #
 ## Provides:    'failure'
 source "${__DIR__}/shared_functions/failure.sh"
-trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
 source "${__DIR__}/shared_functions/arg_parser.sh"

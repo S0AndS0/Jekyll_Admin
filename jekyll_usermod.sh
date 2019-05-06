@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; fi
-set -eE -o functrace
 
 
 #
@@ -51,7 +50,7 @@ __DESCRIPTION__='Adds new Git/Jekyll user equiped with simple git_shell_commands
 #
 ## Provided     'failure'
 source "${__DIR__}/shared_functions/failure.sh"
-trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides:    'modify_etc_shells <login-shell>'
 ##        'add_ssh_authorized_keys <user> <ssh-authorized-keys>'

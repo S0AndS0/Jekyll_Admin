@@ -7,9 +7,9 @@ git_add_commit(){
     case "${_git_status}" in
         *'nothing to commit, working tree clean'*|*'On branch master'*)
             cat <<EOF
-    ## No changes detected
-    # git status -> ${_git_status}
-    # exit code -> ${_exit_status}
+## No changes detected
+# git status -> ${_git_status}
+# exit code -> ${_exit_status}
 EOF
         ;;
         *'Untracked files'*|*'Changes to be committed'*|*'Changes not staged'*)
@@ -18,16 +18,16 @@ EOF
         ;;
         *'This operation must be run in a work tree'*)
             cat <<EOF
-    ## Bare or uninitialized git repository
-    # Error message -> ${_git_status}
-    # Error code -> ${_exit_status}
+## Bare or uninitialized git repository
+# Error message -> ${_git_status}
+# Error code -> ${_exit_status}
 EOF
         ;;
         *)
             cat <<EOF
-    ## Unknown error with git occurred
-    # Error message -> ${_git_status}
-    # Error code -> ${_exit_status}
+## Unknown error with git occurred
+# Error message -> ${_git_status}
+# Error code -> ${_exit_status}
 EOF
         ;;
     esac

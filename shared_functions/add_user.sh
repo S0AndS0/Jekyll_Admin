@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
+
 
 modify_etc_shells(){
     _login_shell="${1:?No login shell path provided}"
@@ -20,11 +22,13 @@ modify_etc_shells(){
             tee -a /etc/shells >/dev/null <<<"${_git_shell}"
         fi
     else
-        printf 'modify_etc_shells not yet coded to add shell %s to /etc/shells\n' "${_login_shell}"
+        printf 'modify_etc_shells not yet coded to add shell %s to /etc/shells\n' "${_login_shell}" >&2
         return 1
     fi
-    echo '## modify_etc_shells finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
 
 add_ssh_authorized_keys(){
     _user="${1:?No user name provided}"
@@ -32,7 +36,7 @@ add_ssh_authorized_keys(){
     _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
     _authorized_keys="${_home}/.ssh/authorized_keys"
     if [ -f "${_authorized_keys}" ]; then
-        printf 'SSH authorized_keys file already exists for %s\n' "${_user}"
+        printf 'SSH authorized_keys file already exists for %s\n' "${_user}" >&2
         return 1
     fi
     _group="$(groups ${_user} | awk '{print $3}')"
@@ -45,7 +49,7 @@ add_ssh_authorized_keys(){
                 tee -a "${_authorized_keys}" 1>/dev/null <<<"$(printf '%s\n' "${_new_ssh_keys}")"
             ;;
             *)
-                echo 'String did not match known authorized_keys format'
+                echo 'String did not match known authorized_keys format' >&2
                 return 1
             ;;
         esac
@@ -54,8 +58,10 @@ add_ssh_authorized_keys(){
     chmod -v 600 "${_home}/.ssh/authorized_keys"
     chmod -v 700 "${_home}/.ssh"
     chown -vR "${_user}":"${_group}" "${_home}/.ssh"
-    echo '## add_ssh_authorized_keys finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
 
 add_jekyll_user(){
     _user_group="${1:?No user:group name provided}"
@@ -71,7 +77,7 @@ add_jekyll_user(){
     _base_home_dir="${4:-/srv}"
     _home="${_base_home_dir}/${_user,,}"
     if grep -qiE -- "^${_user}:" '/etc/passwd'; then
-        printf 'User %s already exists\n' "${_user}"
+        printf 'User %s already exists\n' "${_user}" >&2
         return 1
     else
         if ! getent group "${_group}" 1>/dev/null; then
@@ -100,8 +106,10 @@ add_jekyll_user(){
             usermod -a -G "${_additional_groups}" "${_user}"
         fi
     fi
-    echo '## add_jekyll_user finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
 
 add_firejail_user(){
     _user="${1:?No user name provided}"
@@ -121,5 +129,6 @@ add_firejail_user(){
         printf 'Appending "%s:--shell=%s" to: %s/login.users\n' "${_user}" "${_shell}" "${_firejail_conf_dir}"
         tee -a "${_firejail_conf_dir}/login.users" 1>/dev/null <<<"${_user}:--shell=${_shell}"
     fi
-    echo '## add_firejail_user finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }

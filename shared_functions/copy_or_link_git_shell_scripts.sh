@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
+
+
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
+
 
 copy_or_link_git_shell_commands(){
     _user="${1:?No user name provided}"
@@ -12,7 +15,7 @@ copy_or_link_git_shell_commands(){
     _available_scripts="$(find "${_script_dir}" -type f)"
     _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
     if ! [ -d "${_home}" ]; then
-        printf 'Cannot locate home directory for %s\n' "${_user}"
+        printf 'Cannot locate home directory for %s\n' "${_user}" >&2
         return 1
     fi
 
@@ -67,13 +70,13 @@ copy_or_link_git_shell_commands(){
             find "${_home}/git-shell-commands" -type f -exec chmod 740 {} \;
             find "${_home}/git-shell-commands" -type d -exec chmod 750 {} \;
             su --shell $(which bash) --login ${_user} <<'EOF'
-            _old_PWD="${PWD}"
-            cd "${HOME}/git-shell-commands"
-            git init .
-            git config receive.denyCurrentBranch updateInstead
-            git add --all
-            git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added git-shell-commands to git tracking and allowed pushing for ${USER}"
-            cd "${_old_PWD}"
+_old_PWD="${PWD}"
+cd "${HOME}/git-shell-commands"
+git init .
+git config receive.denyCurrentBranch updateInstead
+git add --all
+git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added git-shell-commands to git tracking and allowed pushing for ${USER}"
+cd "${_old_PWD}"
 EOF
         ;;
         *)
@@ -83,5 +86,6 @@ EOF
             find "${_home}/git-shell-commands" -type d -exec chmod 550 {} \;
         ;;
     esac
-    echo '## copy_or_link_git_shell_commands finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }

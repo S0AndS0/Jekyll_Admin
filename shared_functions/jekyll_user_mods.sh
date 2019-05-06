@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 
+
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
+
 
 jekyll_modify_user_path(){
     _user="${1:?No user name provided}"
     _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
     if [ -f "${_home}/.bash_aliases" ]; then
-        printf '%s/.bash_aliases already exists\n' "${_home}"
+        printf '%s/.bash_aliases already exists\n' "${_home}" >&2
         return 1
     fi
     ## Save new user path variable for Ruby executables
     su --shell $(which bash) --command 'touch ${HOME}/.bash_aliases' --login ${_user}
     tee -a "${_home}/.bash_aliases" 1>/dev/null <<'EOF'
-    ## Ruby exports for user level gem & bundle installs
-    export GEM_HOME="${HOME}/.gem"
-    export PATH="${GEM_HOME}/bin:${PATH}"
+## Ruby exports for user level gem & bundle installs
+export GEM_HOME="${HOME}/.gem"
+export PATH="${GEM_HOME}/bin:${PATH}"
 EOF
-    echo '## jekyll_modify_user_path finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
+
 
 jekyll_user_install(){
     _user="${1:?No user name provided}"
@@ -30,6 +34,7 @@ jekyll_user_install(){
 source "${HOME}/.bash_aliases"
 gem install bundler jekyll
 mkdir -p ${HOME}/{git,www}
+
 ## Initialize Jekyll repo for user account
 _old_PWD="${PWD}"
 mkdir -vp "${HOME}/git/${USER}"
@@ -57,5 +62,6 @@ git add --all
 git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added files from Bundler & Jekyll to git tracking"
 cd "${_old_PWD}"
 EOF
-    echo '## jekyll_user_install finished'
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }

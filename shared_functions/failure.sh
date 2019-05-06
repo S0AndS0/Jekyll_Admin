@@ -1,23 +1,45 @@
 #!/usr/bin/env bash
 
-## Ensure the following line precedes calls to this function via trap
-##    set -eE -o functrace
+
+## Outputs Front-Mater formatted failures for functions not returning 0
 ## Use the following line to call this function from other scripts
-##    trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
+##    trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 failure(){
-    local _lineno="${1}"
-    local _msg="${2}"
-    local _code="${3:-0}"
+    local -n _lineno="${1:-LINENO}"
+    local -n _bash_lineno="${2:-BASH_LINENO}"
+    local _last_command="${3:-${BASH_COMMAND}}"
+    local _code="${4:-0}"
 
-    local _msg_height="$(wc -l <<<"${_msg}")"
-    if [ "${_msg_height}" -gt '1' ]; then
-        printf 'Line: %s\n%s\n' "${_lineno}" "${_msg}"
+    ## Workaround for read EOF combo tripping traps
+    if ! ((_code)); then
+        return "${_code}"
+    fi
+
+    local _last_command_height="$(wc -l <<<"${_last_command}")"
+
+    echo '---'
+    cat <<EOF
+lines_history: [${_lineno} ${_bash_lineno[*]}]
+function_trace: [${FUNCNAME[*]}]
+exit_code: ${_code}
+EOF
+
+    if [[ "${#BASH_SOURCE[@]}" -gt '1' ]]; then
+        printf 'source_trace:\n'
+        for _item in "${BASH_SOURCE[@]}"; do
+            printf '  - "%s"\n' "${_item}"
+        done
     else
-        printf 'Line: %s - %s\n' "${_lineno}" "${_msg}"
+        printf 'source_trace: ["%s"]\n' "${BASH_SOURCE[*]}"
     fi
 
-    if ((_code)); then
-        printf 'Exit: %s\n' "${_code}"
+    if [[ "${_last_command_height}" -gt '1' ]]; then
+        printf 'last_command: ->\n%s\n' "${_last_command}"
+    else
+        printf 'last_command: %s\n' "${_last_command}"
     fi
+
+    echo '---'
+
     exit ${_code}
 }

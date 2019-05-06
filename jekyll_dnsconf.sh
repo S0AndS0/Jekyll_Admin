@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+
+
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; fi
-# set -eE -o functrace ## Causing errors with read eof redirection
 
 
 #
@@ -37,7 +38,7 @@ __DESCRIPTION__='Writes DNS configurations for Jekyll and/or Git clients'
 ## Provides: 'falure' <line-number> <command> exit-code
 ##           'examples_dns' args
 source "${__DIR__}/shared_functions/failure.sh"
-trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR#!/usr/bin/env bash
 
 ## Provides: 'write_unbound_config <group> tld interface clobber'
 ##           'remove_unbound_config' <group> <tld> <interface> <clobber>
