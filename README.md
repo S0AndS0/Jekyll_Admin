@@ -39,15 +39,11 @@ ___
 - [_`jekyll_wwwconf.sh`_][source_jekyll_wwwconf], adds {sub-}domain names to web server for given user/repo, currently _wired_ for Nginx Web Server, check the published [_`usage examples`_][docs_jekyll_wwwconf] for examples of usage
 
 
-[contributers]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_contributers/
-[contributing]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_contributing/
+
 [fork]: https://help.github.com/en/articles/fork-a-repo
-[issues]: https://github.com/S0AndS0/Jekyll_Admin/issues
-[license]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/LICENSE
-[license_tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
 [pull_request]: https://help.github.com/en/articles/about-pull-requests
 
-[branch_gh_pages]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
+[license_tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
 [docs_home]: https://s0ands0.github.io/Jekyll_Admin/
 [docs_collection_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
 [docs_collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
@@ -58,13 +54,18 @@ ___
 [docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-usermod/
 [docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf/
 
+[branch_gh_pages]: /tree/gh-pages
+[contributers]: /tree/gh-pages/documentation/_contributors/
+[contributing]: /tree/gh-pages/documentation/_contributing/
 
-[source_jekyll_dnsconf]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_dnsconf.sh
-[source_jekyll_usermod]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_usermod.sh
-[source_jekyll_wwwconf]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_wwwconf.sh
-[source_makefile]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile
+[issues]: /issues
+[license]: /blob/master/LICENSE
+[source_jekyll_dnsconf]: /blob/master/jekyll_dnsconf.sh
+[source_jekyll_usermod]: /blob/master/jekyll_usermod.sh
+[source_jekyll_wwwconf]: /blob/master/jekyll_wwwconf.sh
+[source_makefile]: /blob/master/Makefile
 
-[source_git_shell_commands_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands
-[source_make_scriptlets_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/make_scriptlets
-[source_shared_functions_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/shared_functions
-[source_github_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/.github/
+[source_git_shell_commands_dir]: /tree/master/git_shell_commands
+[source_make_scriptlets_dir]: /tree/master/make_scriptlets
+[source_shared_functions_dir]: /tree/master/shared_functions
+[source_github_dir]: /tree/master/.github/

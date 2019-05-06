@@ -71,8 +71,8 @@ fi
 
 if [[ "${EUID}" == '0' ]]; then
     printf '# apt-get install -yq %s\n' "${_deps_to_install}"
-    apt-get install ${_deps_to_install}
+    apt-get install -yq ${_deps_to_install}
 else
     printf '# sudo apt-get install -yq %s\n' "${_deps_to_install}"
-    sudo apt-get install ${_deps_to_install}
+    sudo apt-get install -yq ${_deps_to_install}
 fi

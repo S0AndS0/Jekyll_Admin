@@ -8,6 +8,7 @@ git:
 
 
 ## List of Operating Systems to test on
+dist: xenial
 os:
   - linux
 
@@ -17,6 +18,13 @@ language: bash
 matrix:
   include:
     - bash
+
+
+branches:
+  only:
+    - master
+  except:
+    - gh-pages
 
 
 before_install:
