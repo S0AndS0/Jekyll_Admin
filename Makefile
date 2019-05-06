@@ -41,10 +41,10 @@ endif
 .SILENT: install-dependencies uninstall uninstall-dependencies
 .ONESHELL: install
 install-dependencies: ## Calls out to package manager to install dependencies
-    bash "$(ROOT_DIR)/make_scriptlets/dependencies_install.sh" '$(__OS__)' 'install';
+	bash "$(ROOT_DIR)/make_scriptlets/dependencies_install.sh" '$(__OS__)' 'install'
 
 uninstall-dependencies: ## Calls out to package manager to uninstall dependencies
-    bash "$(ROOT_DIR)/make_scriptlets/dependencies_install.sh" '$(__OS__)' 'uninstall';
+	bash "$(ROOT_DIR)/make_scriptlets/dependencies_install.sh" '$(__OS__)' 'uninstall'
 
 uninstall: ## Removes symbolic links to project scripts
     test -d "$(SCRIPT_INSTALL_DIR)" && $(foreach s,$(SCRIPT_NAMES_TO_LINK),\

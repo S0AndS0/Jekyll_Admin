@@ -49,11 +49,7 @@ git_pull_update(){
     if grep -qE -- '^Untracked files|^Changes to be committed|^Changes not staged' <<<"$(git status)"; then
         git add --all
         _msg="${__NAME__} added files to git tracking customizations prior to make update"
-        if [ -z "$(git config user.name)" ] || [ -z "$(git config user.email)" ]; then
-            git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "${_msg}"
-        else
-            git commit -m "${_msg}"
-        fi
+        git commit -m "${_msg}"
     fi
     if [[ "${_orig_branch}" != "${_AUTHOR_BRANCH}" ]]; then
         git checkout "${_AUTHOR_BRANCH}"
@@ -61,6 +57,7 @@ git_pull_update(){
     git pull
     cd "${__ORIG_PWD__}"
 }
+
 
 git_checkout_install(){
     cd "${__REPO_DIR__}"
@@ -73,15 +70,33 @@ git_checkout_install(){
         git checkout -b "${_LOCAL_BRANCH}"
     fi
     git config core.fileMode false
-    git merge ${_AUTHOR_BRANCH}
+    git merge --strategy-option theirs --squash ${_AUTHOR_BRANCH}
+    _msg="${__NAME__} merged changes from ${_AUTHOR_BRANCH}"
+    git commit -m "${_msg}"
     cd "${__ORIG_PWD__}"
 }
 
+
+check_git_configs(){
+    if [ -z "$(git config user.name)" ]; then
+      printf '# git config --local user.name "%s"\n' "${USER}"
+      git config --local user.name "${USER}"
+    fi
+
+    if [ -z "$(git config user.email)" ]; then
+      printf '# git config --local user.email "%s@%s.lan"\n' "${USER}" "${HOSTNAME}"
+      git config --local user.email "${USER}@${HOSTNAME}.lan"
+    fi
+}
+
+
 case "${1,,}" in
     'update'|'git-update')
-        git_pull_update
+        check_git_configs
+        git_pull_update || echo 'Ignore if above states "No remotes configured..."'
     ;;
     'install'|'git-checkout')
+        check_git_configs
         git_checkout_install
     ;;
     *)
