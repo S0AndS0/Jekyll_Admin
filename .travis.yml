@@ -29,20 +29,20 @@ branches:
 
 
 ## Maybe make following builds a little faster
-cache:
-  directories:
-    - /home/travis/.ssh
+# cache:
+#   directories:
+#     - /home/travis/.ssh
 
 
 ## Do the things
 before_install:
-  - sudo apt-get install -y unbound nginx git-core
-  - mkdir -vp "~/.ssh"
-  - ssh-keygen -t ecdsa -f "~/.ssh/bill" -C '' -N ''
+  - sudo apt-get install -y unbound nginx git-core git ruby-full nodejs gawk
+  - mkdir -vp "/home/travis/.ssh"
+  - ssh-keygen -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
 
 install:
   - chmod +x Makefile
-  - sudo make install-dependencies
+  # - sudo make install-dependencies
   - sudo make install
 
 before_script:
@@ -51,9 +51,9 @@ before_script:
   - [[ -e "$(which jekyll_wwwconf.sh)" ]]
 
 script:
-  - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "~/.ssh/bill.pub"
+  - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "/home/travis/.ssh/bill.pub"
   - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
-  - ssh Bill@localhost -oStrictHostKeyChecking=accept-new -i "~/.ssh/bill" jekyll-build Bill
+  - ssh Bill@localhost -oStrictHostKeyChecking=accept-new -i "/home/travis/.ssh/bill" jekyll-build Bill
   - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
 
 after_failure:
