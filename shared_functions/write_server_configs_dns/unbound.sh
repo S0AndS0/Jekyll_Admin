@@ -64,6 +64,7 @@ remove_unbound_config(){
             return 1
         ;;
     esac
+
     printf '## %s finished\n' "${FUNCNAME[0]}"
 }
 
@@ -82,6 +83,8 @@ EOF
         return 1
     fi
     tee -a "${_dns_conf_path}" 1>/dev/null <<<"    ${_ip_config}"
+
+    printf '## %s finished\n' "${FUNCNAME[0]}"
 }
 
 
@@ -135,5 +138,6 @@ EOF
     else
         echo '# No IPv6 address detected'
     fi
+
     printf '## %s finished\n' "${FUNCNAME[0]}"
 }

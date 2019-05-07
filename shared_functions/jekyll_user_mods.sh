@@ -6,8 +6,8 @@ if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
 
 
 maybe_install_ruby_to_home(){
-    _user="${1:?No user name provided}"
-    _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
+    local _user="${1:?No user name provided}"
+    local _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
 
     local _ruby_version="$(su --shell "$(which bash)" --command "ruby --version | awk '{print $2}'" --login ${_user})"
     local _ruby_version="${_ruby_version%.*}"
@@ -27,13 +27,16 @@ gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D69
 curl -sSL https://get.rvm.io | bash -s stable --rails
 source ${HOME}/.bash_profile
 EOF
+    local _exit_status = "${?}"
+
     printf '## %s finished\n' "${FUNCNAME[0]}"
+    return "${_exit_status}"
 }
 
 
 jekyll_modify_user_path(){
-    _user="${1:?No user name provided}"
-    _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
+    local _user="${1:?No user name provided}"
+    local _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
     if [ -f "${_home}/.bash_aliases" ]; then
         printf '%s/.bash_aliases already exists\n' "${_home}" >&2
         return 1
@@ -45,8 +48,10 @@ jekyll_modify_user_path(){
 export GEM_HOME="${HOME}/.gem"
 export PATH="${GEM_HOME}/bin:${PATH}"
 EOF
+    local _exit_status = "${?}"
 
     printf '## %s finished\n' "${FUNCNAME[0]}"
+    return "${_exit_status}"
 }
 
 
@@ -89,6 +94,8 @@ git add --all
 git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added files from Bundler & Jekyll to git tracking"
 cd "${_old_PWD}"
 EOF
+    local _exit_status = "${?}"
 
     printf '## %s finished\n' "${FUNCNAME[0]}"
+    return "${_exit_status}"
 }

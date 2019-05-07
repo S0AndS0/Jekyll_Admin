@@ -114,6 +114,11 @@ Maybe 'copy', 'pushable' or 'link' to signify weather or not to link or copy
 Maybe 'yes' or 'no' and determines if specific files are overwritten or if
  errors are returned because of multiple runs of ${__NAME__}
 
+  --install-ruby
+If set will attempt to install Ruby via instructions
+ from, https://rvm.io
+ to home directory of ${_user}
+
   -l    --license
 Shows script or project license then exits
 
@@ -144,6 +149,7 @@ _valid_args=('--help|-h|help:bool'
              '--ssh-auth-keys:path'
              '--git-shell-allowed:list'
              '--git-shell-copy-or-link:alpha_numeric'
+             '--install-ruby:bool'
              '--clobber|-c:alpha_numeric')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
@@ -167,7 +173,9 @@ modify_etc_shells "${_LOGIN_SHELL}"
 add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_BASE}"
 # add_firejail_user "${_user}"
 add_ssh_authorized_keys "${_user}" "${_ssh_auth_keys}"
-# maybe_install_ruby_to_home "${_user}"
+if ((_install_ruby)); then
+    maybe_install_ruby_to_home "${_user}"
+fi
 jekyll_modify_user_path "${_user}"
 echo "... the following may take awhile..."
 jekyll_user_install "${_user}"

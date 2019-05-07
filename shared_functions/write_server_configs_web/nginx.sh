@@ -55,6 +55,7 @@ remove_nginx_config(){    ## remove_nginx_config user:group repo-name tld clobbe
             [[ -f "${_sites_available_path}" ]] && rm -v "${_sites_available_path}"
         ;;
     esac
+
     printf '## %s finished\n' "${FUNCNAME[0]}"
 }
 
@@ -173,10 +174,12 @@ nginx_enable_config(){    ## nginx_enable_config user
     _user="${1:?No user name provided}"
     _site_available="$(find ${_NGINX_CONF_DIR}/sites-available -type f | grep -i -- "${_user}" | head -1)"
     _site_enabled="${_NGINX_CONF_DIR}/sites-enabled/${_site_available##*/}"
+
     if ! [ -f "${_site_available}" ]; then
         printf 'Error - No site available at: %s\n' "${_site_available}" >&2
         return 1
     fi
     [[ -L "${_site_enabled}" ]] || ln -sv "${_site_available}" "${_site_enabled}"
+
     printf '## %s finished\n' "${FUNCNAME[0]}"
 }
