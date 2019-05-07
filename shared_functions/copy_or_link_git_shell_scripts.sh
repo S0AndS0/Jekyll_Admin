@@ -78,7 +78,7 @@ git add --all
 git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added git-shell-commands to git tracking and allowed pushing for ${USER}"
 cd "${_old_PWD}"
 EOF
-            local _exit_status="${?}"
+            local _exit_status = "${?}"
             if ((_exit_status)); then return "${_exit_status}"; fi
         ;;
         *)

@@ -63,7 +63,7 @@ jekyll_user_install(){
     ##  to source files for users... but this account is not destined for regular interactions
     su --shell $(which bash) --login ${_user} <<'EOF'
 source "${HOME}/.bash_aliases"
-gem install bundler:'< 2' jekyll:'3.8.5' || exit 1
+gem install bundler:'< 2' jekyll:'3.8.5'
 # rbenv rehash
 mkdir -p ${HOME}/{git,www}
 
