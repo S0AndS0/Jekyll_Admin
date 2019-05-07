@@ -54,9 +54,16 @@ script:
   - sudo ls -hal /srv/bill/git
   - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
   ## Note Travis does not take kindly to StrictHostKeyChecking=accept-new
-  - ssh Bill@localhost -o 'StrictHostKeyChecking no' -i "/home/travis/.ssh/bill" bundle-install Bill
-  - ssh Bill@localhost -o 'StrictHostKeyChecking no' -i "/home/travis/.ssh/bill" jekyll-build Bill
+  - ssh Bill@localhost -o 'StrictHostKeyChecking no' -i "/home/travis/.ssh/bill" list --license
+
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" git-init Ideas
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git
+  - sudo ls -hal /srv/bill/git
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Bill
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Bill
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www
   - sudo ls -hal /srv/bill/www
+
   - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
 
 after_failure:

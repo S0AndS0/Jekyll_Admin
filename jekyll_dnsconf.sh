@@ -38,7 +38,7 @@ __DESCRIPTION__='Writes DNS configurations for Jekyll and/or Git clients'
 ## Provides: 'falure' <line-number> <command> exit-code
 ##           'examples_dns' args
 source "${__DIR__}/shared_functions/failure.sh"
-trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR#!/usr/bin/env bash
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides: 'write_unbound_config <group> tld interface clobber'
 ##           'remove_unbound_config' <group> <tld> <interface> <clobber>
