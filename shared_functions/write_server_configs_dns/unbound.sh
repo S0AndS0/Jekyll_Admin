@@ -72,6 +72,7 @@ remove_unbound_config(){
 write_unbound_ip_domain_block(){    ## write_unbound_ip_domain_block IP URL
     local _ip_addr="${1:?No IP address provided}"
     local _url="${2:?No URL provided}"
+    local _dns_conf_path="${3:?No DNS configuration path provided}"
 
     read -r -d '' _ip_config <<EOF
 local-data: "${_url}.      IN A    ${_ip_addr}"
@@ -108,6 +109,10 @@ write_unbound_config(){    ## write_unbound_config group tld interface clobber
 
     _url="${_group}.${_tld}"
     _dns_conf_path="${_DNS_CONF_DIR}/${_group}.${_tld}.conf"
+
+    [[ -d "$(dirname "${_DNS_CONF_DIR}")" ]] || return 1
+    mkdir -vp "${_DNS_CONF_DIR}"
+
     if [[ -f "${_dns_conf_path}" ]]; then
         case "${_clobber,,}" in
             'yes')
@@ -128,13 +133,13 @@ EOF
     fi
 
     if [ -n "${_ipv4}" ]; then
-        write_unbound_ip_domain_block "${_ipv4}" "${_url}"
+        write_unbound_ip_domain_block "${_ipv4}" "${_url}" "${_dns_conf_path}"
     else
         echo '# No IPv4 address detected'
     fi
 
     if [ -n "${_ipv6}" ]; then
-        write_unbound_ip_domain_block "${_ipv6}" "${_url}"
+        write_unbound_ip_domain_block "${_ipv6}" "${_url}" "${_dns_conf_path}"
     else
         echo '# No IPv6 address detected'
     fi

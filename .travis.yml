@@ -33,8 +33,7 @@ branches:
 
 ## Do the things
 before_install:
-  # - sudo apt-get install -yqq unbound nginx git-core ruby-full build-essential zlib1g-dev
-  - sudo apt-get install -yqq unbound nginx git-core build-essential zlib1g-dev
+  - sudo apt-get install -yqq unbound nginx git-core ruby-full build-essential zlib1g-dev
   - mkdir -vp "/home/travis/.ssh"
   - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
 
@@ -59,13 +58,13 @@ script:
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" git-init Ideas
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git
   - sudo ls -hal /srv/bill/git
+
   # - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Bill
   # - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Bill
   # - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www
   # - sudo ls -hal /srv/bill/www
-
-  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
-  - cat "/etc/nginx/sites-enabled/bill.devs.lan"
+  # - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
+  # - cat "/etc/nginx/sites-enabled/bill.devs.lan"
 
 after_failure:
   - echo 'after_failure asks - Where did you go wrong?'
