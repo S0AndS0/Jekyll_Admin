@@ -165,8 +165,9 @@ fi
 #
 modify_etc_shells "${_LOGIN_SHELL}"
 add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_BASE}"
-#add_firejail_user "${_user}"
+# add_firejail_user "${_user}"
 add_ssh_authorized_keys "${_user}" "${_ssh_auth_keys}"
+# maybe_install_ruby_to_home "${_user}"
 jekyll_modify_user_path "${_user}"
 echo "... the following may take awhile..."
 jekyll_user_install "${_user}"
