@@ -1,13 +1,19 @@
+[![Build Status][badge_travis_ci]][build_travis_ci] means that tests defined within the [`travis.yml`][source_travis_yml] configuration file either _passed_ or _failed_.
+
+
+___
+
+
 Collection of Bash scripts for Jekyll and Git server administration and interaction via `ssh` or `git` command-line tools.
 
 
-> Unless otherwise stated both documentation and code are shared under the [_`GNU AGPL version 3`_][license_tldr] license by default, a full copy of which is available under [_`master:LICENSE`_][license]
+> Unless otherwise stated both documentation and Bash scripts are shared under the [_`GNU AGPL version 3`_][docs_license_tldr] license by default, a full copy of which is available under [_`master:LICENSE`_][license]
 
 
 [_`Documentation`_][docs_home] is hosted by GitHub Pages, the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][branch_gh_pages] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_update] instructions are currently featured along with usage examples for [_`Administrators`_][docs_collection_administration] and [_`Git`/`Jekyll`_][docs_collection_git_shell_commands] clients.
 
 
-To add features or fix issues within this project; start with making a [_`Fork`_][fork] of this repository, then make changes (testing if code related), and update the [`_contributers`][contributers] directory with a file about your self (and maybe a summery of changes) before issuing a [_`Pull Request`_][pull_request]. See the [_`Contributing`_][contributing] collection for examples of development setup and other tips.
+To add features or fix issues within this project; start with making a [_`Fork`_][help_fork] of this repository, then make changes (testing if code related), and update the [`_contributers`][contributers] directory with a file about your self (and maybe a summery of changes) before issuing a [_`Pull Request`_][help_pull_request]. See the [_`Contributing`_][contributing] collection for examples of development setup and other tips.
 
 
 ___
@@ -40,13 +46,13 @@ ___
 
 
 
-[fork]: https://help.github.com/en/articles/fork-a-repo
-[pull_request]: https://help.github.com/en/articles/about-pull-requests
+[help_fork]: https://help.github.com/en/articles/fork-a-repo
+[help_pull_request]: https://help.github.com/en/articles/about-pull-requests
 
-[license_tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
 [docs_home]: https://s0ands0.github.io/Jekyll_Admin/
 [docs_collection_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
 [docs_collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
+[docs_license_tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
 [docs_collection_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
 [docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation/
 [docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating/
@@ -54,18 +60,22 @@ ___
 [docs_jekyll_usermod]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-usermod/
 [docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf/
 
-[branch_gh_pages]: /tree/gh-pages
-[contributers]: /tree/gh-pages/documentation/_contributors/
-[contributing]: /tree/gh-pages/documentation/_contributing/
+[branch_gh_pages]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
+[contributers]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/tree/gh-pages/documentation/_contributors/
+[contributing]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/tree/gh-pages/documentation/_contributing/
 
-[issues]: /issues
-[license]: /blob/master/LICENSE
-[source_jekyll_dnsconf]: /blob/master/jekyll_dnsconf.sh
-[source_jekyll_usermod]: /blob/master/jekyll_usermod.sh
-[source_jekyll_wwwconf]: /blob/master/jekyll_wwwconf.sh
-[source_makefile]: /blob/master/Makefile
+[issues]: https://github.com/S0AndS0/Jekyll_Admin/issues
+[license]: LICENSE
+[source_jekyll_dnsconf]: jekyll_dnsconf.sh
+[source_jekyll_usermod]: jekyll_usermod.sh
+[source_jekyll_wwwconf]: jekyll_wwwconf.sh
+[source_makefile]: Makefile
+[source_travis_yml]: travis.yml
 
-[source_git_shell_commands_dir]: /tree/master/git_shell_commands
-[source_make_scriptlets_dir]: /tree/master/make_scriptlets
-[source_shared_functions_dir]: /tree/master/shared_functions
-[source_github_dir]: /tree/master/.github/
+[source_git_shell_commands_dir]: git_shell_commands/
+[source_make_scriptlets_dir]: make_scriptlets/
+[source_shared_functions_dir]: shared_functions/
+[source_github_dir]: .github/
+
+[badge_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin.svg?branch=master
+[build_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin

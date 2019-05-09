@@ -6,7 +6,7 @@ if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; 
 #
 #    Set defaults for script variables; these maybe overwritten at run-time
 #
-_ssh_auth_keys=''
+_ssh_pub_key=''
 ## Web server group name, 'www-data' for Apache2, Nginx, and many other web servers
 _www_group="www-data"
 ## New git/jekyll server user & group names. Note user will have read & write access
@@ -93,12 +93,13 @@ Name of group that may pull or clone but not push. This maybe useful for
 Name of group that web server uses to serve content. Default for Apache2,
  Nginx and many others is "www-data"
 
-  --ssh-auth-keys="${_ssh_auth_keys}"
-Path to authorized_keys file to copy over to ${_HOME_BASE}/${_user}/.ssh
- directory. Note if using redirection, eg...
+  --ssh-pub-key="${_ssh_pub_key}"
+Writes defined SSH public key to ${_HOME_BASE}/${_user}/.ssh/authorized_keys
 
-    --ssh-auth-keys=\\""\$(<~/.ssh/pub.key)\\""
-    --ssh-auth-keys \\"'\$(<~/.ssh/pub.key)'\\"
+ Note if using redirection, eg...
+
+    --ssh-pub-key=\\""\$(<~/.ssh/pub.key)\\""
+    --ssh-pub-key \\"'\$(<~/.ssh/pub.key)'\\"
 
  ... then double quoting is required!
 
@@ -114,11 +115,6 @@ Maybe 'copy', 'pushable' or 'link' to signify weather or not to link or copy
 Maybe 'yes' or 'no' and determines if specific files are overwritten or if
  errors are returned because of multiple runs of ${__NAME__}
 
-  --install-ruby
-If set will attempt to install Ruby via instructions
- from, https://rvm.io
- to home directory of ${_user}
-
   -l    --license
 Shows script or project license then exits
 
@@ -126,7 +122,7 @@ Shows script or project license then exits
 Shows values set for above options, print usage, then exits
 EOF
 
-    if [ "${#_parsed_argument_list[@]}" -gt '0' ]; then
+    if (("${#_parsed_argument_list[@]}")); then
         cat <<EOF
 
 Parsed command arguments
@@ -146,10 +142,9 @@ _valid_args=('--help|-h|help:bool'
              '--user|-u:posix'
              '--group|-g:posix'
              '--www-group|-w:posix'
-             '--ssh-auth-keys:path'
+             '--ssh-pub-key:path'
              '--git-shell-allowed:list'
              '--git-shell-copy-or-link:alpha_numeric'
-             '--install-ruby:bool'
              '--clobber|-c:alpha_numeric')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
@@ -160,7 +155,7 @@ if ((_help)) || ((_exit_status)); then
 elif ((_license)); then
     __license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
     exit ${_exit_status:-0}
-elif [[ -z "${_ssh_auth_keys}" ]]; then
+elif [[ -z "${_ssh_pub_key}" ]]; then
     usage '_assigned_args' | less ${_LESS_OPTS}
     exit ${_exit_status:-1}
 fi
@@ -172,10 +167,7 @@ fi
 modify_etc_shells "${_LOGIN_SHELL}"
 add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_BASE}"
 # add_firejail_user "${_user}"
-add_ssh_authorized_keys "${_user}" "${_ssh_auth_keys}"
-if ((_install_ruby)); then
-    maybe_install_ruby_to_home "${_user}"
-fi
+add_ssh_authorized_keys "${_user}" "${_ssh_pub_key}"
 jekyll_modify_user_path "${_user}"
 echo "... the following may take awhile..."
 jekyll_user_install "${_user}" || echo 'Try installing Ruby first maybe?'

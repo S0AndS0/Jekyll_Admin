@@ -95,7 +95,7 @@ Shows script or project license then exits
 Shows values set for above options, print usage, then exits
 EOF
 
-    if [ "${#_parsed_argument_list[@]}" -gt '0' ]; then
+    if (("${#_parsed_argument_list[@]}")); then
         cat <<EOF
 
 Parsed command arguments

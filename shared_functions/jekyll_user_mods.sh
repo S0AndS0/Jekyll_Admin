@@ -5,35 +5,6 @@
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
 
 
-maybe_install_ruby_to_home(){
-    local _user="${1:?No user name provided}"
-    local _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
-
-    local _ruby_version="$(su --shell "$(which bash)" --command "ruby --version | awk '{print $2}'" --login ${_user})"
-    local _ruby_version="${_ruby_version%.*}"
-
-    local _ruby_version_main="${_ruby_version%.*}"
-    local _ruby_version_sub="${_ruby_version#*.}"
-
-    if [[ "${_ruby_version_main}" -ge '2' ]] && [[ "${_ruby_version_sub}" -ge '3' ]]; then
-        printf 'Nothing for %s to do\n' "${FUNCNAME[0]}"
-        return 0
-    fi
-
-    printf '%s installing Ruby to %s home\n' "${FUNCNAME[0]}" "${_user}"
-
-    su --shell $(which bash) --login ${_user} <<'EOF'
-gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-curl -sSL https://get.rvm.io | bash -s stable --rails
-source ${HOME}/.bash_profile
-EOF
-    local _exit_status="${?}"
-
-    printf '## %s finished\n' "${FUNCNAME[0]}"
-    return "${_exit_status}"
-}
-
-
 jekyll_modify_user_path(){
     local _user="${1:?No user name provided}"
     local _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
@@ -78,8 +49,12 @@ printf 'Ruby Version: %s\n' "${_ruby_version}"
 _ruby_version="${_ruby_version%.*}"
 _ruby_version_main="${_ruby_version%.*}"
 _ruby_version_sub="${_ruby_version#*.}"
-if [[ "${_ruby_version_main}" -ge '2' ]] && [[ "${_ruby_version_sub}" -ge '4' ]]; then
-    gem install bundler:'< 2' jekyll:'3.8.5'
+gem install bundler -v '< 2'
+gem install jekyll -v '3.8.5'
+if [[ "${_ruby_version_main}" -ge '2' ]] && [[ "${_ruby_version_sub}" -ge '3' ]]; then
+    # gem install bundler:'< 2' jekyll:'3.8.5'
+    gem install bundler -v '< 2'
+    gem install jekyll -v '3.8.5'
     # rbenv rehash
     bundle init
     bundle install --path "${HOME}/.bundle/install"

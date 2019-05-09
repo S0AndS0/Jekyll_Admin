@@ -75,8 +75,8 @@ write_unbound_ip_domain_block(){    ## write_unbound_ip_domain_block IP URL
     local _dns_conf_path="${3:?No DNS configuration path provided}"
 
     read -r -d '' _ip_config <<EOF
-local-data: "${_url}.      IN A    ${_ip_addr}"
-local-data-ptr: "${_ip_addr}    ${_url}."
+    local-data: "${_url}.      IN A    ${_ip_addr}"
+    local-data-ptr: "${_ip_addr}    ${_url}."
 EOF
     ## Unbound really does not take kindly to duplicate entries
     if grep -q -- "$(tail -1 <<<"${_ip_config}")" "${_dns_conf_path}" 2>/dev/null; then
