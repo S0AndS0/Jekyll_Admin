@@ -22,7 +22,7 @@ Perhaps _`Joanna`_ will add _`Bill`_ first to the private server via...
 ssh joan sudo jekyll_usermod.sh\
  --user="Bill"\
  --group="devs"\
- --ssh-auth-keys="/server-path-to-bills/pub.key"\
+ --ssh-pub-key="/server-path-to-bills/pub.key"\
  --help
 ```
 
@@ -77,12 +77,12 @@ ssh admin sudo jekyll_usermod.sh\
  --user="Ted"\
  --group="devs"\
  --git-shell-copy-or-link="pushable"\
- --ssh-auth-keys="'$(</path-to-teds/pub.key)'"\
+ --ssh-pub-key="'$(</path-to-teds/pub.key)'"\
  --help
 ```
 
 
-> Note in above that the `--ssh-auth-keys` value is double and single quoted in a specific order to ensure that argument parsing does not get confused.
+> Note in above that the `--ssh-pub-key` value is double and single quoted in a specific order to ensure that argument parsing does not get confused.
 
 
 ... not that they don't trust _`Bill`_, more that they trust that _`Bill`_ will do something _interesting_ to get the same permissions as _`Ted`_.

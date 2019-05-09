@@ -1,0 +1,9 @@
+---
+layout: collections/feeds/rss2_entries
+title: Security
+collection_name: security
+collection_home: /security/
+time_to_live: 1800
+date: 2019-05-08 09:11:12 -0700
+permalink: /:collection/:name:output_ext
+---

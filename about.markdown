@@ -14,7 +14,7 @@ This project was born from the desire of an administrator wishing the following 
 ssh admin sudo jekyll_usermod.sh\
  --user="Bill"\
  --group="devs"\
- --ssh-auth-keys="/path-to-bills/pub.key"\
+ --ssh-pub-key="/path-to-bills/pub.key"\
  --help
 ```
 

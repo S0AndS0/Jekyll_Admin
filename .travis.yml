@@ -1,0 +1,63 @@
+## Note, "[ci skio]" or "[skip ci]" within a commit message _should_
+##  cause Travis Continuous Integration to skip the following
+
+## Clone settings for repository
+git:
+  depth: 10
+  quite: true
+  submodules: false
+
+
+## List of Operating Systems to test on
+dist: xenial
+## ^^ Default was trusty as of 2019
+os:
+  - linux
+
+
+## Attempt to limit environment to only what is required
+language: bash
+matrix:
+  fast_finish: true
+
+
+branches:
+  only:
+    - gh-pages
+  except:
+    - master
+
+
+## Note, caching may make following builds a little faster
+## To-do, test 'make update' through the use of caching
+cache:
+  directories:
+    - /home/travis/git_cached
+
+
+## Do the things
+before_install: true
+  # - chmod u+x .travis_ci/before_install.sh
+  # - bash .travis_ci/before_install.sh
+
+install: true
+  # - chmod u+x .travis_ci/install.sh
+  # - bash .travis_ci/install.sh
+
+before_script: true
+  # - if ! [ -L "$(which jekyll_usermod.sh)" ]; then echo 'BUG usermod' && false; fi
+  # - if ! [ -L "$(which jekyll_dnsconf.sh)" ]; then echo 'BUG dnsconf' && false; fi
+  # - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then echo 'BUG wwcwonf' && false; fi
+
+script: true
+  # - chmod u+x .travis_ci/script.sh
+  # - bash .travis_ci/script.sh
+
+after_failure:
+  - echo 'after_failure asks - Where did you go wrong?'
+
+after_success: true
+  # - echo 'after_success states - No errors, this time...'
+
+after_script: true
+  # - echo 'after_script is all good!'

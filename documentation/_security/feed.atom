@@ -1,0 +1,9 @@
+---
+layout: collections/feeds/atom_entries
+title: Security
+collection_name: security
+collection_home: /security/
+date: 2019-05-08 08:11:12 -0700
+content_type: xhtml
+permalink: /:collection/:name:output_ext
+---

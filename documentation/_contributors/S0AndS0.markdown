@@ -28,6 +28,7 @@ These days I `git push` quite a bit of code and documentation to [GitHub], lates
 Not everything I write is good, the further back in time one goes the worse it gets, though I think the world is already full of _a good examples_
 
 
+
 [guide-linux-on-android]: https://forum.xda-developers.com/showthread.php?s=9b058d42aa0a906511920cc26c66bfc7&t=2240397
 
 [guide-maptools-on-android]: http://forums.rptools.net/viewtopic.php?t=24082
