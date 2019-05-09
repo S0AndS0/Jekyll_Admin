@@ -60,7 +60,7 @@ before_script:
   - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then echo 'BUG wwcwonf' && false; fi
 
 script:
-  - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-auth-keys "/home/travis/.ssh/bill.pub"
+  - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-pub-key "/home/travis/.ssh/bill.pub"
   - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
   - sudo cat "/etc/unbound/unbound.conf.d/devs.lan.conf"
   ## Note Travis does not take kindly to StrictHostKeyChecking=accept-new
