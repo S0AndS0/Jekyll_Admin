@@ -76,7 +76,8 @@ script:
 
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list .
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-init Song_Ideas
-  - sudo cat "/srv/Bill/git/Song_Ideas/_config.yml"
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git/Song_Ideas
+  # - sudo cat "/srv/Bill/git/Song_Ideas/_config.yml"
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git
 
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Song_Ideas
@@ -84,7 +85,7 @@ script:
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Bill
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www
 
-  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Song_Ideas"
+  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Song_Ideas" --clobber 'append'
   - cat "/etc/nginx/sites-available/bill.devs.lan"
 
 after_failure:

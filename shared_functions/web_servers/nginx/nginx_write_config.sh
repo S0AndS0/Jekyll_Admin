@@ -80,8 +80,6 @@ EOF
         fi
         read -r -d '' _new_conf <<EOF
 ${_header}
-    root "${_www_path}";
-        error_page 404 /404.html;
 }
 ## Notice - everything beyond above line is subject to auto-removal
 EOF

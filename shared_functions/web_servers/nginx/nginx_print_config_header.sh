@@ -34,14 +34,14 @@ nginx_print_config_header(){    ## nginx_print_config_header <user> <domain> tld
 
             read -r -d '' _header <<EOF
 server {
-location ~ /.git/ { deny all; }
-${_listen_ipv4:-# listen 0.0.0.0}:80;
-${_listen_ipv6:-# listen \[::\]}:80;
-server_name ${_user,,}.${_domain}.${_tld} www.${_user,,}.${_domain}.${_tld};
-index index.html index.htm;
-root "${_home}/www/${_user}";
-error_page 404 /404.html;
-location / { try_files \$uri \$uri/ =404; }
+    location ~ /.git/ { deny all; }
+    ${_listen_ipv4:-# listen 0.0.0.0}:80;
+    ${_listen_ipv6:-# listen \[::\]}:80;
+    server_name ${_user,,}.${_domain}.${_tld} www.${_user,,}.${_domain}.${_tld};
+    index index.html index.htm;
+    root "${_home}/www/${_user}";
+    error_page 404 /404.html;
+    location / { try_files \$uri \$uri/ =404; }
 EOF
         ;;
         *)
