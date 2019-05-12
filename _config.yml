@@ -51,6 +51,9 @@ collections:
   licensing:
     output: true
     permalink: /:collection/:name/
+  security:
+    output: true
+    permalink: /:collection/:name/
   styling:
     output: true
     permalink: /:collection/:name/

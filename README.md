@@ -1,3 +1,9 @@
+[![Build Status][badge_travis_ci]][build_travis_ci] means that tests defined within the [`.travis.yml`][source_travis_yml] configuration file either _passed_, _failed_, etc...
+
+
+___
+
+
 Collection of Bash scripts for Jekyll and Git server administration and interaction via `ssh` or `git` command-line tools.
 
 
@@ -38,8 +44,9 @@ ___
 - [_`assets`_][gh-pages_assets_dir] directory contains `.scss` or `.sass` files that are _transmuted_ into `.css` files, and in the future may contain image and/or JavaScript files, all of which are accessible by other site source files, pages, and/or posts
 
 
+
 [license]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/LICENSE
-[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl.html
+[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
 [gh-pages-source]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
 [gh-pages]: https://s0ands0.github.io/Jekyll_Admin/
 [docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation/
@@ -48,28 +55,30 @@ ___
 [fork]: https://help.github.com/en/articles/fork-a-repo
 [pull-request]: https://help.github.com/en/articles/about-pull-requests
 
-[gh-pages_administration_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_administration
+[gh-pages_administration_dir]: documentation/_administration
 [collection_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
-[gh-pages_administration_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/gh-pages/administration.md
+[gh-pages_administration_source]: administration.markdown
 
-[gh-pages_git_shell_commands_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_git_shell_commands
+[gh-pages_git_shell_commands_dir]: documentation/_git_shell_commands
 [collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
-[gh-pages_git_shell_commands_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/gh-pages/git_shell_commands.md
+[gh-pages_git_shell_commands_source]: git_shell_commands.markdown
 
-[gh-pages_licensing_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_licensing
+[gh-pages_licensing_dir]: documentation/_licensing
 [collection_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
-[gh-pages_licensing_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/gh-pages/licensing.md
+[gh-pages_licensing_source]: licensing.markdown
 
 
-[gh-pages_includes_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_includes
-[gh-pages_layouts_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_layouts
-[gh-pages_scss_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/_scss
-[gh-pages_assets_dir]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/assets
+[gh-pages_includes_dir]: _includes
+[gh-pages_layouts_dir]: _layouts
+[gh-pages_scss_dir]: _scss
+[gh-pages_assets_dir]: assets
 
 
-[gh-pages_layouts_collections_home_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/gh-pages/_layouts/collections/home.html
-[gh-pages_layouts_collections_feeds_rss_entries_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/gh-pages/_layouts/collections/feeds/rss2_entries.html
-[gh-pages_layouts_collections_feeds_atom_entries_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/gh-pages/_layouts/collections/feeds/atom_entries.html
+[gh-pages_layouts_collections_home_source]: _layouts/collections/home.html
+[gh-pages_layouts_collections_feeds_rss_entries_source]: _layouts/collections/feeds/rss2_entries.html
+[gh-pages_layouts_collections_feeds_atom_entries_source]: _layouts/collections/feeds/atom_entries.html
 
+[badge_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin.svg?branch=gh-pages
+[build_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin
 
-[gh-pages_]: example.com
+[source_travis_yml]: .travis.yml

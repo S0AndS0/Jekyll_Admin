@@ -30,34 +30,48 @@ branches:
 
 ## Note, caching may make following builds a little faster
 ## To-do, test 'make update' through the use of caching
-cache:
-  directories:
-    - /home/travis/git_cached
+# cache:
+#   directories:
+#     - /usr/local/etc/Jekyll_Admin
 
 
 ## Do the things
-before_install: true
-  # - chmod u+x .travis_ci/before_install.sh
-  # - bash .travis_ci/before_install.sh
+before_install:
+  - mkdir -vp "/home/travis/.ssh"
+  - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
+  - printf 'Host bill\n    IdentityFile ~/.ssh/bill\n    HostName localhost\n    User Bill\n' >> /home/travis/.ssh/config
 
-install: true
-  # - chmod u+x .travis_ci/install.sh
-  # - bash .travis_ci/install.sh
+  - git remote add test_server bill:git/Jekyll_Admin
 
-before_script: true
-  # - if ! [ -L "$(which jekyll_usermod.sh)" ]; then echo 'BUG usermod' && false; fi
-  # - if ! [ -L "$(which jekyll_dnsconf.sh)" ]; then echo 'BUG dnsconf' && false; fi
-  # - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then echo 'BUG wwcwonf' && false; fi
+  - sudo apt-get install -yqq unbound nginx
+  - sudo git clone git@github.com:S0AndS0/Jekyll_Admin.git "/usr/local/etc/Jekyll_Admin"
 
-script: true
-  # - chmod u+x .travis_ci/script.sh
-  # - bash .travis_ci/script.sh
+  - _exit_status="$(cd /usr/local/etc/Jekyll_Admin && sudo make install-dependencies)"; echo "${_exit_status}"
+  - _exit_status="$(cd /usr/local/etc/Jekyll_Admin && sudo make install)"; echo "${_exit_status}"
+
+install:
+  - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-pub-key "/home/travis/.ssh/bill.pub"
+
+  - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
+  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo 'Bill' --clobber 'force'
+  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo 'Jekyll_Admin' --clobber 'force'
+
+before_script:
+  - if ! [ -L "$(which jekyll_usermod.sh)" ]; then echo 'BUG usermod' && false; fi
+  - if ! [ -L "$(which jekyll_dnsconf.sh)" ]; then echo 'BUG dnsconf' && false; fi
+  - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then echo 'BUG wwcwonf' && false; fi
+
+script:
+  - git push -f test_server gh-pages
+  - ssh bill -o 'StrictHostKeyChecking no' list --license
+  - ssh bill bundle-install Jekyll_Admin
+  - ssh bill jekyll-build Jekyll_Admin
 
 after_failure:
   - echo 'after_failure asks - Where did you go wrong?'
 
-after_success: true
-  # - echo 'after_success states - No errors, this time...'
+after_success:    ## To-Do check jekyll-build with curl or something
+  - echo 'after_success states - No errors, this time...'
 
 after_script: true
   # - echo 'after_script is all good!'
