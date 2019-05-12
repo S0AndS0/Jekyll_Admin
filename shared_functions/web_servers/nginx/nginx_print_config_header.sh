@@ -6,7 +6,7 @@ _NGINX_CONF_DIR="${_NGINX_CONF_DIR:-/etc/nginx}"
 
 nginx_print_config_header(){    ## nginx_print_config_header <user> <domain> tld interface clobber
     local _user="${1:?No user name provided}"
-    local _domain="${2:?No domain/group name provided}"
+    local _domain="${2:?No domain name provided}"
     local _tld="${3:-lan}"
     local _interface="${4}"
     local _clobber="${5:-no}"
