@@ -10,13 +10,17 @@ __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Initializes new Git repository with a gh-pages branch'
 
 
+## Provides 'failure'
+source "${__DIR__}/shared_functions/failure"
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
 
 ## Provides: git_add_commit <string>
 source "${__DIR__}/shared_functions/git_shortcuts"
 
-## Provides: '__license__ <description> <author>'
+## Provides: __license__ <description> <author>
 source "${__DIR__}/shared_functions/license"
 
 
@@ -172,17 +176,18 @@ modify_config_yml(){
         return 1
     fi
 
+    ## The following seem to be bugging things up
     if [ -n "${_title}" ]; then
-        sed -i "/title:/ { s#:[a-zA-Z 0-9]*#${_title}#; }" "${_git_path}/_config.yml"
+        sed -i "/title:/ { s#:[a-zA-Z 0-9]*#: ${_title}#; }" "${_git_path}/_config.yml"
     fi
     if [ -n "${_email}" ]; then
-        sed -i "/email:/ { s#:[a-zA-Z 0-9]*#${_email}#; }" "${_git_path}/_config.yml"
+        sed -i "/email:/ { s#:[a-zA-Z 0-9]*#: ${_email}#; }" "${_git_path}/_config.yml"
     fi
     if [ -n "${_twitter_username}" ]; then
-        sed -i "/_twitter_username:/ { s#:[a-zA-Z 0-9]*#${_twitter_username}#; }" "${_git_path}/_config.yml"
+        sed -i "/_twitter_username:/ { s#:[a-zA-Z 0-9]*#: ${_twitter_username}#; }" "${_git_path}/_config.yml"
     fi
     if [ -n "${_github_username}" ]; then
-        sed -i "/github_username:/ { s#:[a-zA-Z 0-9]*#${_github_username}#; }" "${_git_path}/_config.yml"
+        sed -i "/github_username:/ { s#:[a-zA-Z 0-9]*#: ${_github_username}#; }" "${_git_path}/_config.yml"
     fi
 
     if [[ "${_repo_name}" != "${_github_username}" ]]; then

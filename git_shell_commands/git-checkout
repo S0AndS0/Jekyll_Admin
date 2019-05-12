@@ -10,10 +10,14 @@ __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Short-cut to "git checkout" for named repository'
 
 
+## Provides 'failure'
+source "${__DIR__}/shared_functions/failure"
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
 
-## Provides: '__license__ <description> <author>'
+## Provides: __license__ <description> <author>
 source "${__DIR__}/shared_functions/license"
 
 

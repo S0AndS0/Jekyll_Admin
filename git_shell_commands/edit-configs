@@ -10,10 +10,14 @@ __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Initializes Jekyll under gh-pages branch within named repository'
 
 
+## Provides 'failure'
+source "${__DIR__}/shared_functions/failure"
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
 
-## Provides: '__license__ <description> <author>'
+## Provides: __license__ <description> <author>
 source "${__DIR__}/shared_functions/license"
 
 _config_dir="${HOME}/.config/jekyll-build"
@@ -21,8 +25,8 @@ _config_dir="${HOME}/.config/jekyll-build"
 
 usage(){
     _message="${1}"
-  _repo_name="${_repo_name:-repository-name}"
-  cat <<EOF
+    _repo_name="${_repo_name:-repository-name}"
+    cat <<EOF
 ## Usage
 # ssh ${USER}@host-or-ip ${__NAME__} ${_repo_name}
 #

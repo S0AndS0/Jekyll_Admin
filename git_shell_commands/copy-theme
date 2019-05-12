@@ -10,13 +10,17 @@ __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Copies named theme files to named repository and git commits the changes'
 
 
+## Provides 'failure'
+source "${__DIR__}/shared_functions/failure"
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
 
 ## Provides: git_add_commit <string>
 source "${__DIR__}/shared_functions/git_shortcuts"
 
-## Provides: '__license__ <description> <author>'
+## Provides: __license__ <description> <author>
 source "${__DIR__}/shared_functions/license"
 
 
