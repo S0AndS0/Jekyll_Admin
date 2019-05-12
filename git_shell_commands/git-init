@@ -10,9 +10,10 @@ __AUTHOR__='S0AndS0'
 __DESCRIPTION__='Initializes new git repository ready for cloning &/or pushing'
 
 
+## To-do, get results of 'git rev-parse' without tripping the following trap
 ## Provides 'failure'
-source "${__DIR__}/shared_functions/failure"
-trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+# source "${__DIR__}/shared_functions/failure"
+# trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"

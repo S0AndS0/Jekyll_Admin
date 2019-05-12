@@ -11,8 +11,8 @@ __DESCRIPTION__='Copies named theme files to named repository and git commits th
 
 
 ## Provides 'failure'
-source "${__DIR__}/shared_functions/failure"
-trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+# source "${__DIR__}/shared_functions/failure"
+# trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
@@ -98,6 +98,7 @@ _jekyll_config_yml_path="${_git_path}/_config.yml"
 _old_PWD="${PWD}"
 if [ -d "${_git_path}" ]; then cd "${_git_path}"; fi
 
+## To-do, get following results without tripping trap for failure
 _git_dir="$(git rev-parse --git-dir 2>/dev/null)"
 if [[ "${_git_path}/${_git_dir}" != "${_git_path}/.git" ]] || ! [ -f "${_jekyll_config_yml_path}" ]; then
     printf '# Repository %s not initialized correctly\n' "${_repo_name}"

@@ -11,8 +11,8 @@ __DESCRIPTION__='Initializes new Git repository with a gh-pages branch'
 
 
 ## Provides 'failure'
-source "${__DIR__}/shared_functions/failure"
-trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+# source "${__DIR__}/shared_functions/failure"
+# trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides: argument_parser <arg-array-reference> <acceptable-arg-reference>
 source "${__DIR__}/shared_functions/arg_parser"
