@@ -3,12 +3,21 @@
 
 _NGINX_CONF_DIR="${_NGINX_CONF_DIR:-/etc/nginx}"
 
+## Enable sourcing from project root
+if [ -z "${__GGG_PARENT__}" ]; then
+    __SOURCE__="${BASH_SOURCE[0]}"
+    while [[ -h "${__SOURCE__}" ]]; do
+        __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+    done
+    __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+    __GGG_PARENT__="$(dirname "$(dirname "$(dirname "${__SUB_DIR__}")")")"
+fi
 
 ## Provides: nginx_enable_config <path>
-source "./nginx_enable_config.sh"
+source "${__GGG_PARENT__}/shared_functions/web_servers/nginx/nginx_enable_config.sh"
 
 ## Provides: nginx_print_config_header <user> <domain> tld interface clobber
-source "./nginx_print_config_header.sh"
+source "${__GGG_PARENT__}/shared_functions/web_servers/nginx/nginx_print_config_header.sh"
 
 
 nginx_rewrite_config(){    ## nginx_rewrite_config <user> <domain> tld interface clobber

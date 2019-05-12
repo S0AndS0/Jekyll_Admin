@@ -3,13 +3,16 @@
 
 _NGINX_CONF_DIR="${_NGINX_CONF_DIR:-/etc/nginx}"
 
-## Find true directory script resides in, true name, and true path
-__SOURCE__="${BASH_SOURCE[0]}"
-while [[ -h "${__SOURCE__}" ]]; do
-    __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
-done
-__SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
-__GGG_PARENT__="$(dirname "$(dirname "$(dirname "${__SUB_DIR__}")")")"
+
+## Enable sourcing from project root
+if [ -z "${__GGG_PARENT__}" ]; then
+    __SOURCE__="${BASH_SOURCE[0]}"
+    while [[ -h "${__SOURCE__}" ]]; do
+        __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+    done
+    __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+    __GGG_PARENT__="$(dirname "$(dirname "$(dirname "${__SUB_DIR__}")")")"
+fi
 
 
 ## Provides:  remove_from_to <search-start> <search-end> <file-path>

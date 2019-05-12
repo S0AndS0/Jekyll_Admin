@@ -4,22 +4,24 @@
 _DNS_CONF_DIR="${_DNS_CONF_DIR:-/etc/unbound/unbound.conf.d}"
 
 
-## Find true directory script resides in, true name, and true path
-__SOURCE__="${BASH_SOURCE[0]}"
-while [[ -h "${__SOURCE__}" ]]; do
-    __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
-done
-__SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
-__GGG_PARENT__="$(dirname "$(dirname "$(dirname "${__SUB_DIR__}")")")"
+## Enable sourcing from project root
+if [ -z "${__GGG_PARENT__}" ]; then
+    __SOURCE__="${BASH_SOURCE[0]}"
+    while [[ -h "${__SOURCE__}" ]]; do
+        __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+    done
+    __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+    __GGG_PARENT__="$(dirname "$(dirname "$(dirname "${__SUB_DIR__}")")")"
+fi
 
 
 ## Provides: remove_from_to <search-start> <search-end> <file-path>
-source "${__G_PARENT__}/remove_from_to.sh"
+source "${__G_PARENT__}/shared_functions/remove_from_to.sh"
 
 ## Provides:
 #    interface_ipv4 <interface>
 #    interface_ipv6 <interface>
-source "${__G_PARENT__}/network_info.sh"
+source "${__G_PARENT__}/shared_functions/network_info.sh"
 
 
 remove_unbound_config(){    ## remove_unbound_config <domain> <tld> interface clobber

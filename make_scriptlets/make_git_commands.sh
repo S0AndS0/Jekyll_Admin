@@ -2,8 +2,10 @@
 ## Exit if not root or sudo level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; fi
 
+
 _AUTHOR_BRANCH='master'
 _LOCAL_BRANCH='local'
+
 
 #
 #    Set script variables that should not be modified
@@ -18,12 +20,14 @@ __NAME__="${__SOURCE__##*/}"
 __REPO_DIR__="${__DIR__%/*}"
 __ORIG_PWD__="${PWD}"
 
+
 #
 #    Source useful functions
 #
-## Provided     'failure'
-set -eE -o functrace
-trap 'failure ${LINENO} "${BASH_COMMAND}"' ERR
+## Provides: 'failure'
+source "${__REPO_DIR__}/shared_functions/failure.sh"
+trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
+
 
 usage(){
     cat <<EOF
@@ -69,7 +73,7 @@ git_checkout_install(){
     else
         git checkout -b "${_LOCAL_BRANCH}"
     fi
-    git config core.fileMode false
+    git config --local core.fileMode false
     git merge --strategy-option theirs --squash ${_AUTHOR_BRANCH}
     _msg="${__NAME__} merged changes from ${_AUTHOR_BRANCH}"
     git commit -m "${_msg}"
