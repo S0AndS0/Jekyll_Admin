@@ -21,7 +21,7 @@ git checkout -b gh-pages
 
 _ruby_version="$(ruby --version)"
 printf 'Ruby Version: %s\n' "${_ruby_version}"
-_ruby_version="${_ruby_version%.*}"
+_ruby_version="$(awk '{print $2}' <<<${_ruby_version%.*})"
 _ruby_version_main="${_ruby_version%.*}"
 _ruby_version_sub="${_ruby_version#*.}"
 if [[ "${_ruby_version_main}" -ge '2' ]] && [[ "${_ruby_version_sub}" -ge '1' ]]; then
