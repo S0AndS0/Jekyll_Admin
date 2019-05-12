@@ -19,7 +19,163 @@ To add features or fix issues within this project; start with making a [_`Fork`_
 ___
 
 
-### Directories
+## Requirements
+
+
+- Ruby version >= 2.1 for; Jekyll version 3.8.5, and Bundler version 1.17.3
+
+- Bash version >= 4 for; _`local -n _ref_one="${1}"`_ and other _fanciness_ at the shell level
+
+- Debian based Linux or the knowhow to install `apt` dependencies via another package manager
+
+
+___
+
+
+## Quick start
+
+
+> The following should be preformed on a private server, VPS, RPi, etc...
+
+
+- 0. Install dependencies
+
+
+```bash
+sudo apt-get install build-essential\
+                     git-core\
+                     nginx\
+                     ruby-full\
+                     unbound\
+                     zlib1g-dev
+```
+
+
+> Securing `nginx` and `unbound` servers is currently outside the scope of this file and documentation for this project.
+
+
+- 1. Elivate to `root` level permissions and clone within a directory for source installed tools...
+
+
+```bash
+sudo su -
+cd /usr/local/etc
+git clone git@github.com:S0AndS0/Jekyll_Admin.git
+cd Jekyll_Admin
+```
+
+
+- 2. Install or update via make
+
+
+```bash
+make install-dependencies
+make install
+## ... or
+#  make update && make install
+```
+
+
+- 3.
+    <sup>a</sup> For each group/domain run the `jekyll_dnsconf.sh` script, for each user run the `jekyll_usermod.sh` script, and for each repository of each user run the `jekyll_wwwconf.sh` script
+
+    <sub>b</sub> Organize the list of users based off their shared group within some kind of data structure (in this case an associative array) and loop over it while utilizing project scripts to set-up things...
+
+
+```bash
+#!/usr/bin/env bash
+
+
+declare -A _grouped_users=(
+    ['admins']='Joan:Liz'
+    ['devs']='Bill:Ted'
+)
+
+_key_dir="${HOME}/git_public_keys"
+for _domain in "${!_grouped_users[@]}"; do
+    for _user in ${_grouped_users[${_domain}]//:/ }; do
+        _usermod_args=(
+            '--user' "${_user}"
+            '--group' "${_domain}"
+            '--ssh-pub-key' "${_key_dir}/${_user,,}.pub"
+        )
+        case "${_domain}" in
+            'admins')
+                _usermod_args+=('--git-shell-copy-or-link' 'pushable')
+            ;;
+            *)
+                if [[ "${_user,,}" != 'bill' ]]; then
+                    _usermod_args+=('--git-shell-copy-or-link' 'pushable')
+                fi
+            ;;
+        esac
+        jekyll_usermod.sh "${_usermod_args[@]}"
+        jekyll_wwwconf.sh --user "${_user}"\
+                        --domain "${_domain}"\
+                           --tld 'lan'\
+                          --repo "${_user}"\
+                        --server 'nginx'\
+                       --clobber 'force'
+    done
+    if ! [ -f "/etc/unbound/unbound.conf.d/${_domain}.lan.conf" ]; then
+        jekyll_dnsconf.sh --server 'unbound'\
+                       --interface 'eth0'\
+                          --domain "${_domain}"\
+                             --tld 'lan'
+    fi
+done
+```
+
+
+> The above will allow _`git push`es_ by a user to their own `git-shell-commands` directory, except for _`Bill`_ who'll have scripts copied over but not setup with _`Git`_ tracking; for reasons.
+
+
+... and perhaps write a cron job script for occasionally adding configuration blocks as repositories are built into pages...
+
+
+```bash
+#!/usr/bin/env bash
+
+_home_base='/srv'
+
+declare -A _grouped_users=(
+    ['admins']='Joan:Liz'
+    ['devs']='Bill:Ted'
+)
+
+_wwwconf_args_base=(
+    '--clobber' 'update'
+    '--interface' 'eth0'
+    '--server' 'nginx'
+    '--tld' 'lan'
+)
+
+for _domain in "${!_grouped_users[@]}"; do
+    for _user in ${_grouped_users[${_domain}]//:/ }; do
+        _www_dir="${_home_base}/${_user}/www"
+        [[ -d "${_www_dir}" ]] || continue
+        for _srv_dir in "${_www_dir}/"*; do
+            jekyll_wwwconf.sh ${_wwwconf_args_base[*]}\
+                                --user "${_user}"\
+                              --domain "${_domain}"
+        done
+    done
+done
+```
+
+> Note `entr` and other file system monitoring APIs maybe more efficient than what the above is doing.
+
+
+- 4. Notify _`Git`_/_`Jekyll`_ users that server is ready to utilize `git-shell-commands` within their respective home directories
+
+
+- 5. If not using a `cron` job to keep web server configurations updated then use the `jekyll_wwwconf.sh` script's `--clobber` `append` or `remove` options for the desired results against a given `--repo`
+
+
+___
+
+
+## Directories
 
 
 - [_`.github`_][source_github_dir] contains templates for GitHub interactions such as opening [_`Issues`_][issues]
@@ -31,7 +187,7 @@ ___
 - [_`shared_functions/`_][source_shared_functions_dir] contains functions shared between scripts within root of project directory
 
 
-### Administration Scripts
+## Administration Scripts
 
 
 - [_`jekyll_usermod.sh`_][source_jekyll_usermod], adds new user, with ssh-pub-key (git-shell access only), and [_`installs`_][docs_jekyll_usermod] the following to the home directory of the new user;
@@ -61,8 +217,8 @@ ___
 [docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf/
 
 [branch_gh_pages]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
-[contributers]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/tree/gh-pages/documentation/_contributors/
-[contributing]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/tree/gh-pages/documentation/_contributing/
+[contributers]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/documentation/_contributors/
+[contributing]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/documentation/_contributing/
 
 [issues]: https://github.com/S0AndS0/Jekyll_Admin/issues
 [license]: LICENSE
@@ -70,7 +226,7 @@ ___
 [source_jekyll_usermod]: jekyll_usermod.sh
 [source_jekyll_wwwconf]: jekyll_wwwconf.sh
 [source_makefile]: Makefile
-[source_travis_yml]: travis.yml
+[source_travis_yml]: .travis.yml
 
 [source_git_shell_commands_dir]: git_shell_commands/
 [source_make_scriptlets_dir]: make_scriptlets/

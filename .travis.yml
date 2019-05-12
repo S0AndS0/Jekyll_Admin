@@ -8,9 +8,12 @@ git:
   submodules: false
 
 
-## List of Operating Systems to test on
+## Note 'trusty' (default as of 2019) results in...
+#    ERROR:  Error installing jekyll:
+#    public_suffix requires Ruby version >= 2.1
+
+## Operating System to test on
 # dist: xenial
-# ## ^^ Default was trusty as of 2019
 # os:
 #   - linux
 
@@ -21,11 +24,13 @@ matrix:
   fast_finish: true
   ## Thanks be to, https://docs.travis-ci.com/user/multi-os/
   include:
-    ## Default as of 2019
-    - os: linux
-      dist: trusty
-    ## Suggested in Travis CI blog
-    - os: linux
+    # - name: 'Linux Trusty'
+    #   os: linux
+    #   dist: trusty
+    ## Suggested in Travis CI blog and
+    ##  contains sufficent Ruby version
+    - name: 'Linux Xenial'
+      os: linux
       dist: xenial
 
 
@@ -42,10 +47,12 @@ branches:
 #   directories:
 #     - /home/travis/.ssh
 
-
-## Do the things
+#
+# Do the things
+#
+## Install and setup servers this project makes use of
 before_install:
-  - sudo apt-get install -yqq unbound nginx git-core ruby-full build-essential zlib1g-dev
+  - sudo apt-get install -yqq unbound nginx
   - mkdir -vp "/home/travis/.ssh"
   - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
 
@@ -61,27 +68,32 @@ before_script:
 
 script:
   - sudo jekyll_usermod.sh --user "Bill" --group "devs" --ssh-pub-key "/home/travis/.ssh/bill.pub"
+  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo 'Bill' --clobber 'force'
+  ## To-do, sort out why Unbound is not happy with Travis CI
   - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
-  - sudo cat "/etc/unbound/unbound.conf.d/devs.lan.conf"
   ## Note Travis does not take kindly to StrictHostKeyChecking=accept-new
   - ssh Bill@localhost -o 'StrictHostKeyChecking no' -i "/home/travis/.ssh/bill" list --license
 
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list .
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" git-init Ideas
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-init Song_Ideas
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git
 
-  ## To-do, sort-out gem install bundler on Travis CI VMs
-  # - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Bill
-  # - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Bill
-  # - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www
-  # - sudo ls -hal /srv/bill/www
-  # - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Bill"
-  # - cat "/etc/nginx/sites-enabled/bill.devs.lan"
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Song_Ideas
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Song_Ideas
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Bill
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www
+
+  - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Song_Ideas"
 
 after_failure:
   - printf 'after_failure asks - Where did %s go wrong?\n' "${USER}"
 
 after_success:
+  - sudo ls -hal "/etc/nginx/sites-enabled/"
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git/Song_Ideas
+  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www/song_ideas
+  - cat "/etc/unbound/unbound.conf.d/devs.lan.conf"
+  - cat "/etc/nginx/sites-enabled/bill.devs.lan"
   - echo 'after_success states - No errors, this time...'
 
 after_script:

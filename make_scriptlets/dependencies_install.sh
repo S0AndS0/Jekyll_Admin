@@ -2,7 +2,7 @@
 ## Exit if not running with root/sudo level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${1:-linux} ${2:-install}"; exit 1; fi
 
-_DEBIAN_DEPENDS_LIST='git ruby-full nodejs gawk'
+_DEBIAN_DEPENDS_LIST='git ruby-full nodejs gawk git-core build-essential zlib1g-dev'
 
 apt_get(){
     _args="${@}"

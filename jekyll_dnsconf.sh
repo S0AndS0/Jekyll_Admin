@@ -40,10 +40,11 @@ __DESCRIPTION__='Writes DNS configurations for Jekyll and/or Git clients'
 source "${__DIR__}/shared_functions/failure.sh"
 trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
-## Provides: 'write_unbound_config <group> tld interface clobber'
-##           'remove_unbound_config' <group> <tld> <interface> <clobber>
-##           'write_unbound_ip_domain_block' <ip> <url>
-source "${__DIR__}/shared_functions/write_server_configs_dns/unbound.sh"
+## Provides: remove_unbound_config <domain> <tld> interface clobber
+source "${__DIR__}/shared_functions/domain_name_servers/unbound/unbound_remove_config.sh"
+
+## Provides: unbound_write_config <domain> <tld> interface clobber
+source "${__DIR__}/shared_functions/domain_name_servers/unbound/unbound_write_config.sh"
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
 source "${__DIR__}/shared_functions/arg_parser.sh"
@@ -142,11 +143,11 @@ case "${_server,,}" in
     'unbound')
         case "${_clobber,,}" in
             'remove'|'delete')
-                remove_unbound_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
+                unbound_remove_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
                 # systemctl restart unbound.service
             ;;
             *)
-                write_unbound_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
+                unbound_write_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
                 # systemctl restart unbound.service
             ;;
         esac

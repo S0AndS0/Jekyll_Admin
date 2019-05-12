@@ -11,7 +11,7 @@ _ssh_pub_key=''
 _www_group="www-data"
 ## New git/jekyll server user & group names. Note user will have read & write access
 ##  where as group will have read only permissions, hopefully allowing collaboration
-_user='jek'
+_user=''
 _group='devs'
 ## Default '/srv' to avoid cluttering up '/home' directory with non-login users
 _HOME_BASE='/srv'
@@ -24,9 +24,6 @@ _git_shell_copy_or_link='copy'
 _clobber='no'
 _git_shell="$(which git-shell)"
 _LOGIN_SHELL="${_git_shell}"
-## See notice in read_me.md file, TLD does not work until Firejail bugs are stomped
-#_LOGIN_SHELL="$(which firejail)"
-#_LOGIN_SHELL="${_LOGIN_SHELL:-$_git_shell}"
 
 
 #
@@ -48,23 +45,27 @@ __DESCRIPTION__='Adds new Git/Jekyll user equiped with simple git_shell_commands
 #
 #    Source useful functions
 #
-## Provided     'failure'
+## Provides: 'failure'
 source "${__DIR__}/shared_functions/failure.sh"
 trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
-## Provides:    'modify_etc_shells <login-shell>'
-##        'add_ssh_authorized_keys <user> <ssh-authorized-keys>'
-##        'add_firejail_user <user>'
-## 'add_jekyll_user <user>:<group> <login-shell> group-one,group-two <home-parent>'
-source "${__DIR__}/shared_functions/add_user.sh"
+## Provides: modify_etc_shells <shell_path>
+source "${__DIR__}/shared_functions/user_mods/modify_etc_shells.sh"
 
-## Provides:    'jekyll_modify_user_path <user>'
-##        'jekyll_user_install <user>'
-source "${__DIR__}/shared_functions/jekyll_user_mods.sh"
+## Provides: add_ssh_pub_key <user> <pub_key>
+source "${__DIR__}/shared_functions/user_mods/add_ssh_pub_key.sh"
 
-## Provides:    'copy_or_link_paths <source> <dest> copy-or-link clobber'
-##        'copy_or_link_git_shell_scripts <user> allowed-scripts copy-or-link client-pushable clobber'
-source "${__DIR__}/shared_functions/copy_or_link_git_shell_scripts.sh"
+## Provides: add_jekyll_user <user>:group <shell_path> additional_groups home_base
+source "${__DIR__}/shared_functions/user_mods/add_jekyll_user.sh"
+
+## Provides: jekyll_gem_bash_aliases <user>
+source "${__DIR__}/shared_functions/user_mods/jekyll_gem_bash_aliases.sh"
+
+## Provides: jekyll_user_install <user>
+source "${__DIR__}/shared_functions/user_mods/jekyll_user_install.sh"
+
+## Provides: copy_or_link_git_shell_commands <user> allowed_scripts copy_or_link clobber
+source "${__DIR__}/shared_functions/user_mods/copy_or_link_git_shell_scripts.sh"
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
 source "${__DIR__}/shared_functions/arg_parser.sh"
@@ -99,7 +100,7 @@ Writes defined SSH public key to ${_HOME_BASE}/${_user}/.ssh/authorized_keys
  Note if using redirection, eg...
 
     --ssh-pub-key=\\""\$(<~/.ssh/pub.key)\\""
-    --ssh-pub-key \\"'\$(<~/.ssh/pub.key)'\\"
+    --ssh-pub-key "'\$(<~/.ssh/pub.key)'"
 
  ... then double quoting is required!
 
@@ -155,7 +156,7 @@ if ((_help)) || ((_exit_status)); then
 elif ((_license)); then
     __license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
     exit ${_exit_status:-0}
-elif [[ -z "${_ssh_pub_key}" ]]; then
+elif [[ -z "${_ssh_pub_key}" ]] || [[ -z "${_user}" ]]; then
     usage '_assigned_args' | less ${_LESS_OPTS}
     exit ${_exit_status:-1}
 fi
@@ -167,8 +168,8 @@ fi
 modify_etc_shells "${_LOGIN_SHELL}"
 add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_BASE}"
 # add_firejail_user "${_user}"
-add_ssh_authorized_keys "${_user}" "${_ssh_pub_key}"
-jekyll_modify_user_path "${_user}"
+add_ssh_pub_key "${_user}" "${_ssh_pub_key}"
+jekyll_gem_bash_aliases "${_user}"
 echo "... the following may take awhile..."
 jekyll_user_install "${_user}" || echo 'Try installing Ruby first maybe?'
 copy_or_link_git_shell_commands "${_user}" "${_git_shell_allowed}" "${_git_shell_copy_or_link}" "${_clobber}"

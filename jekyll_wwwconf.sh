@@ -2,11 +2,12 @@
 ## Exit if not running with root/level permissions
 if [[ "${EUID}" != '0' ]]; then echo "Try: sudo ${0##*/} ${@:---help}"; exit 1; fi
 
+_NGINX_CONF_DIR="${_NGINX_CONF_DIR:-/etc/nginx}"
 
 #
 #    Set defaults for script variables; these maybe overwritten at run-time
 #
-_user='jek'
+_user=''
 _group='devs'
 _server='nginx'
 _repo="${_user}"
@@ -34,19 +35,23 @@ __DESCRIPTION__='Writes Web Server configurations for Jekyll and/or Git client p
 #
 #    Source useful functions
 #
-## Provides:    'failure'
+## Provides:  'failure'
 source "${__DIR__}/shared_functions/failure.sh"
 trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
 source "${__DIR__}/shared_functions/arg_parser.sh"
 
-## Provides:    'write_nginx_config_direct <user> <repo> group tld interface clobber'
-##        'remove_nginx_config <user>:group|domain <repo> <tld> <clobber>'
-##        'nginx_enable_config <user>'
-source "${__DIR__}/shared_functions/write_server_configs_web/nginx.sh"
+## Provides:  nginx_rewrite_config <user> <group> tld interface clobber
+source "${__DIR__}/shared_functions/web_servers/nginx/nginx_rewrite_config.sh"
 
-## Provides: '__license__ <description> <author>'
+## Provides:  nginx_write_config <user>:group <repo> tld interface clobber
+source "${__DIR__}/shared_functions/web_servers/nginx/nginx_write_config.sh"
+
+## Provides:  nginx_remove_config <user>:group <repo> tld clobber
+source "${__DIR__}/shared_functions/web_servers/nginx/nginx_remove_config.sh"
+
+## Provides:  __license__ <description> <author>
 source "${__DIR__}/shared_functions/license.sh"
 
 
@@ -57,15 +62,20 @@ ${__DESCRIPTION__}
 
 # Options
   -u    --user=${_user}
+Required
 Name of user to look under their home for '~/www' directory, for Jekyll
  built static files built from ${_repo} for serving via ${_server}
 
   -r    --repo=${_repo}
+Name of repository to build configs for if '--clobber' is unset
+ or set to 'yes' or 'append'
 
   -g    -d    --domain    --group=${_group}
+Default: 'devs'
 Domain/group name that user will become a sub-domain of.
 
   -s    --server=${_server}
+Default: 'unbound'
 Server type, eg 'apache2' or 'nginx' to write and link configuration files
  for. Try '${__NAME__} examples'
 
@@ -75,18 +85,31 @@ Interface that web-server is listening on. IPv4 & IPv6 listening addresses
  config. directory if available.
 
   -t    --tld    --top-level-domain=${_tld}
+Default: 'lan'
 Top level domain name, eg 'local', 'io' or 'com', etc. Note if left empty or
  unset, and if repo contains a period eg 'jekyll-template.local' then the
  last word is parsed out as the TLD.
 
   -c    --clobber=${_clobber}
-If 'yes' then pre-existing server configuration files will be appended to.
- If 'remove' then pre-existing location configuration will be removed for
+Default: 'no'
+If 'yes' or 'append' then pre-existing server configuration files will be appended to.
+
+If 'force' then appends regardless of if jekyll-build has been run against --repo
+
+If 'remove' then pre-existing location configuration will be removed for
  given repository.
- If 'disable' then the symbolic link pointing to given user web server
+
+If 'disable' then the symbolic link pointing to given user web server
  configurations will be removed, disabling all sites for that user.
- If 'delete' then both operations for remove and disable will be preformed
- Default: 'no'
+
+If 'delete' then both operations for remove and disable will be preformed
+
+If 'update' then --repo is ignored while all directories
+ under \${HOME}/www have their configuration blocks updated
+
+If 'rewrite' then process is similar to '--clobber=update', however,
+ header of configuration file will also be overwritten; useful for
+ changing interface/listening IP address(es)
 
   -l    --license
 Shows script or project license then exits
@@ -122,12 +145,18 @@ _valid_args=('--help|-h|help:bool'
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
 
+_repo="${_repo:-${_user}}"
+
 if ((_help)) || ((_exit_status)); then
     usage '_assigned_args' | less ${_LESS_OPTS}
-    exit ${_exit_status:-0}
+    exit "${_exit_status:-0}"
 elif ((_license)); then
     __license__ "${__DESCRIPTION__}" "${__AUTHOR__}"
-    exit ${_exit_status:-0}
+    exit "${_exit_status:-0}"
+elif [[ -z "${_repo}" ]] || [[ -z "${_user}" ]]; then
+    printf 'Please see "--repo" and/or "--user" options\n' >&2
+    usage '_assigned_args' | less ${_LESS_OPTS}
+    exit "${_exit_status:-1}"
 fi
 
 
@@ -138,12 +167,17 @@ case "${_server,,}" in
     'nginx')
         case "${_clobber,,}" in
             'remove'|'disable'|'delete')
-                remove_nginx_config "${_user}:${_group}" "${_repo}" "${_tld}" "${_clobber}"
+                nginx_remove_config "${_user}:${_group}" "${_repo}" "${_tld}" "${_clobber}"
                 systemctl restart nginx.service
             ;;
-            *)
-                write_nginx_config_direct "${_user}:${_group}" "${_repo}" "${_tld}" "${_interface}" "${_clobber}"
-                nginx_enable_config "${_user}"
+            'update'|'rewrite')
+                nginx_rewrite_config "${_user}" "${_group}" "${_tld}" "${interface}" "${_clobber}"
+                systemctl reload nginx.service
+            ;;
+            'yes'|'append'|*)
+                _sites_available_path="${_NGINX_CONF_DIR}/sites-available/${_user,,}.${_group}.${_tld}"
+                nginx_write_config "${_user}:${_group}" "${_repo}" "${_tld}" "${_interface}" "${_clobber}"
+                nginx_enable_config "${_sites_available_path}"
                 systemctl restart nginx.service
             ;;
         esac

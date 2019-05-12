@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 
-if [[ "${EUID}" != '0' ]]; then echo "Try: sudo source ${0##*/}"; exit 1; fi
-
-
-copy_or_link_git_shell_commands(){
+copy_or_link_git_shell_commands(){    ## copy_or_link_git_shell_commands <user> allowed_scripts copy_or_link clobber
     _user="${1:?No user name provided}"
     _allowed_scripts="${2:-all}"
     _copy_or_link="${3:-copy}"
