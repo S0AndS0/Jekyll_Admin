@@ -195,7 +195,7 @@ EOF
 
 
 source "${HOME}/.bash_aliases"
-bundle init
+bundle init || exit "${?}"
 bundle install --path "${_bundle_path}"
 bundle add jekyll
 bundle exec jekyll new --force --skip-bundle "${_git_path}"

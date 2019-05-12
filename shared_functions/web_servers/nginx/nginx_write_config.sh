@@ -23,13 +23,13 @@ nginx_write_config(){    ## nginx_write_config <user>:group <repo> tld interface
     else
         _www_dir="${_home}/www/${_repo}"
     fi
-    if ! [ -d "${_www_dir}" ] && [[ "${_clober,,}" != 'force' ]]; then
+    if ! [ -d "${_www_dir}" ] && [[ "${_clobber,,}" != 'force' ]]; then
         printf 'Try "ssh %s@host-or-ip jekyll-build %s" first\n' "${_user}" "${_repo}" >&2
         return 1
     fi
 
     if [ -f "${_sites_available_path}" ]; then
-        case "${_clober,,}" in
+        case "${_clobber,,}" in
             'yes'|'append'|'force')
                 printf 'NOTICE - Nginx sites-available config already exists, clobber set to %s\n' "${_clobber,,}"
             ;;

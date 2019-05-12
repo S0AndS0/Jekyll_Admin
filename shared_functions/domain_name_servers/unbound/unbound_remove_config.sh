@@ -16,12 +16,12 @@ fi
 
 
 ## Provides: remove_from_to <search-start> <search-end> <file-path>
-source "${__G_PARENT__}/shared_functions/remove_from_to.sh"
+source "${__GGG_PARENT__}/shared_functions/remove_from_to.sh"
 
 ## Provides:
 #    interface_ipv4 <interface>
 #    interface_ipv6 <interface>
-source "${__G_PARENT__}/shared_functions/network_info.sh"
+source "${__GGG_PARENT__}/shared_functions/network_info.sh"
 
 
 remove_unbound_config(){    ## remove_unbound_config <domain> <tld> interface clobber

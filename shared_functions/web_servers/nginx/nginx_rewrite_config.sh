@@ -25,7 +25,7 @@ nginx_rewrite_config(){    ## nginx_rewrite_config <user> <domain> tld interface
     local _domain="${2:?No domain/group name provided}"
     local _tld="${3:-lan}"
     local _interface="${4:-$(ls -1 /sys/class/net/ | grep -v 'lo' | head -1)}"
-    local _clober="${5:-update}"
+    local _clobber="${5:-update}"
     local _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
     if [ -z "${_home}" ]; then
         printf 'No home found for %s\n' "${_user}" >&2
