@@ -42,7 +42,7 @@ nginx_remove_config(){    ## nginx_remove_config <user>:group <repo> tld clobber
             if [ -f "${_sites_available_path}" ]; then
                 if [[ "${_user,,}" == "${_repo,,}" ]]; then
                     _match_location="/"
-                    _www_path="${_home}/www/${_user,,}"
+                    _www_path="${_home}/www/${_user}"
                     sed -i "/${_www_path//\//\\/}/ s@^@#@" "${_sites_available_path}"
                 else
                     _match_location="/${_repo}/"

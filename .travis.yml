@@ -76,6 +76,7 @@ script:
 
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list .
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-init Song_Ideas
+  - sudo cat "/srv/Bill/git/Song_Ideas/config.yml"
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git
 
   - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Song_Ideas

@@ -28,7 +28,7 @@ usage(){
 #
 # ${_repo_name}
 #  Name of repository to run chown and chmod on files and directories
-#  under ~/www/${_repo_name,,}
+#  under ~/www/${_repo_name}
 #
 # -l --license
 # Shows script or project license then exits
@@ -63,7 +63,7 @@ fi
 
 _www="${HOME}/www"
 _www_group="$(groups ${USER} | grep -oE 'www[-a-z]{0,29}')"
-_srv_path="${_www}/${_repo_name,,}"
+_srv_path="${_www}/${_repo_name}"
 
 if [ -z "${_www_group}" ]; then
     printf '# No www group found for %s\n' "${USER}"

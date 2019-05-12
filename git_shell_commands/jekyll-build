@@ -109,14 +109,14 @@ fi
 
 ## Set permissions for files and directories under repo www directory
 if [ -e "${HOME}/git-shell-commands/www-set-permissions" ]; then
-  "${HOME}/git-shell-commands/www-set-permissions" "${_repo_name}"
+    "${HOME}/git-shell-commands/www-set-permissions" "${_repo_name}"
 else
-  _current_group="$(groups "${USER}" | awk '{print $3}')"
-  _www_group="$(groups "${USER}" | grep -oE 'www[-a-z]{0,29}')"
+    _current_group="$(groups "${USER}" | awk '{print $3}')"
+    _www_group="$(groups "${USER}" | grep -oE 'www[-a-z]{0,29}')"
     if [ -n "${_current_group}" ] && [ -n "${_www_group}" ]; then
-      find "${_srv_path}" -group "${_current_group}" -exec chgrp -h "${_www_group}" {} \;
-      find "${_srv_path}" -group "${_www_group}" -type d -exec chmod 750 {} \;
-      find "${_srv_path}" -group "${_www_group}" -type f -exec chmod 640 {} \;
+        find "${_srv_path}" -group "${_current_group}" -exec chgrp -h "${_www_group}" {} \;
+        find "${_srv_path}" -group "${_www_group}" -type d -exec chmod 750 {} \;
+        find "${_srv_path}" -group "${_www_group}" -type f -exec chmod 640 {} \;
     fi
 fi
 
