@@ -1,4 +1,4 @@
-[![Build Status][badge_travis_ci]][build_travis_ci] means that tests defined within the [`travis.yml`][source_travis_yml] configuration file either _passed_ or _failed_.
+<sub>[![Build Status][badge_travis_ci]][build_travis_ci]</sub> means that tests defined within the [`travis.yml`][source_travis_yml] configuration file either _passed_ or _failed_ as of <sub>[![Last Commit][badge_last_commit]][commits_master]</sub>.
 
 
 ___
@@ -7,13 +7,15 @@ ___
 Collection of Bash scripts for Jekyll and Git server administration and interaction via `ssh` or `git` command-line tools.
 
 
-> Unless otherwise stated both documentation and Bash scripts are shared under the [_`GNU AGPL version 3`_][docs_license_tldr] license by default, a full copy of which is available under [_`master:LICENSE`_][license]
+> Unless otherwise stated both documentation and Bash scripts are shared under <sub>[![License][badge_license]][docs_license_tldr]</sub> (version `3`) by default, a full copy of which is available under [_`master:LICENSE`_][license]
 
 
-[_`Documentation`_][docs_home] is hosted by GitHub Pages, the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][branch_gh_pages] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_update] instructions are currently featured along with usage examples for [_`Administrators`_][docs_collection_administration] and [_`Git`/`Jekyll`_][docs_collection_git_shell_commands] clients.
+<sub>[![Documentation][badge_docs_hosting]][docs_home]</sub> provides rendered documentation for this project; the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][branch_gh_pages] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_update] instructions are currently featured along with usage examples for [_`Administrators`_][docs_collection_administration] and [_`Git`/`Jekyll`_][docs_collection_git_shell_commands] clients.
 
 
-To add features or fix issues within this project; start with making a [_`Fork`_][help_fork] of this repository, then make changes (testing if code related), and update the [`_contributers`][contributers] directory with a file about your self (and maybe a summery of changes) before issuing a [_`Pull Request`_][help_pull_request]. See the [_`Contributing`_][contributing] collection for examples of development setup and other tips.
+<sub>[![Pull Requests freindly][badge_pr_requests]][help_pull_request]</sub>, however, please review GitHub's [`Fork`][help_fork] help page, and the [_`Contributing`_][docs_contributing] collection of this project for set-up and [styling][docs_styling] tips. Oh and don't forget to add yourself to the [Contributors][dir_contributers] collection before first Pull Request.
+
+Consider checking [Supporting Options][docs_support] for methods of encouraging projects like these.
 
 
 ___
@@ -38,20 +40,15 @@ ___
 > The following should be preformed on a private server, VPS, RPi, etc...
 
 
-- 0. Install dependencies
+- 0. Install DNS and Web Server compatible with this project...
 
 
 ```bash
-sudo apt-get install build-essential\
-                     git-core\
-                     nginx\
-                     ruby-full\
-                     unbound\
-                     zlib1g-dev
+sudo apt-get install nginx unbound
 ```
 
 
-> Securing `nginx` and `unbound` servers is currently outside the scope of this file and documentation for this project.
+> Securing servers is currently outside the scope of this file and documentation for this project.
 
 
 - 1. Elivate to `root` level permissions and clone within a directory for source installed tools...
@@ -65,20 +62,29 @@ cd Jekyll_Admin
 ```
 
 
-- 2. Install or update via make
-
+- 2.
+    <sup>a</sup> Install via `make` if this is a _fresh_ server...
 
 ```bash
 make install-dependencies
 make install
-## ... or
-#  make update && make install
+```
+
+
+-
+    <sub>b</sub> ... or update via related `make` commands if this server is not so _fresh_...
+
+
+```bash
+make update
+make install
 ```
 
 
 - 3.
-    <sup>a</sup> For each group/domain run the `jekyll_dnsconf.sh` script, for each user run the `jekyll_usermod.sh` script, and for each repository of each user run the `jekyll_wwwconf.sh` script
+    <sup>a</sup> For each group/domain run the [`jekyll_dnsconf.sh`][docs_jekyll_dnsconf] script, for each user run the [`jekyll_usermod.sh`][docs_jekyll_usermod] script, and for each repository of each user run the [`jekyll_wwwconf.sh`][docs_jekyll_wwwconf] script.
 
+-
     <sub>b</sub> Organize the list of users based off their shared group within some kind of data structure (in this case an associative array) and loop over it while utilizing project scripts to set-up things...
 
 
@@ -127,7 +133,7 @@ done
 ```
 
 
-> The above will allow _`git push`es_ by a user to their own `git-shell-commands` directory, except for _`Bill`_ who'll have scripts copied over but not setup with _`Git`_ tracking; for reasons.
+> The above will allow _`git push`es_ by a user to their own [`git-shell-commands`][source_git_shell_commands_dir] directory, except for _`Bill`_ who'll have scripts copied over but not setup with _`Git`_ tracking; for reasons.
 
 
 ... and perhaps write a cron job script for occasionally adding configuration blocks as repositories are built into pages...
@@ -166,13 +172,16 @@ done
 > Note `entr` and other file system monitoring APIs maybe more efficient than what the above is doing.
 
 
-- 4. Notify _`Git`_/_`Jekyll`_ users that server is ready to utilize `git-shell-commands` within their respective home directories
+- 4. Notify _`Git`_/_`Jekyll`_ users that server is ready to utilize [`git-shell-commands`][docs_collection_git_shell_commands] within their respective home directories
 
 
 - 5. If not using a `cron` job to keep web server configurations updated then use the `jekyll_wwwconf.sh` script's `--clobber` `append` or `remove` options for the desired results against a given `--repo`
 
 
 ___
+
+
+[![Download Zip][badge_code_size]][download_zip_master] [![Members][badge_members]][members] [![Issues][badge_issues]][issues] [![Pull Requests][badge_pull_requests]][pull_requests]
 
 
 ## Directories
@@ -217,10 +226,17 @@ ___
 [docs_jekyll_wwwconf]: https://s0ands0.github.io/Jekyll_Admin/administration/jekyll-wwwconf/
 
 [branch_gh_pages]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
-[contributers]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/documentation/_contributors/
-[contributing]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/documentation/_contributing/
+[dir_contributers]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages/documentation/_contributors/
+[docs_contributing]: https://s0ands0.github.io/Jekyll_Admin/contributing/
+[docs_styling]: https://s0ands0.github.io/Jekyll_Admin/styling/
+[docs_support]: https://s0ands0.github.io/Jekyll_Admin/support/
 
 [issues]: https://github.com/S0AndS0/Jekyll_Admin/issues
+[members]: https://github.com/S0AndS0/Jekyll_Admin/network/members
+[pull_requests]: https://github.com/S0AndS0/Jekyll_Admin/pulls
+[commits_master]: https://github.com/S0AndS0/Jekyll_Admin/commits/master
+[download_zip_master]: https://github.com/S0AndS0/Jekyll_Admin/archive/master.zip
+
 [license]: LICENSE
 [source_jekyll_dnsconf]: jekyll_dnsconf.sh
 [source_jekyll_usermod]: jekyll_usermod.sh
@@ -233,5 +249,14 @@ ___
 [source_shared_functions_dir]: shared_functions/
 [source_github_dir]: .github/
 
+
 [badge_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin.svg?branch=master
 [build_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin
+[badge_pr_requests]: https://img.shields.io/badge/PRs-freindly-005571.svg
+[badge_license]: https://img.shields.io/github/license/S0AndS0/Jekyll_Admin.svg?color=005571
+[badge_docs_hosting]: https://img.shields.io/website/https/s0ands0.github.io/Jekyll_Admin.svg?down_color=darkred&down_message=Offline&label=GitHub%20Pages&logo=github&logoColor=lightgreen&up_color=005571&up_message=Online
+[badge_last_commit]: https://img.shields.io/github/last-commit/S0AndS0/Jekyll_Admin.svg?color=005571
+[badge_code_size]: https://img.shields.io/github/languages/code-size/S0AndS0/Jekyll_Admin.svg?color=005571
+[badge_members]: https://img.shields.io/github/forks/S0AndS0/Jekyll_Admin.svg?color=005571&label=members
+[badge_issues]: https://img.shields.io/github/issues/S0AndS0/Jekyll_Admin.svg
+[badge_pull_requests]: https://img.shields.io/github/issues-pr/S0AndS0/Jekyll_Admin.svg

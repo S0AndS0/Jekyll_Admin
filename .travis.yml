@@ -37,6 +37,8 @@ matrix:
 branches:
   only:
     - master
+    ## Allow building of 'test-' previxed branches
+    - /^(?i:test)-.*$/
   except:
     - gh-pages
 
@@ -55,6 +57,7 @@ before_install:
   - sudo apt-get install -yqq unbound nginx
   - mkdir -vp "/home/travis/.ssh"
   - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
+  - printf 'Host bill\n  IdentityFile ~/.ssh/bill\n  HostName localhost\n  User Bill\n' >> "/home/travis/.ssh/bill"
 
 install:
   - chmod +x Makefile
@@ -72,18 +75,18 @@ script:
   ## To-do, sort out why Unbound is not happy with Travis CI
   - sudo jekyll_dnsconf.sh --domain "devs" --tld "lan"
   ## Note Travis does not take kindly to StrictHostKeyChecking=accept-new
-  - ssh Bill@localhost -o 'StrictHostKeyChecking no' -i "/home/travis/.ssh/bill" list --license
+  - ssh bill -o 'StrictHostKeyChecking no' list --license
 
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list .
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-init Song_Ideas
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git/Song_Ideas
-  # - sudo cat "/srv/Bill/git/Song_Ideas/_config.yml"
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git
+  - ssh bill list .
+  - ssh bill jekyll-init Song_Ideas
+  - ssh bill list git/Song_Ideas
+  - sudo cat "/srv/Bill/git/Song_Ideas/_config.yml" || printf 'Huh? Exited with %s\n' "${?}"
+  - ssh bill list git
 
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" bundle-install Song_Ideas
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Song_Ideas
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" jekyll-build Bill
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www
+  - ssh bill bundle-install Song_Ideas
+  - ssh bill jekyll-build Song_Ideas
+  - ssh bill jekyll-build Bill
+  - ssh bill list www
 
   - sudo jekyll_wwwconf.sh --user "Bill" --domain "devs" --tld "lan" --repo "Song_Ideas" --clobber 'append'
   - cat "/etc/nginx/sites-available/bill.devs.lan"
@@ -93,8 +96,8 @@ after_failure:
 
 after_success:
   - sudo ls -hal "/etc/nginx/sites-enabled/"
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list git/Song_Ideas
-  - ssh Bill@localhost -i "/home/travis/.ssh/bill" list www/song_ideas
+  - ssh bill list git/Song_Ideas
+  - ssh bill list www/Song_Ideas
   - cat "/etc/unbound/unbound.conf.d/devs.lan.conf"
   - cat "/etc/nginx/sites-enabled/bill.devs.lan"
   - echo 'after_success states - No errors, this time...'

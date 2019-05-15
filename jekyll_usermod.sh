@@ -67,6 +67,9 @@ source "${__DIR__}/shared_functions/user_mods/jekyll_user_install.sh"
 ## Provides: copy_or_link_git_shell_commands <user> allowed_scripts copy_or_link clobber
 source "${__DIR__}/shared_functions/user_mods/copy_or_link_git_shell_scripts.sh"
 
+## Provides: write_noninteractive_notice <user>
+source "${__DIR__}/shared_functions/user_mods/write_noninteractive_notice.sh"
+
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
 source "${__DIR__}/shared_functions/arg_parser.sh"
 
@@ -112,6 +115,11 @@ Maybe list of specific scripts under 'git_shell_commands/' directory, 'none',
 Maybe 'copy', 'pushable' or 'link' to signify weather or not to link or copy
  scripts from 'git_shell_commands/' directory to
 
+  --non-interactive
+If set then 'no-interactive-login' script will be written to git-shell-commands
+ directory for ${_user}, see https://git-scm.com/docs/git-shell for details on
+ what this setting disables/enables. Currently set to: "${_non_interactive}"
+
   -c    --clobber="${_clobber}"
 Maybe 'yes' or 'no' and determines if specific files are overwritten or if
  errors are returned because of multiple runs of ${__NAME__}
@@ -146,6 +154,7 @@ _valid_args=('--help|-h|help:bool'
              '--ssh-pub-key:path'
              '--git-shell-allowed:list'
              '--git-shell-copy-or-link:alpha_numeric'
+             '--non-interactive:bool'
              '--clobber|-c:alpha_numeric')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
@@ -173,6 +182,12 @@ jekyll_gem_bash_aliases "${_user}"
 echo "... the following may take awhile..."
 jekyll_user_install "${_user}" || echo 'Try installing Ruby first maybe?'
 copy_or_link_git_shell_commands "${_user}" "${_git_shell_allowed}" "${_git_shell_copy_or_link}" "${_clobber}"
+if ((_non_interactive)); then
+    write_noninteractive_notice "{_user}"
+fi
+
+printf '%s finished' "${__NAME__}"
+
 
 
 #
