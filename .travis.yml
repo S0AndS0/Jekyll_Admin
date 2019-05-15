@@ -57,15 +57,16 @@ install:
   - sudo jekyll_wwwconf.sh --user 'Bill' --domain 'devs' --tld 'lan' --repo 'Bill' --clobber 'force'
   - sudo jekyll_wwwconf.sh --user 'Bill' --domain 'devs' --tld 'lan' --repo 'Jekyll_Admin' --clobber 'force'
 
-before_script:
-  - if ! [ -L "$(which jekyll_usermod.sh)" ]; then echo 'BUG usermod' && false; fi
-  - if ! [ -L "$(which jekyll_dnsconf.sh)" ]; then echo 'BUG dnsconf' && false; fi
-  - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then echo 'BUG wwcwonf' && false; fi
+before_script: true
+  # - if ! [ -L "$(which jekyll_usermod.sh)" ]; then echo 'BUG usermod' && false; fi
+  # - if ! [ -L "$(which jekyll_dnsconf.sh)" ]; then echo 'BUG dnsconf' && false; fi
+  # - if ! [ -L "$(which jekyll_wwwconf.sh)" ]; then echo 'BUG wwcwonf' && false; fi
 
 script:
   - ssh bill -o 'StrictHostKeyChecking no' list --license
 
   - git remote add test_server bill:git/Jekyll_Admin
+  - ssh bill jekyll-init Jekyll_Admin
   - git push -f test_server gh-pages
 
   - ssh bill bundle-install Jekyll_Admin
