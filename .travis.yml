@@ -3,7 +3,6 @@
 
 ## Clone settings for repository
 git:
-  depth: 10
   quite: true
   submodules: false
 
