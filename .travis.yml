@@ -5,6 +5,8 @@
 git:
   quite: true
   submodules: false
+  ## Note Git does not take kindly to pushes of the shallow kind
+  depth: false
 
 
 language: bash
@@ -65,8 +67,9 @@ script:
   - ssh bill -o 'StrictHostKeyChecking no' list --license
 
   - git remote add test_server bill:git/Jekyll_Admin
-  - ssh bill jekyll-init Jekyll_Admin
+  - ssh bill git-init Jekyll_Admin
   - git push -f test_server gh-pages
+  - ssh bill git-checkout gh-pages Jekyll_Admin
 
   - ssh bill bundle-install Jekyll_Admin
   - ssh bill jekyll-build Jekyll_Admin
