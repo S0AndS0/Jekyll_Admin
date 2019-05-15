@@ -57,7 +57,7 @@ before_install:
   - sudo apt-get install -yqq unbound nginx
   - mkdir -vp "/home/travis/.ssh"
   - ssh-keygen -q -t ecdsa -f "/home/travis/.ssh/bill" -C '' -N ''
-  - printf 'Host bill\n  IdentityFile ~/.ssh/bill\n  HostName localhost\n  User Bill\n' >> "/home/travis/.ssh/bill"
+  - printf 'Host bill\n  IdentityFile ~/.ssh/bill\n  HostName localhost\n  User Bill\n' >> "/home/travis/.ssh/config"
 
 install:
   - chmod +x Makefile
