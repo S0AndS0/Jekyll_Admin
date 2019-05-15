@@ -1,0 +1,9 @@
+---
+layout: collections/feeds/atom_entries
+title: Supporting
+collection_name: support
+collection_home: /support/
+date: 2019-05-14 11:12:13 -0700
+content_type: xhtml
+permalink: /:collection/:name:output_ext
+---

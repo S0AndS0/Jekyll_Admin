@@ -1,0 +1,9 @@
+---
+layout: collections/feeds/rss2_entries
+title: Supporting
+collection_name: support
+collection_home: /support/
+time_to_live: 1800
+date: 2019-05-14 11:12:13 -0700
+permalink: /:collection/:name:output_ext
+---

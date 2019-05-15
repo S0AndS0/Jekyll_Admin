@@ -57,6 +57,9 @@ collections:
   styling:
     output: true
     permalink: /:collection/:name/
+  support:
+    output: true
+    permalink: /:collection/:name/
 
 
 ## Enabled to publish future dated content

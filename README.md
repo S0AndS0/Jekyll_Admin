@@ -1,4 +1,4 @@
-[![Build Status][badge_travis_ci]][build_travis_ci] means that tests defined within the [`.travis.yml`][source_travis_yml] configuration file either _passed_, _failed_, etc...
+<sub>[![Build Status][badge_travis_ci]][build_travis_ci]</sub> means that tests defined within the [`travis.yml`][gh_pages_travis_yml] configuration file either _passed_, _failed_, etc. as of <sub>[![Last Commit][badge_last_commit_gh_pages]][commits_gh_pages]</sub>.
 
 
 ___
@@ -7,78 +7,120 @@ ___
 Collection of Bash scripts for Jekyll and Git server administration and interaction via `ssh` or `git` command-line tools.
 
 
-> Unless otherwise stated both documentation and code are shared under the "[_`GNU AGPL version 3`_][license-tldr]" license by default, a full copy of which is available under [_`master:LICENSE`_][license]
+> Unless otherwise stated both documentation and Bash scripts are shared under <sub>[![License][badge_license]][docs_license_tldr]</sub> (version `3`) by default, a full copy of which is available under [_`master:LICENSE`_][license]. See the [Licensing][docs_licensing] collection for when others may apply.
 
 
-[_`Documentation`_][gh-pages] is hosted by GitHub Pages, the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][gh-pages-source] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_updating] instructions are currently featured along with usage examples for [_`Administrators`_][collection_administration] and [_`Git`/`Jekyll`_][collection_git_shell_commands] clients.
+<sub>[![Documentation][badge_docs_hosting]][docs_home]</sub> provides rendered documentation for this project; the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][branch_gh_pages] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_update] instructions are currently featured along with usage examples for [_`Administrators`_][docs_administration] and [_`Git`/`Jekyll`_][docs_git_shell_commands] clients.
 
 
-[_`Fork`_][fork] this repository to add features, once tested and the `contributers.md` file has been updated issue a [_`Pull Request`_][pull-request] to have your changes reviewed and possibly merged into the code base.
+<sub>[![Pull Requests friendly][badge_pr_requests]][help_pull_request]</sub>, however, please review GitHub's [`Fork`][help_fork] help page, and the [_`Contributing`_][docs_contributing] collection of this project for set-up and [styling][docs_styling] tips. Oh and don't forget to add yourself to the [Contributors][dir_contributers] collection before first Pull Request.
+
+
+Consider checking [Supporting Options][docs_support] for methods of encouraging projects like these.
 
 
 ___
 
 
-### Collections (topics)
+### Documentation Collections
 
 
-> The following use the [_`_layouts/collections/home.html`_][gh-pages_layouts_collections_home_source] _`Layout`_ by default.
+> The following use the [_`_layouts/collections/home.html`_][gh_pages_layouts_collections_home_source] _`Layout`_ by default.
 
 
-- [_`_administration`_][gh-pages_administration_dir] directory is complied into [_`<host>/administration/`_][collection_administration] collection of entries as configured by [_`administration.md`_][gh-pages_administration_source]
+- [_`_administration`_][gh_pages_administration_dir] directory is complied into [_`<host>/administration/`_][docs_administration] collection of entries as configured by [_`administration.markdown`_][gh_pages_administration_source]
 
-- [_`_git_shell_commands`_][gh-pages_git_shell_commands_dir] directory is complied into [_`<host>/git_shell_commands/`_][collection_git_shell_commands] collection of entries as configured by [_`git_shell_commands`_][gh-pages_git_shell_commands_source]
+- [_`_git_shell_commands`_][gh_pages_git_shell_commands_dir] directory is complied into [_`<host>/git_shell_commands/`_][docs_git_shell_commands] collection of entries as configured by [_`git_shell_commands.markdown`_][gh_pages_git_shell_commands_source]
 
-- [_`_licensing`_][gh-pages_licensing_dir] directory is complied into [_`<host>/licensing/`_][collection_licensing]collection of entries as configured by [_`licensing.md`_][gh-pages_licensing_source]
+- [_`_contributing`_][gh_pages_contributing_dir] directory is complied into [_`<host>/contributing/`_][docs_contributing] collection of entries as configured by [_`contributing.markdown`_][gh_pages_contributing_source]
+
+- [_`_contributors`_][gh_pages_contributers_dir] directory is complied into [_`<host>/contributers/`_][docs_contributers] collection of entries as configured by [_`contributers.markdown`_][gh_pages_contributers_source]
+
+- [_`_licensing`_][gh_pages_licensing_dir] directory is complied into [_`<host>/licensing/`_][docs_licensing]collection of entries as configured by [_`licensing.markdown`_][gh_pages_licensing_source]
+
+- [_`_security`_][gh_pages_security_dir] directory is complied into [_`<host>/security/`_][docs_security] collection of entries as configured by [_`security.markdown`_][gh_pages_security_source]
+
+- [_`_styling`_][gh_pages_styling_dir] directory is complied into [_`<host>/styling/`_][docs_styling] collection of entries as configured by [_`styling.markdown`_][gh_pages_styling_source]
 
 
 ### Sources
 
 
-- [_`_includes`_][gh-pages_includes_dir] directory contains files that maybe included within other source, page, or post files via Liquid similar to; `{%- include file-name named_arg='some value' -%}`
+- [_`_includes`_][gh_pages_includes_dir] directory contains files that maybe included within other source, page, or post files via Liquid similar to; `{%- include file-name named_arg='some value' -%}`
 
-- [_`_layouts`_][gh-pages_layouts_dir] directory contains files that posts, pages, and other Front-Matter files may choose via something like `layout: name-of-layout` within the file's configuration block
+- [_`_layouts`_][gh_pages_layouts_dir] directory contains files that posts, pages, and other Front-Matter files may choose via something like `layout: name-of-layout` within the file's configuration block
 
-- [_`_scss`_][gh-pages_scss_dir] directory contains files that `.scss` or `.sass` files within the [_`assets`_][gh-pages_assets_dir] directory may use during `jekyll build` or `serve` operations to build site `.css` styles
+- [_`_scss`_][gh_pages_scss_dir] or `_sass` directories contains `.scss` or `.sass` files that when included within the [_`assets`_][gh_pages_assets_dir] directory may use during `jekyll build` or `serve` operations to build site `.css` style sheets.
 
-- [_`assets`_][gh-pages_assets_dir] directory contains `.scss` or `.sass` files that are _transmuted_ into `.css` files, and in the future may contain image and/or JavaScript files, all of which are accessible by other site source files, pages, and/or posts
+- [_`assets`_][gh_pages_assets_dir] directory contains `.scss` or `.sass` files that are _transmuted_ into `.css` files, and in the future may contain image and/or JavaScript files, all of which are accessible by other site source files, pages, and/or posts
 
+
+
+[help_fork]: https://help.github.com/en/articles/fork-a-repo
+[help_pull_request]: https://help.github.com/en/articles/about-pull-requests
+
+[gh_pages-source]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
+[gh_pages]: https://s0ands0.github.io/Jekyll_Admin/
+[branch_gh_pages]: https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
+[commits_gh_pages]: https://github.com/S0AndS0/Jekyll_Admin/commits/gh-pages
+
+[gh_pages_includes_dir]: _includes
+[gh_pages_layouts_dir]: _layouts
+[gh_pages_scss_dir]: _scss
+[gh_pages_assets_dir]: assets
+
+
+[gh_pages_layouts_collections_home_source]: _layouts/collections/home.html
+[gh_pages_layouts_collections_feeds_rss_entries_source]: _layouts/collections/feeds/rss2_entries.html
+[gh_pages_layouts_collections_feeds_atom_entries_source]: _layouts/collections/feeds/atom_entries.html
+
+[gh_pages_administration_dir]: documentation/_administration
+[gh_pages_administration_source]: administration.markdown
+
+[gh_pages_git_shell_commands_dir]: documentation/_git_shell_commands
+[gh_pages_git_shell_commands_source]: git_shell_commands.markdown
+
+[gh_pages_licensing_dir]: documentation/_licensing
+[gh_pages_licensing_source]: licensing.markdown
+
+[gh_pages_contributing_dir]: documentation/_contributing
+[gh_pages_contributing_source]: documentation/_contributing/contributing.markdown
+
+[gh_pages_contributers_dir]: documentation/_contributers
+[gh_pages_contributers_source]: documentation/_contributers/contributers.markdown
+
+[gh_pages_security_dir]: documentation/_security
+[gh_pages_security_source]: documentation/_security/security.markdown
+
+[gh_pages_styling_dir]: documentation/_styling
+[gh_pages_styling_source]: documentation/_styling/styling.markdown
+
+[gh_pages_travis_yml]: .travis.yml
 
 
 [license]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/LICENSE
-[license-tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
-[gh-pages-source]:https://github.com/S0AndS0/Jekyll_Admin/tree/gh-pages
-[gh-pages]: https://s0ands0.github.io/Jekyll_Admin/
+[docs_home]: https://s0ands0.github.io/Jekyll_Admin/
+[docs_license_tldr]: https://s0ands0.github.io/Jekyll_Admin/licensing/gnu-agpl/
+[docs_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
+[docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating/
+[docs_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
+[docs_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
+[docs_contributing]: https://s0ands0.github.io/Jekyll_Admin/contributing/
+[docs_styling]: https://s0ands0.github.io/Jekyll_Admin/styling/
+[dir_contributers]: documentation/_contributors/
+[docs_contributers]: https://s0ands0.github.io/Jekyll_Admin/contributers/
+[docs_security]: https://s0ands0.github.io/Jekyll_Admin/security/
+[docs_styling]: https://s0ands0.github.io/Jekyll_Admin/styling/
+[docs_support]: https://s0ands0.github.io/Jekyll_Admin/support/
 [docs_install]: https://s0ands0.github.io/Jekyll_Admin/administration/installation/
 [docs_updating]: https://s0ands0.github.io/Jekyll_Admin/administration/updating/
 
-[fork]: https://help.github.com/en/articles/fork-a-repo
-[pull-request]: https://help.github.com/en/articles/about-pull-requests
 
-[gh-pages_administration_dir]: documentation/_administration
-[collection_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
-[gh-pages_administration_source]: administration.markdown
-
-[gh-pages_git_shell_commands_dir]: documentation/_git_shell_commands
-[collection_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
-[gh-pages_git_shell_commands_source]: git_shell_commands.markdown
-
-[gh-pages_licensing_dir]: documentation/_licensing
-[collection_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
-[gh-pages_licensing_source]: licensing.markdown
-
-
-[gh-pages_includes_dir]: _includes
-[gh-pages_layouts_dir]: _layouts
-[gh-pages_scss_dir]: _scss
-[gh-pages_assets_dir]: assets
-
-
-[gh-pages_layouts_collections_home_source]: _layouts/collections/home.html
-[gh-pages_layouts_collections_feeds_rss_entries_source]: _layouts/collections/feeds/rss2_entries.html
-[gh-pages_layouts_collections_feeds_atom_entries_source]: _layouts/collections/feeds/atom_entries.html
-
-[badge_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin.svg?branch=gh-pages
 [build_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin
 
-[source_travis_yml]: .travis.yml
+[badge_travis_ci]: https://travis-ci.com/S0AndS0/Jekyll_Admin.svg?branch=gh-pages
+[badge_last_commit_gh_pages]: https://img.shields.io/github/last-commit/S0AndS0/Jekyll_Admin/gh-pages.svg?color=005571
+[badge_docs_hosting]: https://img.shields.io/website/https/s0ands0.github.io/Jekyll_Admin.svg?down_color=darkred&down_message=Offline&label=GitHub%20Pages&logo=github&logoColor=lightgreen&up_color=005571&up_message=Online
+
+[badge_license]: https://img.shields.io/github/license/S0AndS0/Jekyll_Admin.svg?color=005571
+[badge_pr_requests]: https://img.shields.io/badge/Pull_Request-friendly-005571.svg

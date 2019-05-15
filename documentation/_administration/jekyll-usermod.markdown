@@ -23,6 +23,7 @@ ssh joan sudo jekyll_usermod.sh\
  --user="Bill"\
  --group="devs"\
  --ssh-pub-key="/server-path-to-bills/pub.key"\
+ --non-interactive\
  --help
 ```
 
@@ -69,11 +70,11 @@ drwxr-xr-x 2 Bill devs ... shared_functions
 -------
 
 
-If at a later point _`Elizabeth`_ wants to add _`Ted`_, who is also apart of the `devs` group, however let's also suppose that the administrator trusts _`Ted`_ a bit more to stay _on-track_ than _`Bill`_, which may look similar to...
+If at a later point _`Elizabeth`_ wants to add _`Ted`_, who is also apart of the `devs` group, however let's also suppose that the administrators trusts _`Ted`_ a bit more to stay _on-track_ than _`Bill`_, which may all boil down to issuing...
 
 
 ```bash
-ssh admin sudo jekyll_usermod.sh\
+ssh liz sudo jekyll_usermod.sh\
  --user="Ted"\
  --group="devs"\
  --git-shell-copy-or-link="pushable"\
@@ -86,6 +87,7 @@ ssh admin sudo jekyll_usermod.sh\
 
 
 ... not that they don't trust _`Bill`_, more that they trust that _`Bill`_ will do something _interesting_ to get the same permissions as _`Ted`_.
+
 
 
 [git-shell-commands_source]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands

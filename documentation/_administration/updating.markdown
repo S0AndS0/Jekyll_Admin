@@ -6,7 +6,7 @@ description: The following instructions are relevant only after following `Insta
 ---
 
 
-For the sake of an example, let's suppose that _`Elizabeth`_ (another server manager/admin) spots that there was a meaningful update to this project.
+For the sake of an example, let's suppose that _`Elizabeth`_ spots that there was a meaningful update to this project.
 
 
 Assuming _`Elizabeth`'s_ local `~/.ssh/config` looks similar to...
@@ -65,9 +65,12 @@ exit
 
 
 > Note, updating via `make` will automatically commit any changes to the local `git` branch checked-out during [`make install`][docs_install] prior to changing branches to `master` and `pull`ing in any new updates. After which the local branch is checked-out, `master` branch changes are merged, and scripts are re-linked.
+>
+> End result of _merging madness_ is that local changes should not be lost, permanently, though there may be occasions for `conflicts` of the _`Git`_ verity.
 
 
 And that would the extent of what _should_ be needed to update administration scripts, however, updating preexisting user account `git_shell_commands` scripts is still a _bit_ more involved.
+
 
 
 [docs_install]: /Jekyll_Admin/administration/installation/

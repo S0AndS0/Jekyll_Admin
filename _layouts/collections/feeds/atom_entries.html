@@ -64,9 +64,8 @@ version: 0.0.1
         {%- continue -%}
       {%- elsif post.slug == collection_name or post.slug == 'index' -%}
         {%- continue -%}
-      {%- else -%}
-        {%- assign atom_entries_has_output = True -%}
       {%- endif -%}
+      {%- assign atom_entries_has_output = True -%}
 
       {%- assign post_summary = post.description | default: post.excerpt -%}
       {%- assign post_date_updated = post.date_updated | default: post.date -%}

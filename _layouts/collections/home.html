@@ -31,7 +31,6 @@ layout: default
         <h2 class="post-list-heading">{{- page.list_title | default: "Posts" -}}</h2>
         <ul class="post-list">
           {%- for post in target_collection -%}
-            {%- assign post_file_name = post.url | split: '/' | last -%}
             {%- if page.relative_path == post.relative_path -%}
               {%- continue -%}
             {%- elsif post.slug == 'feed' -%}
@@ -41,9 +40,8 @@ layout: default
                 {%- assign has_atom_feed = True -%}
               {%- endif -%}
               {%- continue -%}
-            {%- else -%}
-              {%- assign has_output = True -%}
             {%- endif -%}
+            {%- assign has_output = True -%}
 
             <li>
               <span class="post-meta">{{- post.date | date: date_format -}}</span>
@@ -66,10 +64,6 @@ layout: default
         </ul>
       {%- endcapture -%}
 
-      {%- if has_output == True -%}
-        {{- workspace_collection -}}{%- assign workspace_collection = nil -%}
-      {%- endif -%}
-
       {%- comment -%}
         Note for future _includes/header.html modifications
 
@@ -80,28 +74,33 @@ layout: default
          href="{{- collection_name | append: '/feed.atom' | relative_url -}}"
         />
       {%- endcomment -%}
-      {%- if has_rss_feed == True or has_atom_feed == True -%}
-        <p class="feed-subscribe">
-          {%- if has_rss_feed == True -%}
-            <span>
-              <svg class="svg-icon orange">
-                <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
-              </svg>
-              <a href="{{- collection_name | append: '/feed.xml' | relative_url -}}">RSSv2</a>
-            </span>
-          {%- endif -%}
 
-          {% if has_atom_feed == True %}
-            <span>
-              {% if has_rss_feed != True %}
+      {%- if has_output == True -%}
+        {{- workspace_collection -}}{%- assign workspace_collection = nil -%}
+
+        {%- if has_rss_feed == True or has_atom_feed == True -%}
+          <p class="feed-subscribe">
+            {%- if has_rss_feed == True -%}
+              <span>
                 <svg class="svg-icon orange">
                   <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
                 </svg>
-              {% else %}or {% endif %}
-              <a href="{{- collection_name | append: '/feed.atom' | relative_url -}}">Atom</a>
-            </span>
-          {% endif %}
-        </p>
+                <a href="{{- collection_name | append: '/feed.xml' | relative_url -}}">RSSv2</a>
+              </span>
+            {%- endif -%}
+
+            {% if has_atom_feed == True %}
+              <span>
+                {% if has_rss_feed != True %}
+                  <svg class="svg-icon orange">
+                    <use xlink:href="{{- '/assets/minima-social-icons.svg#rss' | relative_url -}}"></use>
+                  </svg>
+                {% else %}or {% endif %}
+                <a href="{{- collection_name | append: '/feed.atom' | relative_url -}}">Atom</a>
+              </span>
+            {% endif %}
+          </p>
+        {%- endif -%}
       {%- endif -%}
 
     {%- endif -%}
