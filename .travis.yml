@@ -47,9 +47,9 @@ before_install:
 
   - sudo apt-get install -yqq unbound nginx
   - _exit_status="$(cd /usr/local/etc/Jekyll_Admin && sudo make install-dependencies)"
-  - printf 'make install-dependencies exited with %i\n' "${_exit_status:-0}"
+  # - printf 'make install-dependencies exited with %s\n' "${_exit_status:-0}"
   - _exit_status="$(cd /usr/local/etc/Jekyll_Admin && sudo make install)"
-  - printf 'make install exited with %i\n' "${_exit_status:-0}"
+  # - printf 'make install exited with %s\n' "${_exit_status:-0}"
 
 install:
   - sudo jekyll_usermod.sh --user 'Bill' --group 'devs' --ssh-pub-key '/home/travis/.ssh/bill.pub'
