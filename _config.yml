@@ -66,13 +66,13 @@ collections:
 future: true
 
 
-## Exclude from processing; by default commented items will not be processed.
+## Exclude from processing
 exclude:
   - README.md
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
