@@ -17,32 +17,32 @@ add_jekyll_user(){    ## add_jekyll_user <user>:group <shell_path> additional_gr
     if grep -qiE -- "^${_user}:" '/etc/passwd'; then
         printf 'User %s already exists\n' "${_user}" >&2
         return 1
-    else
-        if ! getent group "${_group}" 1>/dev/null; then
-            printf 'Adding group %s\n' "${_group}"
-            groupadd "${_group}" || return "${?}"
-        fi
-        ## Relaxed regex from defaults to allow capitalization in usernames
-        NAME_REGEX='^[a-zA-Z][-a-zA-Z0-9]*$' adduser\
-         --force-badname\
-         --system\
-         --disabled-password\
-         --gecos ''\
-         --shell "${_shell}"\
-         --home "${_home,,}"\
-         --ingroup ${_group}\
-         ${_user} || return "${?}"
+    fi
 
-        if [ -n "${_additional_groups}" ]; then
-            ## Add any additional groups that do not exist yet
-            for _additional_group in ${_additional_groups//,/ }; do
-                if getent 'group' "${_additional_group}" 1>/dev/null; then continue; fi
-                printf 'Adding group %s\n' "${_additional_group}"
-                groupadd "${_additional_group}" || return "${?}"
-            done
-            ## Add list of additional groups to user
-            usermod -a -G "${_additional_groups}" "${_user}" || return "${?}"
-        fi
+    if ! getent group "${_group}" 1>/dev/null; then
+        printf 'Adding group %s\n' "${_group}"
+        groupadd "${_group}" || return "${?}"
+    fi
+    ## Relaxed regex from defaults to allow capitalization in usernames
+    NAME_REGEX='^[a-zA-Z][-a-zA-Z0-9]*$' adduser\
+     --force-badname\
+     --system\
+     --disabled-password\
+     --gecos ''\
+     --shell "${_shell}"\
+     --home "${_home,,}"\
+     --ingroup ${_group}\
+     ${_user} || return "${?}"
+
+    if [ -n "${_additional_groups}" ]; then
+        ## Add any additional groups that do not exist yet
+        for _additional_group in ${_additional_groups//,/ }; do
+            if getent 'group' "${_additional_group}" 1>/dev/null; then continue; fi
+            printf 'Adding group %s\n' "${_additional_group}"
+            groupadd "${_additional_group}" || return "${?}"
+        done
+        ## Add list of additional groups to user
+        usermod -a -G "${_additional_groups}" "${_user}" || return "${?}"
     fi
 
     printf '## %s finished\n' "${FUNCNAME[0]}"

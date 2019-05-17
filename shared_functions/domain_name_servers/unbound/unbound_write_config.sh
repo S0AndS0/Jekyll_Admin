@@ -15,8 +15,8 @@ if [ -z "${__GGG_PARENT__}" ]; then
 fi
 
 
-## Provides: unbound_print_ip_config <ip> <url>
-source "${__GGG_PARENT__}/shared_functions/domain_name_servers/unbound/unbound_print_ip_config.sh"
+## Provides: unbound_write_ip_config <ip> <url>
+source "${__GGG_PARENT__}/shared_functions/domain_name_servers/unbound/unbound_write_ip_config.sh"
 
 ## Provides:
 #    interface_ipv4 <interface>
@@ -36,6 +36,8 @@ unbound_write_config(){    ## unbound_write_config <domain> <tld> interface clob
 
     _ipv4="$(interface_ipv4 "${_interface}")"
     _ipv6="$(interface_ipv6 "${_interface}")"
+    _ipv4="${_ipv4%/*}"
+    _ipv6="${_ipv6%/*}"
 
     if [ -z "${_ipv4}" ] && [ -z "${_ipv6}" ]; then
         printf 'Error - no IP address detected for %s interface\n' "${_interface}" >&2

@@ -4,6 +4,22 @@
 _NGINX_CONF_DIR="${_NGINX_CONF_DIR:-/etc/nginx}"
 
 
+## Enable sourcing from project root
+if [ -z "${__GGG_PARENT__}" ]; then
+    __SOURCE__="${BASH_SOURCE[0]}"
+    while [[ -h "${__SOURCE__}" ]]; do
+        __SOURCE__="$(find "${__SOURCE__}" -type l -ls | sed -n 's@^.* -> \(.*\)@\1@p')"
+    done
+    __SUB_DIR__="$(cd -P "$(dirname "${__SOURCE__}")" && pwd)"
+    __GGG_PARENT__="$(dirname "$(dirname "$(dirname "${__SUB_DIR__}")")")"
+fi
+
+## Provides:
+##    interface_ipv4 <interface>
+##    interface_ipv6 <interface>
+source "${__GGG_PARENT__}/shared_functions/network_info.sh"
+
+
 nginx_print_config_header(){    ## nginx_print_config_header <user> <domain> tld interface clobber
     local _user="${1:?No user name provided}"
     local _domain="${2:?No domain name provided}"
@@ -14,15 +30,17 @@ nginx_print_config_header(){    ## nginx_print_config_header <user> <domain> tld
 
     case "${_clobber,,}" in
         'rewrite'|'new')
-            _interface="${_interface:-$(ls -1 /sys/class/net/ | grep -v 'lo' | head -1)}"
+            local _interface="${_interface:-$(ls -1 /sys/class/net/ | grep -v 'lo' | head -1)}"
             case "${_interface,,}" in
                 'all')
-                    lsmod | grep -q -- 'ipv4' && _listen_ipv4='listen 0.0.0.0'
-                    lsmod | grep -q -- 'ipv6' && _listen_ipv6='listen [::]'
+                    lsmod | grep -q -- 'ipv4' && local _listen_ipv4='listen 0.0.0.0'
+                    lsmod | grep -q -- 'ipv6' && local _listen_ipv6='listen [::]'
                 ;;
                 *)
-                    local _ipv4="$(ip -4 addr show ${_interface} | awk '/inet /{gsub("/"," "); print $2}' | head -1)"
-                    local _ipv6="$(ip -6 addr show ${_interface} | awk '/inet6 /{gsub("/"," "); print $2}' | head -1)"
+                    local _ipv4="$(interface_ipv4 "${_interface}")"
+                    local _ipv6="$(interface_ipv6 "${_interface}")"
+                    _ipv4="${_ipv4%/*}"
+                    _ipv6="${_ipv6%/*}"
                     if [[ -z "${_ipv4}" ]] && [[ -z "${_ipv6}" ]]; then
                         printf 'Error - cannot find IP address for %s\n' "${_interface}" >&2
                         return 1
