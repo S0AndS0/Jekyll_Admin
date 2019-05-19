@@ -30,7 +30,7 @@ _ruby_version="$(ruby --version)"
 _ruby_version="$(awk '{print $2}' <<<"${_ruby_version%.*}")"
 _ruby_version_main="${_ruby_version%.*}"
 _ruby_version_sub="${_ruby_version#*.}"
-if ((float_ge "${_ruby_version}" '2.1')); then
+if (($(float_ge "${_ruby_version}" '2.1'))); then
     gem install bundler -v '< 2'
     gem install jekyll -v '3.8.5'
 
