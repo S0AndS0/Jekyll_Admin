@@ -123,7 +123,7 @@ EOF
 
 Parsed command arguments
 
-$(for _arg in "${_parsed_argument_list[@]}"; do printf '    %s\n' "${_arg}"; done)
+$(printf '    %s\n' "${_parsed_argument_list[@]}")
 EOF
     fi
 }

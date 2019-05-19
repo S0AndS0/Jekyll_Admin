@@ -136,7 +136,7 @@ EOF
 
 Parsed command arguments
 
-$(for _arg in "${_parsed_argument_list[@]}"; do printf '    %s\n' "${_arg}"; done)
+$(printf '    %s\n' "${_parsed_argument_list[@]}")
 EOF
     fi
 }
@@ -176,7 +176,6 @@ fi
 #
 modify_etc_shells "${_LOGIN_SHELL}"
 add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_BASE}"
-# add_firejail_user "${_user}"
 add_ssh_pub_key "${_user}" "${_ssh_pub_key}"
 jekyll_gem_bash_aliases "${_user}"
 echo "... the following may take awhile..."
