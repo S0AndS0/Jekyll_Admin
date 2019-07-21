@@ -57,9 +57,12 @@ sudo apt-get install nginx unbound
 ```bash
 sudo su -
 cd /usr/local/etc
-git clone git@github.com:S0AndS0/Jekyll_Admin.git
+git clone --recurse-submodules git@github.com:S0AndS0/Jekyll_Admin.git
 cd Jekyll_Admin
 ```
+
+
+>  Note, those that have cloned previously will need to `git submodule update --init --recursive --remote --merge` to download submodule source code.
 
 
 - 2.

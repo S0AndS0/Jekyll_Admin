@@ -46,7 +46,7 @@ __DESCRIPTION__='Adds new Git/Jekyll user equiped with simple git_shell_commands
 #    Source useful functions
 #
 ## Provides: 'failure'
-source "${__DIR__}/shared_functions/failure.sh"
+source "${__DIR__}/shared_functions/modules/trap-failure/failure.sh"
 trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides: modify_etc_shells <shell_path>
@@ -71,7 +71,7 @@ source "${__DIR__}/shared_functions/user_mods/copy_or_link_git_shell_scripts.sh"
 source "${__DIR__}/shared_functions/user_mods/write_noninteractive_notice.sh"
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
-source "${__DIR__}/shared_functions/arg_parser.sh"
+source "${__DIR__}/shared_functions/modules/argument-parser/argument-parser.sh"
 
 ## Provides: '__license__ <description> <author>'
 source "${__DIR__}/shared_functions/license.sh"

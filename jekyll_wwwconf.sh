@@ -36,11 +36,11 @@ __DESCRIPTION__='Writes Web Server configurations for Jekyll and/or Git client p
 #    Source useful functions
 #
 ## Provides:  'failure'
-source "${__DIR__}/shared_functions/failure.sh"
+source "${__DIR__}/shared_functions/modules/trap-failure/failure.sh"
 trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 ## Provides:  'argument_parser <ref_to_allowed_args> <ref_to_user_supplied_args>'
-source "${__DIR__}/shared_functions/arg_parser.sh"
+source "${__DIR__}/shared_functions/modules/argument-parser/argument-parser.sh"
 
 ## Provides:  nginx_rewrite_config <user> <group> tld interface clobber
 source "${__DIR__}/shared_functions/web_servers/nginx/nginx_rewrite_config.sh"

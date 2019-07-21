@@ -25,7 +25,7 @@ __ORIG_PWD__="${PWD}"
 #    Source useful functions
 #
 ## Provides: 'failure'
-source "${__REPO_DIR__}/shared_functions/failure.sh"
+source "${__DIR__}/shared_functions/modules/trap-failure/failure.sh"
 trap 'failure "LINENO" "BASH_LINENO" "${BASH_COMMAND}" "${?}"' ERR
 
 

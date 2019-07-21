@@ -5,7 +5,7 @@
 git:
   depth: 10
   quite: true
-  submodules: false
+  submodules: true
 
 
 ## Note 'trusty' (default as of 2019) results in...

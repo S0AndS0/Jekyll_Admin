@@ -60,6 +60,10 @@ copy_or_link_git_shell_commands(){    ## copy_or_link_git_shell_commands <user> 
         fi
     fi
 
+    if [[ -f "${_home}/git-shell-commands/.git" ]]; then
+        rm "${_home}/git-shell-commands/.git"
+    fi
+
     case "${_copy_or_link,,}" in
         'pushable')
             chmod 750 "${_home}/git-shell-commands"
@@ -75,7 +79,7 @@ git add --all
 git -c user.name="${USER}" -c user.email="${USER}@${HOSTNAME}" commit -m "Added git-shell-commands to git tracking and allowed pushing for ${USER}"
 cd "${_old_PWD}"
 EOF
-            local _exit_status = "${?}"
+            local _exit_status="${?}"
             if ((_exit_status)); then return "${_exit_status}"; fi
         ;;
         *)
