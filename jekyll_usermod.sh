@@ -108,12 +108,12 @@ Writes defined SSH public key to ${_HOME_BASE}/${_user}/.ssh/authorized_keys
  ... then double quoting is required!
 
   --git-shell-allowed="${_git_shell_allowed}"
-Maybe list of specific scripts under 'git_shell_commands/' directory, 'none',
+Maybe list of specific scripts under 'git-shell-commands/' directory, 'none',
  or 'all' to select what scripts are linked or copied over to ${_user}
 
   --git-shell-copy-or-link="${_git_shell_copy_or_link}"
 Maybe 'copy', 'pushable' or 'link' to signify weather or not to link or copy
- scripts from 'git_shell_commands/' directory to
+ scripts from 'git-shell-commands/' directory to
 
   --non-interactive
 If set then 'no-interactive-login' script will be written to git-shell-commands

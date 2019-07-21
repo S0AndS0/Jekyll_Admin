@@ -9,7 +9,7 @@ Please see the [Contributing][docs_contributing] collection for examples of remo
 
 - [Administration][docs_dev_admin] development such as bug fixes or adding features to; [`Makefile`][source_makefile], [`jekyll_usermod.sh`][source_jekyll_usermod], [`jekyll_dnsconf`][source_jekyll_dnsconf], and/or [`jekyll_wwwconf`][source_jekyll_wwwconf] scripts.
 
-- [Git Shell Commands][docs_dev_commands] development such as adding new scripts or fixing bugs within the [`git_shell_commands`][dir_git_shell_commands] directory of this project.
+- [Git Shell Commands][docs_dev_commands] development such as adding new scripts or fixing bugs within the [`git-shell-commands`][git_utilities__git_shell_commands] submodule of this project.
 
 - [Documentation][docs_dev_pages] corrections and/or expansions on code or raw source documentation contained within this project's [`gh-pages`][pages_branch] branch
 
@@ -31,7 +31,7 @@ After which a [Pull Request][docs_dev_pull_request] may be issued for this proje
 [docs_dev_merge]: https://s0ands0.github.io/Jekyll_Admin/contributing/merge/
 [docs_dev_pull_request]: https://s0ands0.github.io/Jekyll_Admin/contributing/pull-request/
 
-[dir_git_shell_commands]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands
+[git_utilities__git_shell_commands]: https://github.com/S0AndS0/git-utilities/git-shell-commands
 [source_makefile]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/Makefile
 [source_jekyll_usermod]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_usermod.sh
 [source_jekyll_dnsconf]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_dnsconf.sh

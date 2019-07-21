@@ -8,7 +8,7 @@ copy_or_link_git_shell_commands(){    ## copy_or_link_git_shell_commands <user> 
     _clobber="${4:-no}"
 
     _group="$(groups ${_user} | awk '{print $3}')"
-    _script_dir="${__DIR__}/git_shell_commands"
+    _script_dir="${__DIR__}/git-shell-commands"
     _available_scripts="$(find "${_script_dir}" -type f)"
     _home="$(awk -F':' -v _user="${_user}" '$0 ~ "^" _user ":" {print $6}' /etc/passwd)"
     if ! [ -d "${_home}" ]; then
