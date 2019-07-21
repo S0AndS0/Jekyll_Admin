@@ -26,4 +26,4 @@ ssh Ted list git/Radical_Features
 ... would list currently checked out files for _`Ted`'s_ `Radical_Features` `Git` repository.
 
 
-[source_master__list]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/list
+[source_master__list]: https://github.com/git-utilities/git-shell-commands/blob/master/list

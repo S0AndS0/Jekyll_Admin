@@ -21,4 +21,4 @@ ssh Bill www-remove Ideas
 ... which would remove all files and directories from `/srv/Bill/www/Ideas`
 
 
-[source_master__www-remove]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/www-remove
+[source_master__www-remove]: https://github.com/git-utilities/git-shell-commands/blob/master/www-remove

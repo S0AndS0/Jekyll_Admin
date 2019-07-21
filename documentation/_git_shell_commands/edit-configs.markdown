@@ -29,4 +29,4 @@ ssh Ted jekyll-build Ted
 ```
 
 
-[source_master__edit-configs]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/edit-configs
+[source_master__edit-configs]: https://github.com/git-utilities/git-shell-commands/blob/master/edit-configs

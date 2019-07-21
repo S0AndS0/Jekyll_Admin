@@ -2,7 +2,7 @@
 layout: post
 title:  Git Shell Commands Development
 date:   2019-04-27 11:12:11 -0700
-description: Quick how-to submit patches to the git_shell_commands scripts
+description: Quick how-to submit patches to the git-shell-commands scripts
 ---
 
 Supposing the _`Bill`_ has done something _interesting_ to gain `push` and `pull` permissions to their `git-shell-commands` directory, not saying what or how, but now maybe...
@@ -32,9 +32,9 @@ git push origin master
 ```bash
 mkdir -p ~/git/hub
 cd ~/git/hub
-git clone git@github.com:<GitHub-UserName>/Jekyll_Admin.git
+git clone git@github.com:<GitHub-UserName>/git-shell-commands.git
 
-cd Jekyll_Admin
+cd git-shell-commands
 git checkout -b local_commands
 ```
 
@@ -46,7 +46,7 @@ git checkout -b local_commands
 
 
 ```bash
-cp ~/git/srv/git-shell-commands/patched-script .git_shell_commands/
+cp ~/git/srv/git-shell-commands/patched-script ./
 ```
 
 

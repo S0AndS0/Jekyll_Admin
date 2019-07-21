@@ -69,7 +69,7 @@ exit
 > End result of _merging madness_ is that local changes should not be lost, permanently, though there may be occasions for `conflicts` of the _`Git`_ verity.
 
 
-And that would the extent of what _should_ be needed to update administration scripts, however, updating preexisting user account `git_shell_commands` scripts is still a _bit_ more involved.
+And that would the extent of what _should_ be needed to update administration scripts, however, updating preexisting user account `git-shell-commands` scripts is still a _bit_ more involved.
 
 
 

@@ -76,4 +76,4 @@ cd ~/git/Radical_Features
 ... because, their both in the same group (`devs` in the running example's case), this is allowed. However, _`Bill`_ would not immediately be able to `git push` to _`Ted`'s_ `Radical_Features` repository.
 
 
-[source_master__git-init]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/git-init
+[source_master__git-init]: https://github.com/git-utilities/git-shell-commands/blob/master/git-init

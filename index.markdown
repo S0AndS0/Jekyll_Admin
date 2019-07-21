@@ -3,7 +3,7 @@ layout: home
 list_title: _Project Blog_
 ---
 
-[Administration][administration] has been split into separate scripts with specific and shared functions. Most if not all scripts (including [`git_shell_commands`][git-shell-commands]) maybe run with `--help` to display select documentation within the terminal.
+[Administration][administration] has been split into separate scripts with specific and shared functions. Most if not all scripts (including [`git-shell-commands`][git-shell-commands]) maybe run with `--help` to display select documentation within the terminal.
 
 
 > Examples will include administrators named _`Elizabeth`_ and _`Joanna`_, and `Git`/`Jekyll` users named _`Bill`_ and _`Ted`_, so as to _liven up_ the documentation experience.

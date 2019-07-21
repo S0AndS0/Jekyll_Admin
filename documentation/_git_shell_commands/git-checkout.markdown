@@ -62,4 +62,4 @@ ssh bill jekyll-build Sweet_Playlist
 ```
 
 
-[source_master__git-checkout]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/git-checkout
+[source_master__git-checkout]: https://github.com/git-utilities/git-shell-commands/blob/master/git-checkout

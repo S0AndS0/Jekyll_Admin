@@ -36,4 +36,4 @@ git push private-server gh-pages
 ```
 
 
-[source_master__jekyll-init]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/jekyll-init
+[source_master__jekyll-init]: https://github.com/git-utilities/git-shell-commands/blob/master/jekyll-init

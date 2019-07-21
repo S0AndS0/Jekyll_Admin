@@ -37,4 +37,4 @@ git pull
 However, both _`Bill`_ and _`Ted`_ should be careful because running either of the above could cause conflicts or pre-existing files to be overwritten. In the case of the latter, this is _no big deal_ as a _`git show <something>`_ enables file recovery of previous versions, __but__ in the case of the former _`Bill`_ and _`Ted`_ would be wise to be kind to their administrators.
 
 
-[source_master__copy-theme]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/copy-theme
+[source_master__copy-theme]: https://github.com/git-utilities/git-shell-commands/blob/master/copy-theme

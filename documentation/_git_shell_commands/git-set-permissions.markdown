@@ -21,4 +21,4 @@ ssh Bill git-set-permissions Ideas
 As of the latest revision this script will set `750` for all directories and `640` for all files under the named repository, in this example's case; `/srv/Bill/git/Ideas`
 
 
-[source_master__git-set-permissions]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/git-set-permissions
+[source_master__git-set-permissions]: https://github.com/git-utilities/git-shell-commands/blob/master/git-set-permissions

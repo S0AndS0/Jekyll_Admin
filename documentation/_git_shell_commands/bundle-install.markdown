@@ -18,5 +18,5 @@ ssh Bill bundle-install Excellent_Project
 ... which'll update what's installed for that project's _`Jekyll`_ instance, and should allow for future [`jekyll-build`][post_jekyll-build] commands to run without errors related to missing dependencies.
 
 
-[source_master__bundle-install]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/bundle-install
+[source_master__bundle-install]: https://github.com/git-utilities/git-shell-commands/blob/master/bundle-install
 [post_jekyll-build]: /Jekyll_Admin/git_shell_commands/jekyll-build/

@@ -90,5 +90,5 @@ ssh liz sudo jekyll_usermod.sh\
 
 
 
-[git-shell-commands_source]: https://github.com/S0AndS0/Jekyll_Admin/tree/master/git_shell_commands
+[git-shell-commands_source]: https://github.com/git-utilities/git-shell-commands
 [jekyll-usermod_source]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/jekyll_usermod.sh

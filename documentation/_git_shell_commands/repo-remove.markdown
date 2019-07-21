@@ -18,4 +18,4 @@ ssh Bill repo-remove Ideas
 ... would remove the named repository's source files and `.git` directory from the server.
 
 
-[source_master__repo-remove]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/repo-remove
+[source_master__repo-remove]: https://github.com/git-utilities/git-shell-commands/blob/master/repo-remove

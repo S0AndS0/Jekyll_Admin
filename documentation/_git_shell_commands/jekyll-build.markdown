@@ -18,4 +18,4 @@ ssh Ted jekyll-build Radical_Features
 ... by default the above would output files ready for hosting with a Web Server under `/srv/Ted/www/Radical_Features`
 
 
-[source_master__jekyll-build]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/jekyll-build
+[source_master__jekyll-build]: https://github.com/git-utilities/git-shell-commands/blob/master/jekyll-build

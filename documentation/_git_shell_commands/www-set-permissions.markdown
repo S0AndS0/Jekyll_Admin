@@ -18,7 +18,7 @@ ssh Ted www-set-permissions Ideas
 ... to try and resolve things before asking for administrator aid.
 
 
-[source_master__www-set-permissions]: https://github.com/S0AndS0/Jekyll_Admin/blob/master/git_shell_commands/www-set-permissions
+[source_master__www-set-permissions]: https://github.com/git-utilities/git-shell-commands/blob/master/www-set-permissions
 
 [docs_git_set_permissions]: /Jekyll_Admin/git_shell_commands/git-set-permissions/
 [docs_jekyll_build]: /Jekyll_Admin/git_shell_commands/jekyll-build/
