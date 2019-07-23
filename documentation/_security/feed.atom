@@ -1,5 +1,5 @@
 ---
-layout: collections/feeds/atom_entries
+layout: modules/feed-atom/feed-atom
 title: Security
 collection_name: security
 collection_home: /security/

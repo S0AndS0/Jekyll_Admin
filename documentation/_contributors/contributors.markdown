@@ -1,5 +1,5 @@
 ---
-layout:    collections/home
+layout:    modules/collection-home/collection-home
 title:     Contributors
 permalink: /contributors/
 collection_name: contributors

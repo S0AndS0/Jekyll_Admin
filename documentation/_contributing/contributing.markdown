@@ -1,5 +1,5 @@
 ---
-layout:    collections/home
+layout:    modules/collection-home/collection-home
 title:     Contributing
 permalink: /contributing/
 collection_name: contributing

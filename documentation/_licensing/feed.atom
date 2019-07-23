@@ -1,5 +1,5 @@
 ---
-layout: collections/feeds/atom_entries
+layout: modules/feed-atom/feed-atom
 title: Licensing
 collection_name: licensing
 collection_home: /licensing/

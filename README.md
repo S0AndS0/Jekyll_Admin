@@ -25,7 +25,7 @@ ___
 ### Documentation Collections
 
 
-> The following use the [_`_layouts/collections/home.html`_][gh_pages_layouts_collections_home_source] _`Layout`_ by default.
+> The following use the [_`_layouts/modules/collection-home/collection-home`_][gh_pages_layouts_collections_home_source] _`Layout`_ by default.
 
 
 - [_`_administration`_][gh_pages_administration_dir] directory is complied into [_`<host>/administration/`_][docs_administration] collection of entries as configured by [_`administration.markdown`_][gh_pages_administration_source]
@@ -70,9 +70,9 @@ ___
 [gh_pages_assets_dir]: assets
 
 
-[gh_pages_layouts_collections_home_source]: _layouts/collections/home.html
+[gh_pages_layouts_collections_home_source]: _layouts/modules/collection-home/collection-home
 [gh_pages_layouts_collections_feeds_rss_entries_source]: _layouts/collections/feeds/rss2_entries.html
-[gh_pages_layouts_collections_feeds_atom_entries_source]: _layouts/collections/feeds/atom_entries.html
+[gh_pages_layouts_collections_feeds_atom_entries_source]: _layouts/modules/feed-atom/feed-atom
 
 [gh_pages_administration_dir]: documentation/_administration
 [gh_pages_administration_source]: administration.markdown

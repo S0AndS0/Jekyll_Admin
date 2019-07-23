@@ -1,5 +1,5 @@
 ---
-layout:    collections/home
+layout:    modules/collection-home/collection-home
 title:     Styling Tips
 permalink: /styling/
 collection_name: styling

@@ -1,5 +1,5 @@
 ---
-layout:    collections/home
+layout:    modules/collection-home/collection-home
 title:     Supporting Options
 permalink: /support/
 collection_name: support

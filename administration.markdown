@@ -1,5 +1,5 @@
 ---
-layout:    collections/home
+layout:    modules/collection-home/collection-home
 title:     Administration
 permalink: /administration/
 collection_name: administration

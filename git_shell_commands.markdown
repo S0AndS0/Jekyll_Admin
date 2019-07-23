@@ -1,5 +1,5 @@
 ---
-layout:    collections/home
+layout:    modules/collection-home/collection-home
 title:     Git Shell Commands
 permalink: /git_shell_commands/
 collection_name: git_shell_commands

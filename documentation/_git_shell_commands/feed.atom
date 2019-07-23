@@ -1,5 +1,5 @@
 ---
-layout: collections/feeds/atom_entries
+layout: modules/feed-atom/feed-atom
 title: Git Shell Commands
 collection_name: git_shell_commands
 collection_home: /git_shell_commands/
