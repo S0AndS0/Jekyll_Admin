@@ -94,6 +94,13 @@ check_git_configs(){
 }
 
 
+initialize_submodules(){
+    cd "${__REPO_DIR__}"
+    git submodule update --init --recursive --merge
+    cd "${__ORIG_PWD__}"
+}
+
+
 case "${1,,}" in
     'update'|'git-update')
         check_git_configs
@@ -101,6 +108,7 @@ case "${1,,}" in
     ;;
     'install'|'git-checkout')
         check_git_configs
+        initialize_submodules
         git_checkout_install || echo 'Ignore if above states "Nothing to commit..."'
     ;;
     *)
