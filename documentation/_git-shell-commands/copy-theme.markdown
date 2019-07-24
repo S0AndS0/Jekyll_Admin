@@ -2,7 +2,7 @@
 layout: post
 title:  Copy Theme
 date:   2019-04-24 11:12:15 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: The `copy-theme` client script copies source Theme files listed in named repository's `_config.yml` site configuration file
 ---
 

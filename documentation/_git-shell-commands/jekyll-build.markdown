@@ -2,7 +2,7 @@
 layout: post
 title: Jekyll Build
 date:   2019-04-29 11:12:19 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: The `jekyll-build` client script builds static site files for name repository under `${HOME}/www`
 ---
 

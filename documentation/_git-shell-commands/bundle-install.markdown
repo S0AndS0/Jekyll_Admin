@@ -2,7 +2,7 @@
 layout: post
 title:  Bundle Install
 date:   2019-04-23 11:12:14 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: The `bundle-install` client script installs _`Gem`_ and _`Jekyll`_ dependencies for named repository
 ---
 
@@ -19,4 +19,4 @@ ssh Bill bundle-install Excellent_Project
 
 
 [source_master__bundle-install]: https://github.com/git-utilities/git-shell-commands/blob/master/bundle-install
-[post_jekyll-build]: /Jekyll_Admin/git_shell_commands/jekyll-build/
+[post_jekyll-build]: /Jekyll_Admin/git-shell-commands/jekyll-build/

@@ -2,7 +2,7 @@
 layout: post
 title:  Edit Configurations
 date:   2019-04-25 11:12:16 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: The `edit-configs` client script is currently wired to allow adding GitHub API token configurations to `${HOME}/.config/jekyll-build` directory
 ---
 

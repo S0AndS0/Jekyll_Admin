@@ -2,7 +2,7 @@
 layout: post
 title: List
 date:   2019-05-01 11:12:21 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: The `list` client script lists files and/or directory paths under `${HOME}`.
 ---
 

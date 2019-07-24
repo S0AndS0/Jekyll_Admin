@@ -2,7 +2,7 @@
 layout: post
 title: Git Checkout Branch
 date: 2019-04-26 11:12:14 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: Short-cut for `git checkout` or `git -b checkout` for named repository
 ---
 

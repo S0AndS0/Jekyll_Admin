@@ -2,7 +2,7 @@
 layout: post
 title: WWW Set Permissions
 date:   2019-05-04 11:12:24 -0700
-categories: git_shell_commands
+categories: git-shell-commands
 description: The `www-set-permissions` client script resets static file permissions for named repository under `${HOME}/www`
 ---
 
@@ -20,5 +20,5 @@ ssh Ted www-set-permissions Ideas
 
 [source_master__www-set-permissions]: https://github.com/git-utilities/git-shell-commands/blob/master/www-set-permissions
 
-[docs_git_set_permissions]: /Jekyll_Admin/git_shell_commands/git-set-permissions/
-[docs_jekyll_build]: /Jekyll_Admin/git_shell_commands/jekyll-build/
+[docs_git_set_permissions]: /Jekyll_Admin/git-shell-commands/git-set-permissions/
+[docs_jekyll_build]: /Jekyll_Admin/git-shell-commands/jekyll-build/
