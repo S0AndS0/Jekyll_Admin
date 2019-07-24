@@ -71,7 +71,7 @@ ___
 
 
 [gh_pages_layouts_collections_home_source]: _layouts/modules/collection-home/collection-home
-[gh_pages_layouts_collections_feeds_rss_entries_source]: _layouts/collections/feeds/rss2_entries.html
+[gh_pages_layouts_collections_feeds_rss_entries_source]: _layouts/modules/feed-rss2/feed-rss2
 [gh_pages_layouts_collections_feeds_atom_entries_source]: _layouts/modules/feed-atom/feed-atom
 
 [gh_pages_administration_dir]: documentation/_administration

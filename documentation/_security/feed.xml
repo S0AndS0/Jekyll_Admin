@@ -1,5 +1,5 @@
 ---
-layout: collections/feeds/rss2_entries
+layout: modules/feed-rss2/feed-rss2
 title: Security
 collection_name: security
 collection_home: /security/
