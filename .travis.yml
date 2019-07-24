@@ -70,7 +70,7 @@ script:
   - git push -f test_server gh-pages:gh-pages
 
   - ssh bill bundle-install Jekyll_Admin
-  - ssh bill jekyll-build Jekyll_Admin
+  - ssh bill jekyll-build --submodules Jekyll_Admin
 
   - ssh bill list git/Jekyll_Admin
   - ssh bill list www/Jekyll_Admin
