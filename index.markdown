@@ -17,7 +17,7 @@ Administrators leveraging this project are encourage to check-up on (or subscrib
 
 
 [administration]: /Jekyll_Admin/administration/
-[git-shell-commands]: /Jekyll_Admin/git_shell_commands/
+[git-shell-commands]: /Jekyll_Admin/git-shell-commands/
 [contributing]: /Jekyll_Admin/contributing/
 [contributors]: /Jekyll_Admin/contributors/
 [security]: /Jekyll_Admin/security/

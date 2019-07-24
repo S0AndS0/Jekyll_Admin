@@ -2,5 +2,5 @@ _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
-_config_*.yml
-.github
+git-shell-commands
+shared_functions

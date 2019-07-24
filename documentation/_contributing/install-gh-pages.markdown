@@ -102,9 +102,9 @@ Once local changes are bug-free see [`git merge local_gh-pages`][docs_merge] exa
 [docs_jekyll_dnsconf]: /Jekyll_Admin/administration/jekyll-dnsconf/
 [docs_jekyll_wwwconf]: /Jekyll_Admin/administration/jekyll-wwwconf/
 
-[docs_bundle_install]: /Jekyll_Admin/git_shell_commands/bundle-install/
-[docs_jekyll_build]: /Jekyll_Admin/git_shell_commands/jekyll-build/
-[docs_edit_configs]: /Jekyll_Admin/git_shell_commands/edit-configs/
+[docs_bundle_install]: /Jekyll_Admin/git-shell-commands/bundle-install/
+[docs_jekyll_build]: /Jekyll_Admin/git-shell-commands/jekyll-build/
+[docs_edit_configs]: /Jekyll_Admin/git-shell-commands/edit-configs/
 
 [docs_merge]: /Jekyll_Admin/contributing/merge/
 [docs_pull_request]: /Jekyll_Admin/contributing/pull-request/

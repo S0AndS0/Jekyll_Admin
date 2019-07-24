@@ -10,7 +10,7 @@ Collection of Bash scripts for Jekyll and Git server administration and interact
 > Unless otherwise stated both documentation and Bash scripts are shared under <sub>[![License][badge_license]][docs_license_tldr]</sub> (version `3`) by default, a full copy of which is available under [_`master:LICENSE`_][license]. See the [Licensing][docs_licensing] collection for when others may apply.
 
 
-<sub>[![Documentation][badge_docs_hosting]][docs_home]</sub> provides rendered documentation for this project; the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][branch_gh_pages] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_update] instructions are currently featured along with usage examples for [_`Administrators`_][docs_administration] and [_`Git`/`Jekyll`_][docs_git_shell_commands] clients.
+<sub>[![Documentation][badge_docs_hosting]][docs_home]</sub> provides rendered documentation for this project; the source code modifications and _raw_ doc-files of which can be found under the [_`gh-pages`_][branch_gh_pages] `branch`. [_`Installation`_][docs_install], and [_`Update`_][docs_update] instructions are currently featured along with usage examples for [_`Administrators`_][docs_administration] and [_`Git`/`Jekyll`_][docs_git-shell-commands] clients.
 
 
 <sub>[![Pull Requests friendly][badge_pr_requests]][help_pull_request]</sub>, however, please review GitHub's [`Fork`][help_fork] help page, and the [_`Contributing`_][docs_contributing] collection of this project for set-up and [styling][docs_styling] tips. Oh and don't forget to add yourself to the [Contributors][dir_contributers] collection before first Pull Request.
@@ -30,7 +30,7 @@ ___
 
 - [_`_administration`_][gh_pages_administration_dir] directory is complied into [_`<host>/administration/`_][docs_administration] collection of entries as configured by [_`administration.markdown`_][gh_pages_administration_source]
 
-- [_`_git_shell_commands`_][gh_pages_git_shell_commands_dir] directory is complied into [_`<host>/git_shell_commands/`_][docs_git_shell_commands] collection of entries as configured by [_`git_shell_commands.markdown`_][gh_pages_git_shell_commands_source]
+- [_`_git-shell-commands`_][gh_pages_git-shell-commands_dir] directory is complied into [_`<host>/git-shell-commands/`_][docs_git-shell-commands] collection of entries as configured by [_`git-shell-commands.markdown`_][gh_pages_git-shell-commands_source]
 
 - [_`_contributing`_][gh_pages_contributing_dir] directory is complied into [_`<host>/contributing/`_][docs_contributing] collection of entries as configured by [_`contributing.markdown`_][gh_pages_contributing_source]
 
@@ -77,8 +77,8 @@ ___
 [gh_pages_administration_dir]: documentation/_administration
 [gh_pages_administration_source]: administration.markdown
 
-[gh_pages_git_shell_commands_dir]: documentation/_git_shell_commands
-[gh_pages_git_shell_commands_source]: git_shell_commands.markdown
+[gh_pages_git-shell-commands_dir]: documentation/_git-shell-commands
+[gh_pages_git-shell-commands_source]: git-shell-commands.markdown
 
 [gh_pages_licensing_dir]: documentation/_licensing
 [gh_pages_licensing_source]: licensing.markdown
@@ -104,7 +104,7 @@ ___
 [docs_licensing]: https://s0ands0.github.io/Jekyll_Admin/licensing/
 [docs_update]: https://s0ands0.github.io/Jekyll_Admin/administration/updating/
 [docs_administration]: https://s0ands0.github.io/Jekyll_Admin/administration/
-[docs_git_shell_commands]: https://s0ands0.github.io/Jekyll_Admin/git_shell_commands/
+[docs_git-shell-commands]: https://s0ands0.github.io/Jekyll_Admin/git-shell-commands/
 [docs_contributing]: https://s0ands0.github.io/Jekyll_Admin/contributing/
 [docs_styling]: https://s0ands0.github.io/Jekyll_Admin/styling/
 [dir_contributers]: documentation/_contributors/

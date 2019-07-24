@@ -45,7 +45,7 @@ collections:
   contributors:
     output: true
     permalink: /:collection/:name/
-  git_shell_commands:
+  git-shell-commands:
     output: true
     permalink: /:collection/:name/
   licensing:

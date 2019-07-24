@@ -1,8 +1,8 @@
 ---
 layout:    modules/collection-home/collection-home
 title:     Git Shell Commands
-permalink: /git_shell_commands/
-collection_name: git_shell_commands
+permalink: /git-shell-commands/
+collection_name: git-shell-commands
 date: 2019-04-22 11:12:15 -0700
 list_title: Usage Examples
 # description:
