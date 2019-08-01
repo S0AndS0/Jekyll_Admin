@@ -75,7 +75,7 @@ Default: 'devs'
 Domain/group name that user will become a sub-domain of.
 
   -s    --server=${_server}
-Default: 'unbound'
+Default: 'nginx'
 Server type, eg 'apache2' or 'nginx' to write and link configuration files
  for. Try '${__NAME__} examples'
 
