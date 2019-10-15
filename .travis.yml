@@ -80,7 +80,7 @@ script:
   - ssh bill list .
   - ssh bill jekyll-init Song_Ideas
   - ssh bill list git/Song_Ideas
-  - sudo cat "/srv/Bill/git/Song_Ideas/_config.yml" || printf 'Huh? Exited with %s\n' "${?}"
+  - sudo cat "/srv/bill/git/Song_Ideas/_config.yml" || printf 'Huh? Exited with %s\n' "${?}"
   - ssh bill list git
 
   - ssh bill bundle-install Song_Ideas
