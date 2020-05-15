@@ -8,8 +8,8 @@ write_noninteractive_notice(){    ## write_noninteractive_notice <user>
     local _script_path="git-shell-commands/no-interactive-login"
 
     su --shell "$(which bash)" --login "${_user}" <<EOF
-mkdir -vp '\${HOME}/git-shell-commands'
-touch '\${HOME}/${_script_path}'
+mkdir -vp "\${HOME}/git-shell-commands"
+touch "\${HOME}/${_script_path}"
 EOF
 
     tee "${_home}/${_script_path}" 1>/dev/null <<'EOF'
