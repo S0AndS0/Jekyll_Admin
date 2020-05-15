@@ -181,9 +181,9 @@ jekyll_gem_bash_aliases "${_user}"
 echo "... the following may take awhile..."
 jekyll_user_install "${_user}" || echo 'Try installing Ruby first maybe?'
 copy_or_link_git_shell_commands "${_user}" "${_git_shell_allowed}" "${_git_shell_copy_or_link}" "${_clobber}"
-if ((_non_interactive)); then
-    write_noninteractive_notice "{_user}"
-fi
+((_non_interactive)) && {
+  write_noninteractive_notice "${_user}"
+}
 
 printf '%s finished' "${__NAME__}"
 
