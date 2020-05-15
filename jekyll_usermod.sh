@@ -178,8 +178,12 @@ modify_etc_shells "${_LOGIN_SHELL}"
 add_jekyll_user "${_user}:${_group}" "${_LOGIN_SHELL}" "${_www_group}" "${_HOME_BASE}"
 add_ssh_pub_key "${_user}" "${_ssh_pub_key}"
 jekyll_gem_bash_aliases "${_user}"
-echo "... the following may take awhile..."
-jekyll_user_install "${_user}" || echo 'Try installing Ruby first maybe?'
+printf '... the following may take awhile...\n'
+
+jekyll_user_install "${_user}" || {
+  printf >&2 'Try installing Ruby first maybe?\n'
+}
+
 copy_or_link_git_shell_commands "${_user}" "${_git_shell_allowed}" "${_git_shell_copy_or_link}" "${_clobber}"
 ((_non_interactive)) && {
   write_noninteractive_notice "${_user}"
