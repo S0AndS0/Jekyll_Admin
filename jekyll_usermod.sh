@@ -102,10 +102,9 @@ Writes defined SSH public key to ${_HOME_BASE}/${_user}/.ssh/authorized_keys
 
  Note if using redirection, eg...
 
-    --ssh-pub-key=\\""\$(<~/.ssh/pub.key)\\""
-    --ssh-pub-key "'\$(<~/.ssh/pub.key)'"
+    --ssh-pub-key="\$(<~/.ssh/pub.key)"
 
- ... then double quoting is required!
+ ... then quoting is required!
 
   --git-shell-allowed="${_git_shell_allowed}"
 Maybe list of specific scripts under 'git-shell-commands/' directory, 'none',
