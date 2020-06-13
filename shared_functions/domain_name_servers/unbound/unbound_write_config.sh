@@ -45,7 +45,7 @@ unbound_write_config(){    ## unbound_write_config <domain> <tld> interface clob
     fi
 
     _url="${_domain}.${_tld}"
-    _dns_conf_path="${_DNS_CONF_DIR}/${_domain}.${_tld}.conf"
+    _dns_conf_path="${_DNS_CONF_DIR}/${_domain##*.}.${_tld}.conf"
 
     [[ -d "$(dirname "${_DNS_CONF_DIR}")" ]] || return 1
     mkdir -vp "${_DNS_CONF_DIR}"
@@ -64,9 +64,16 @@ unbound_write_config(){    ## unbound_write_config <domain> <tld> interface clob
         ## Initialize configuration file otherwise
         tee "${_dns_conf_path}" 1>/dev/null <<EOF
 server:
-    private-domain: "${_domain}.${_tld}."
-    local-zone: "${_domain}.${_tld}." static
+    private-domain: "${_domain##*.}.${_tld}."
+    local-zone: "${_domain##*.}.${_tld}." static
 EOF
+
+        (("${#_ipv4}")) && {
+            unbound_write_ip_config "${_ipv4}" "${_domain##*.}.${_tld}" "${_dns_conf_path}"
+        }
+        (("${#_ipv6}")) && {
+            unbound_write_ip_config "${_ipv6}" "${_domain##*.}.${_tld}" "${_dns_conf_path}"
+        }
     fi
 
     if [ -n "${_ipv4}" ]; then

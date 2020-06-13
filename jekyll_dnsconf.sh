@@ -67,13 +67,17 @@ Note, this script is only needed when a new user is added.
 Server type, eg 'apache2' or 'nginx' to write and link configuration files
  for. Try '${__NAME__} examples'
 
+  -u    --user=${_user}
+Optional username to prepend as a subdomain for group, eg...
+
+   http://${_user:-bill}.${_group}.${_tld}
+   http://ted.${_group}.${_tld}
+
   -g    -d    --group    --domain=${_group}
 The domain/group name that git client usernames are used as sub-domains for
  serving via web-server, eg...
 
    http://${_group}.${_tld}
-   http://bill.${_group}.${_tld}
-   http://ted.${_group}.${_tld}
 
   -i    --interface=${_interface}
 Interface that domain name server is listening on. IPv4 & IPv6 listening
@@ -122,11 +126,21 @@ _valid_args=('--help|-h|help:bool'
              '--license|-l|license:bool'
              '--server|-s:posix'
              '--interface|-i:posix'
+             '--user|-u:posix'
              '--group|-g|--domain|-d:posix'
              '--tld|-t|--top-level-domain:alpha_numeric'
              '--clobber|-c:alpha_numeric')
 argument_parser '_args' '_valid_args'
 _exit_status="$?"
+
+_group="${_group,,}"
+(("${#_user}")) && {
+    _user="${_user,,}"
+    _domain="${_user}.${_group}"
+} || {
+    _domain="${_group}"
+}
+
 
 if ((_help)) || ((_exit_status)); then
     usage '_assigned_args' | less ${_LESS_OPTS}
@@ -144,11 +158,11 @@ case "${_server,,}" in
     'unbound')
         case "${_clobber,,}" in
             'remove'|'delete')
-                unbound_remove_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
+                unbound_remove_config "${_domain}" "${_tld:-lan}" "${_interface}" "${_clobber}"
                 # systemctl restart unbound.service
             ;;
             *)
-                unbound_write_config "${_group}" "${_tld:-lan}" "${_interface}" "${_clobber}"
+                unbound_write_config "${_domain}" "${_tld:-lan}" "${_interface}" "${_clobber}"
                 # systemctl restart unbound.service
             ;;
         esac
