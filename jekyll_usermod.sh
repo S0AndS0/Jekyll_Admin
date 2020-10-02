@@ -98,13 +98,11 @@ Name of group that web server uses to serve content. Default for Apache2,
  Nginx and many others is "www-data"
 
   --ssh-pub-key="${_ssh_pub_key}"
-Writes defined SSH public key to ${_HOME_BASE}/${_user}/.ssh/authorized_keys
+Writes defined SSH public key to ${_HOME_BASE}/${_user:-USER}/.ssh/authorized_keys
 
- Note if using redirection, eg...
+ Note if using redirection, then quote _nesting_ may be required; eg...
 
-    --ssh-pub-key="\$(<~/.ssh/pub.key)"
-
- ... then quoting is required!
+    --ssh-pub-key="'\$(<~/.ssh/pub.key)'"
 
   --git-shell-allowed="${_git_shell_allowed}"
 Maybe list of specific scripts under 'git-shell-commands/' directory, 'none',
@@ -188,7 +186,7 @@ copy_or_link_git_shell_commands "${_user}" "${_git_shell_allowed}" "${_git_shell
   write_noninteractive_notice "${_user}"
 }
 
-printf '%s finished' "${__NAME__}"
+printf '%s finished\n' "${__NAME__}"
 
 
 
